@@ -1,48 +1,28 @@
 ---
 /**
- * Animated line-art portrait.
+ * Avatar with a perspective tilt that follows the pointer.
  *
- * PLACEHOLDER LIKENESS. These paths are a deliberately abstract head, not
- * Dani — no photo has been supplied, and inventing someone's face would be
- * worse than an obvious stand-in. Replace the paths in `#portrait-art` with
- * ones traced from a real photo; every behaviour below keeps working.
+ * This replaced a hand-drawn SVG line portrait. Dani's avatar is already a
+ * 3D-style render, so using the real image gets the dimensional feel for
+ * ~59 KB and a few lines of transform — where a real WebGL model would cost
+ * ~150 KB gzipped of three.js plus an asset that could not actually be made
+ * to resemble him.
  *
- * Behaviour: draws itself in once on load, blinks on a long irregular cycle,
- * and the pupils drift a few pixels toward the cursor. Under
- * prefers-reduced-motion it renders finished and still.
+ * The image is plain <img> rather than astro:assets because that needs sharp,
+ * and the file is already sized and compressed for its one display size.
+ * Under prefers-reduced-motion the tilt is inert and it renders flat.
  */
 ---
 
-<div class="portrait" data-portrait aria-hidden="true">
-  <svg viewBox="0 0 200 240" fill="none" stroke="currentColor" stroke-width="1.6"
-    stroke-linecap="round" stroke-linejoin="round">
-    <g id="portrait-art" class="pt-draw">
-      <!-- skull + jaw -->
-      <path pathLength="1" d="M100 26c-30 0-49 21-49 52 0 14 2 24 5 34 4 15 12 28 21 36 8 7 15 10 23 10s15-3 23-10c9-8 17-21 21-36 3-10 5-20 5-34 0-31-19-52-49-52Z" />
-      <!-- hair -->
-      <path pathLength="1" d="M51 74c2-24 20-42 49-42s47 18 49 42c-6-6-14-13-24-16-9-3-16-1-25-1s-16-2-25 1c-10 3-18 10-24 16Z" />
-      <!-- brows -->
-      <path pathLength="1" d="M67 92c6-4 15-4 21-1" />
-      <path pathLength="1" d="M112 91c6-3 15-3 21 1" />
-      <!-- nose -->
-      <path pathLength="1" d="M100 104v22c0 4-3 6-7 7" />
-      <!-- mouth -->
-      <path pathLength="1" d="M85 150c5 4 10 6 15 6s10-2 15-6" />
-      <!-- neck + shoulders -->
-      <path pathLength="1" d="M78 152v16c0 8-5 12-14 15-16 5-27 12-33 22" />
-      <path pathLength="1" d="M122 152v16c0 8 5 12 14 15 16 5 27 12 33 22" />
-    </g>
-
-    <!-- eyes are separate so they can blink and track independently -->
-    <g class="pt-eyes">
-      <g class="pt-eye">
-        <path pathLength="1" class="pt-draw" d="M64 105c4-6 10-9 16-9s12 3 16 9c-4 6-10 9-16 9s-12-3-16-9Z" />
-        <circle class="pt-pupil" cx="80" cy="105" r="3.4" fill="currentColor" stroke="none" />
-      </g>
-      <g class="pt-eye">
-        <path pathLength="1" class="pt-draw" d="M104 105c4-6 10-9 16-9s12 3 16 9c-4 6-10 9-16 9s-12-3-16-9Z" />
-        <circle class="pt-pupil" cx="120" cy="105" r="3.4" fill="currentColor" stroke="none" />
-      </g>
-    </g>
-  </svg>
+<div class="avatar" data-avatar aria-hidden="true">
+  <div class="avatar-inner">
+    <img
+      src="/img/avatar.jpg"
+      alt=""
+      width="420"
+      height="746"
+      decoding="async"
+      fetchpriority="high"
+    />
+  </div>
 </div>

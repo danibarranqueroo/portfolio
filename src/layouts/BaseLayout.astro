@@ -110,28 +110,26 @@ const other = (Object.keys(languages) as Array<keyof typeof languages>).find((l)
     </div>
 
     <script>
-      // --- portrait: pupils drift toward the cursor ---------------------------
-      const portrait = document.querySelector('[data-portrait]');
+      // --- avatar: tilt toward the pointer -----------------------------------
+      const avatar = document.querySelector('[data-avatar]');
+      const inner = avatar?.querySelector<HTMLElement>('.avatar-inner');
       const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
-      if (portrait && !reduced.matches) {
-        const pupils = portrait.querySelectorAll<SVGCircleElement>('.pt-pupil');
-        // Throttle to one update per frame; pointermove fires far more often.
+      if (avatar && inner && !reduced.matches) {
+        const MAX = 9; // degrees; beyond this it stops reading as a tilt
         let queued = false;
         let lastX = 0;
         let lastY = 0;
         const apply = () => {
           queued = false;
-          const box = portrait.getBoundingClientRect();
+          const box = avatar.getBoundingClientRect();
           const cx = box.left + box.width / 2;
           const cy = box.top + box.height / 2;
-          // Normalise to -1..1 over roughly a screen-width of travel, then
-          // allow only a few px of movement so it reads as a glance.
+          // Normalise over roughly three avatar-widths of travel so the tilt
+          // responds to the whole viewport rather than only a near hover.
           const nx = Math.max(-1, Math.min(1, (lastX - cx) / (box.width * 3)));
           const ny = Math.max(-1, Math.min(1, (lastY - cy) / (box.height * 3)));
-          for (const pupil of pupils) {
-            pupil.style.setProperty('--px', `${(nx * 2.6).toFixed(2)}px`);
-            pupil.style.setProperty('--py', `${(ny * 2).toFixed(2)}px`);
-          }
+          inner.style.setProperty('--ry', `${(nx * MAX).toFixed(2)}deg`);
+          inner.style.setProperty('--rx', `${(-ny * MAX).toFixed(2)}deg`);
         };
         window.addEventListener(
           'pointermove',

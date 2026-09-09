@@ -145,17 +145,42 @@ Built together at Dani's request so they could be compared, with the note that
 the design direction ("concentrated craft") argues for keeping at most two.
 Expect to cut some.
 
-1. **Animated portrait** (landing hero). Draws in, blinks, pupils track the
-   cursor. The paths are a PLACEHOLDER abstract head — no photo has been
-   supplied, and inventing someone's likeness is worse than an obvious
-   stand-in. Swap the paths in `Portrait.astro#portrait-art`; every behaviour
-   keeps working.
+1. **Avatar with a perspective tilt** (landing hero). See below.
 2. **Timeline draw-in** (experience). IntersectionObserver adds `.is-visible`.
 3. **"This page, audited"** (`/security`). See below.
 4. **Misconfiguration spotter** (`/security`). Three real findings: a public
    bucket policy, an `iam:PassRole` escalation path, SSH open to the world.
 
 All motion is guarded by `prefers-reduced-motion`.
+
+## Why the avatar is an image, not a 3D model
+
+Asked for "a 3D model based on that image", the answer was no, for two
+reasons worth writing down so it is not revisited by accident:
+
+- **The asset cannot be made here.** Deriving a 3D head from a single image
+  needs photogrammetry or ML tooling this environment does not have. The
+  alternative is a *generic* 3D head, which does not resemble Dani — and a
+  portrait that is not recognisably you fails at the one job it has.
+- **The weight.** A minimal three.js build with a loader is ~150 KB gzipped.
+  The site ships **2,487 bytes** of external JS. A ~60× increase for one
+  decorative element works directly against the Lighthouse-95 target.
+
+Dani's avatar is already a 3D-style render, so the real image plus a CSS
+perspective tilt gets the dimensional feel for 59 KB and a handful of
+transforms. `--rx` / `--ry` are written by script on `pointermove`, throttled
+to one write per animation frame, capped at 9° because past that it stops
+reading as a tilt and starts reading as a wobble.
+
+It replaced a hand-drawn SVG line portrait. That went through three rounds —
+smooth outlines read as a helmet, spiky ones as flames, and only chained
+elliptical arcs read as curls — and was still clearly a drawing of nobody in
+particular. The real image was better on every axis including size.
+
+The image is a plain `<img>` rather than `astro:assets` because that needs
+`sharp` installed, and the file is already sized and compressed for its single
+display size. `object-position: 50% 40%` frames the head in the circle; 30%
+crops the chin and 50% clips the hair.
 
 ## The audit page must never state something untrue
 
