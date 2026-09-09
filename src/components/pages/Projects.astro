@@ -11,7 +11,7 @@ const c = content[lang].projects;
   <p class="lede">{c.lede}</p>
 </section>
 
-<section style="margin-top: 56px;">
+<section class="wide">
   <ul class="rows">
     {c.items.map((r) => (
       <li class="row"><span class="row-k">{r.k}</span><span class="row-v">{r.v}</span></li>
@@ -19,4 +19,4 @@ const c = content[lang].projects;
   </ul>
 </section>
 
-<p class="note" style="margin-top: 56px;">{c.note}</p>
+<p class="note">{c.note}</p>

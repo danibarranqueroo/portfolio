@@ -185,6 +185,49 @@ parameters directly there. `querySelectorAll` also returns `Element`, which has
 no `.style`; pass a generic (`querySelectorAll<SVGCircleElement>`) when you
 need one.
 
+## Layout: a wide shell with a narrow measure
+
+The first build used `max-width: 660px` on the whole page. That is a prose
+measure applied to everything, so on a 1440px screen the site was a thin
+ribbon with ~390px of dead margin each side.
+
+Widening the container alone would be wrong — it produces unreadably long
+lines of body text. Instead `main` is a three-track grid:
+
+```css
+main {
+  grid-template-columns:
+    [wide-start] minmax(0, 1fr)
+    [text-start] minmax(0, 720px) [text-end]
+    minmax(0, 1fr) [wide-end];
+}
+main > *      { grid-column: text; }
+main > .wide  { grid-column: wide; }
+```
+
+Prose, ledes and notes stay in the 720px `text` track. Hero, key/value rows,
+roles, quotes and code opt into `wide` (1060px at full width). Roles and quotes
+also gain a second column above 820px, so the width is used structurally rather
+than just stretching.
+
+## Two process lessons from that refactor
+
+**Never `str.replace()` CSS without asserting.** Biome reformats
+`global.css` to multi-line on every commit, so single-line patterns written
+against an earlier shape silently match nothing. Six edits were lost this way
+and only surfaced when the built values were audited. Patch a property inside a
+named rule with a scoped regex, and assert on every edit.
+
+**Check cascade order, not just presence.** `.portrait` had both a base rule
+(210px) and a `max-width: 520px` override (116px), but the override was emitted
+*first*. Equal specificity means document order decides, so the base won and
+phones would have rendered a 210px portrait on a 375px screen. Grepping for the
+rule said "present"; only comparing character offsets found the bug.
+
+There is now a check for this class of bug — see the cascade-order scan in the
+verification notes. Every responsive override must come after the rule it
+overrides.
+
 ## Open
 
 - **Domain** not registered. `site` in `astro.config.mjs` is a placeholder and

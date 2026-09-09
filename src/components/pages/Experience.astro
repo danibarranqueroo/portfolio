@@ -11,17 +11,20 @@ const c = content[lang].experience;
   <p class="lede">{c.lede}</p>
 </section>
 
-<section style="margin-top: 56px;">
+<section class="wide">
   <h2 class="sect">{lang === 'es' ? 'Puestos' : 'Roles'}</h2>
   <div class="roles" data-animate>
     {c.roles.map((role) => (
       <article class="role">
         <div class="spine" />
-        <div class="role-body">
-          <div>
-            <h3 class="role-co">{role.company}</h3>
-            <p class="role-meta">{role.meta}</p>
+        <div class="role-head">
+          <h3 class="role-co">{role.company}</h3>
+          <p class="role-meta">{role.meta}</p>
+          <div class="tags">
+            {role.tags.map((tg) => <span class="tag">{tg}</span>)}
           </div>
+        </div>
+        <div class="role-impacts">
           <ul class="impacts">
             {role.impacts.map((i) => (
               <li class="impact">
@@ -30,16 +33,13 @@ const c = content[lang].experience;
               </li>
             ))}
           </ul>
-          <div class="tags">
-            {role.tags.map((tg) => <span class="tag">{tg}</span>)}
-          </div>
         </div>
       </article>
     ))}
   </div>
 </section>
 
-<section style="margin-top: 56px;">
+<section class="wide">
   <h2 class="sect">Open source</h2>
   <ul class="rows">
     {c.oss.map((r) => (
@@ -48,4 +48,4 @@ const c = content[lang].experience;
   </ul>
 </section>
 
-<p class="note" style="margin-top: 56px;">{c.note}</p>
+<p class="note">{c.note}</p>

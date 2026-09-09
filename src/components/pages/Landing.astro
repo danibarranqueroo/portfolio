@@ -7,7 +7,7 @@ import Portrait from '../Portrait.astro';
 const { lang } = Astro.props as { lang: Lang };
 const c = content[lang].landing;
 ---
-<section>
+<section class="wide">
   <div class="hero">
     <div class="hero-text">
       <p class="eyebrow">{c.eyebrow}</p>
@@ -24,7 +24,7 @@ const c = content[lang].landing;
   </div>
 </section>
 
-<section style="margin-top: 56px;">
+<section class="wide">
   <h2 class="sect">{lang === 'es' ? 'Ahora mismo' : 'Currently'}</h2>
   <ul class="rows">
     {c.now.map((r) => (
@@ -33,4 +33,4 @@ const c = content[lang].landing;
   </ul>
 </section>
 
-<p class="note" style="margin-top: 56px;">{c.note}</p>
+<p class="note">{c.note}</p>

@@ -84,13 +84,46 @@ a:hover {
 }
 
 /* --- layout -------------------------------------------------------------- */
+/* The shell is wide; the reading measure is not.
+   `main` is a three-track grid: everything lands in the centre `text` track
+   (a ~72ch measure) unless it opts into `wide`. That way prose stays
+   readable while structural content — hero, tables, roles, quotes, code —
+   actually uses the page. */
 .wrap {
-  max-width: 660px;
+  max-width: 1140px;
   margin: 0 auto;
-  padding: 40px 24px 80px;
+  padding: 36px 40px 96px;
   display: flex;
   flex-direction: column;
-  gap: 56px;
+  gap: 48px;
+}
+
+main {
+  display: grid;
+  grid-template-columns:
+    [wide-start] minmax(0, 1fr)
+    [text-start] minmax(0, 720px) [text-end]
+    minmax(0, 1fr) [wide-end];
+  row-gap: 64px;
+  align-content: start;
+}
+main > * {
+  grid-column: text;
+}
+main > .wide {
+  grid-column: wide;
+}
+
+@media (max-width: 900px) {
+  .wrap {
+    padding: 28px 22px 72px;
+  }
+  main {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  main > * {
+    grid-column: 1;
+  }
 }
 
 .site-header {
@@ -160,20 +193,20 @@ a:hover {
 .display {
   font-family: var(--font-display);
   font-weight: 500;
-  font-size: clamp(38px, 7vw, 68px);
-  line-height: 1.02;
-  letter-spacing: -0.02em;
+  font-size: clamp(38px, 7vw, 82px);
+  line-height: 1;
+  letter-spacing: -0.025em;
   margin: 14px 0 0;
   text-wrap: balance;
 }
 .display-sm {
-  font-size: clamp(32px, 5.5vw, 46px);
+  font-size: clamp(32px, 5.5vw, 54px);
 }
 .lede {
   font-size: 19px;
   line-height: 1.6;
   margin: 22px 0 0;
-  max-width: 52ch;
+  max-width: 56ch;
   text-wrap: pretty;
 }
 .prose {
@@ -242,8 +275,8 @@ a:hover {
 }
 .row {
   display: grid;
-  grid-template-columns: 130px 1fr;
-  gap: 20px;
+  grid-template-columns: minmax(140px, 200px) 1fr;
+  gap: 28px;
   padding: 13px 0;
   border-bottom: 1px solid var(--color-rule);
   align-items: baseline;
@@ -273,6 +306,14 @@ a:hover {
   grid-template-columns: 14px 1fr;
   gap: 22px;
 }
+/* At width the role splits: spine, a meta column, then the impacts. Below
+   this the meta and impacts stack in a single column beside the spine. */
+@media (min-width: 820px) {
+  .role {
+    grid-template-columns: 14px minmax(190px, 240px) 1fr;
+    column-gap: 36px;
+  }
+}
 .spine {
   border-left: 1px solid var(--color-rule);
   position: relative;
@@ -287,10 +328,20 @@ a:hover {
   border-radius: 50%;
   background: var(--color-accent-text);
 }
-.role-body {
+.role-head {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 4px;
+}
+.role-impacts {
+  min-width: 0;
+}
+/* Under the breakpoint all three children share one column, so the meta
+   block needs its own spacing from the impacts below it. */
+@media (max-width: 819px) {
+  .role-head {
+    margin-bottom: 4px;
+  }
 }
 .role-co {
   font-family: var(--font-display);
@@ -368,8 +419,8 @@ a:hover {
 }
 .qtext {
   font-family: var(--font-display);
-  font-size: 23px;
-  line-height: 1.45;
+  font-size: clamp(22px, 2.2vw, 28px);
+  line-height: 1.42;
   margin: 0;
   text-wrap: pretty;
 }
@@ -379,6 +430,25 @@ a:hover {
   gap: 2px;
   padding-left: 15px;
   border-left: 2px solid var(--color-accent-text);
+}
+/* At width the attribution sits alongside the quote instead of under it —
+   what stops a wide quote block reading as a stranded paragraph. */
+@media (min-width: 820px) {
+  .quote {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 230px;
+    column-gap: 44px;
+    align-items: start;
+  }
+  .qmark,
+  .qtext {
+    grid-column: 1;
+  }
+  .qattr {
+    grid-column: 2;
+    grid-row: 2;
+    margin-top: 8px;
+  }
 }
 .qname {
   font-size: 14.5px;
@@ -405,16 +475,21 @@ a:hover {
   .hero {
     gap: 18px;
   }
-  .portrait {
-    width: 120px;
-  }
 }
 
 /* --- animated portrait --------------------------------------------------- */
 .portrait {
   color: var(--color-accent-text);
-  width: 168px;
+  width: 210px;
   flex: none;
+}
+
+/* Must come AFTER the base rule: same specificity, so document order decides.
+   Placed before it, the 210px base silently won on phones. */
+@media (max-width: 520px) {
+  .portrait {
+    width: 116px;
+  }
 }
 .portrait svg {
   width: 100%;

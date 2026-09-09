@@ -11,11 +11,11 @@ const c = content[lang].about;
   <p class="lede">{c.lede}</p>
 </section>
 
-<section style="margin-top: 56px;" class="prose">
+<section class="prose">
   {c.body.map((p) => <p>{p}</p>)}
 </section>
 
-<section style="margin-top: 56px;">
+<section class="wide">
   <h2 class="sect">{lang === 'es' ? 'Formación y certificaciones' : 'Education & certifications'}</h2>
   <ul class="rows">
     {c.education.map((r) => (
@@ -24,4 +24,4 @@ const c = content[lang].about;
   </ul>
 </section>
 
-<p class="note" style="margin-top: 56px;">{c.note}</p>
+<p class="note">{c.note}</p>
