@@ -213,8 +213,16 @@ actually looks like.
 
 Geometry measured off the 375x666 source by rendering it under a pixel grid:
 irises at (134, 290) and (252, 290), radius ~17. Every position is a percentage
-so it holds at any rendered size. Vertical travel is 60% of horizontal because
-the lid crops the iris much sooner going up and down.
+so it holds at any rendered size.
+
+**Travel is asymmetric, and has to be.** In the source the irises already sit
+left of centre in their openings — there is visible sclera to their right at
+rest — so there is less room to look left than right. At more than about 2px
+leftward (on a 240px avatar) the white balloons and the circular window starts
+clipping the iris, which reads as broken. Found by sweeping the value and
+rendering each step. Left travel is therefore 0.0075 of the rendered width
+against 0.0135 rightward; vertical stays tight at 0.0075 either way, because
+the lid crops the iris sooner than the corners do.
 
 `getImage()` is used rather than three `<Image>` tags so all three copies point
 at one asset — the browser fetches the 24 KB WebP once.

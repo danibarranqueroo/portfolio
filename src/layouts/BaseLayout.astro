@@ -116,8 +116,15 @@ const other = (Object.keys(languages) as Array<keyof typeof languages>).find((l)
       if (avatar && !reduced.matches) {
         const eyes = avatar.querySelectorAll<HTMLElement>('.eye img');
         // Travel is a fraction of the rendered width, so it holds at any size.
-        // Beyond about this much the iris leaves the lid and looks unhinged.
-        const TRAVEL = 0.0135;
+        // It is ASYMMETRIC on purpose: in the source the irises already sit
+        // left of centre in their openings, so there is less room to look
+        // left than right. Past about 2px leftward (at a 240px avatar) the
+        // sclera balloons and the circular window starts clipping the iris,
+        // which is the "the whites look strange" bug. Measured by sweeping
+        // the value and rendering each step.
+        const TRAVEL_LEFT = 0.0075;
+        const TRAVEL_RIGHT = 0.0135;
+        const TRAVEL_Y = 0.0075;
         let queued = false;
         let lastX = 0;
         let lastY = 0;
@@ -129,15 +136,17 @@ const other = (Object.keys(languages) as Array<keyof typeof languages>).find((l)
           // reads as slightly off whenever the pointer is level with them.
           const cx = box.left + box.width * 0.49;
           const cy = box.top + box.height * 0.435;
-          const max = box.width * TRAVEL;
           // Normalise over roughly two avatar-widths of travel so the eyes
           // respond across the viewport rather than only very near the face.
           const nx = Math.max(-1, Math.min(1, (lastX - cx) / (box.width * 2)));
           const ny = Math.max(-1, Math.min(1, (lastY - cy) / (box.height * 2)));
+          const ex = nx * box.width * (nx < 0 ? TRAVEL_LEFT : TRAVEL_RIGHT);
+          // Vertical stays tight either way: the lid crops the iris sooner
+          // going up and down than the corners do going sideways.
+          const ey = ny * box.width * TRAVEL_Y;
           for (const eye of eyes) {
-            eye.style.setProperty('--ex', `${(nx * max).toFixed(2)}px`);
-            // Vertical range is tighter: the lid crops the iris much sooner.
-            eye.style.setProperty('--ey', `${(ny * max * 0.6).toFixed(2)}px`);
+            eye.style.setProperty('--ex', `${ex.toFixed(2)}px`);
+            eye.style.setProperty('--ey', `${ey.toFixed(2)}px`);
           }
         };
         window.addEventListener(
