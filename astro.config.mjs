@@ -1,0 +1,43 @@
+// @ts-check
+
+import sitemap from '@astrojs/sitemap';
+import tailwindcss from '@tailwindcss/vite';
+import { defineConfig } from 'astro/config';
+
+// TODO(domain): replace once the domain is registered (Phase 7).
+// Must be an absolute URL — sitemap and canonical tags depend on it.
+const SITE = 'https://example.com';
+
+export default defineConfig({
+  site: SITE,
+
+  // English is unprefixed at "/", Spanish lives under "/es/".
+  i18n: {
+    locales: ['en', 'es'],
+    defaultLocale: 'en',
+    routing: {
+      prefixDefaultLocale: false,
+      redirectToDefaultLocale: false,
+    },
+  },
+
+  integrations: [
+    sitemap({
+      i18n: { defaultLocale: 'en', locales: { en: 'en', es: 'es' } },
+    }),
+  ],
+
+  security: {
+    // Emits a <meta> CSP with build-time SHA-256 hashes for every inline
+    // script and style, so we never need 'unsafe-inline'.
+    // NOTE: a meta CSP cannot express frame-ancestors / report-uri / sandbox.
+    // Those are set as real headers in public/_headers — both policies apply
+    // and the browser enforces their intersection.
+    csp: true,
+  },
+
+  vite: { plugins: [tailwindcss()] },
+
+  build: { inlineStylesheets: 'auto' },
+  prefetch: { prefetchAll: true, defaultStrategy: 'hover' },
+});

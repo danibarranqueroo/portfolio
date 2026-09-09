@@ -1,0 +1,64 @@
+---
+import '../styles/global.css';
+import { languages } from '../i18n/ui';
+import { getLangFromUrl, localizePath, useTranslations } from '../i18n/utils';
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const canonical = new URL(Astro.url.pathname, Astro.site);
+
+// Reciprocal hreflang alternates. Strip any existing locale prefix first so
+// the mapping works from every page, not just the default locale.
+const bare = Astro.url.pathname.replace(/^\/(es)(?=\/|$)/, '') || '/';
+const alternates = (Object.keys(languages) as Array<keyof typeof languages>).map((l) => ({
+  lang: l,
+  href: new URL(localizePath(bare, l), Astro.site).toString(),
+}));
+
+const nav = [
+  { key: 'nav.about', path: '/about' },
+  { key: 'nav.experience', path: '/experience' },
+  { key: 'nav.projects', path: '/projects' },
+  { key: 'nav.recommendations', path: '/recommendations' },
+  { key: 'nav.contact', path: '/contact' },
+  { key: 'nav.cv', path: '/cv' },
+] as const;
+---
+
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    {alternates.map((a) => <link rel="alternate" hreflang={a.lang} href={a.href} />)}
+    <link rel="alternate" hreflang="x-default" href={new URL(bare, Astro.site).toString()} />
+  </head>
+  <body class="font-sans">
+    <a href="#main" class="sr-only focus:not-sr-only">Skip to content</a>
+    <header>
+      <nav aria-label="Primary">
+        <ul>
+          {nav.map((item) => (
+            <li><a href={localizePath(item.path, lang)}>{t(item.key)}</a></li>
+          ))}
+        </ul>
+      </nav>
+    </header>
+    <main id="main">
+      <slot />
+    </main>
+    <footer>
+      <!-- Blog is deliberately absent from nav until it has posts. -->
+    </footer>
+  </body>
+</html>

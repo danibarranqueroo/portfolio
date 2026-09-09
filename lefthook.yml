@@ -1,0 +1,13 @@
+# Fast local gates. CI re-runs all of this; these hooks just catch it sooner.
+pre-commit:
+  parallel: true
+  commands:
+    lint:
+      glob: '*.{js,ts,mjs,json,jsonc,css,astro}'
+      run: pnpm exec biome check --write --no-errors-on-unmatched {staged_files}
+      stage_fixed: true
+
+pre-push:
+  commands:
+    typecheck:
+      run: pnpm run typecheck

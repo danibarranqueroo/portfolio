@@ -1,0 +1,41 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+   Design tokens.
+   PLACEHOLDER PALETTE — replaced once the warm/cool fork is settled on the
+   design canvas. Structure is final; the values are not.
+
+   Every colour is defined once with light-dark(), so theme switching needs
+   no JavaScript and there is no flash of the wrong theme on load.
+   --------------------------------------------------------------------------- */
+:root {
+  color-scheme: light dark;
+}
+
+@theme {
+  --color-bg: light-dark(#fdfdfc, #12131a);
+  --color-surface: light-dark(#f4f4f2, #1a1c25);
+  --color-text: light-dark(#1a1b20, #e6e4de);
+  --color-muted: light-dark(#5c5f6b, #9a9ba6);
+  --color-accent: light-dark(#4b3bd6, #a99bff);
+  --color-border: light-dark(#e2e2de, #2b2d38);
+
+  --font-sans: ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+html {
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+/* Motion is a garnish, never a requirement. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
