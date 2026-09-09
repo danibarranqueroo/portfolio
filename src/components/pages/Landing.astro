@@ -1,0 +1,30 @@
+---
+import { content } from '../../data/content';
+import type { Lang } from '../../i18n/ui';
+import { localizePath } from '../../i18n/utils';
+
+const { lang } = Astro.props as { lang: Lang };
+const c = content[lang].landing;
+---
+<section>
+  <p class="eyebrow">{c.eyebrow}</p>
+  <h1 class="display" set:html={c.title.replace('\n', '<br />')} />
+  <p class="lede">{c.lede}</p>
+  <div class="links">
+    <a class="btn" href={localizePath('/cv', lang)}>{c.cta}</a>
+    <a class="lnk" href="#">GitHub</a>
+    <a class="lnk" href="#">LinkedIn</a>
+    <a class="lnk" href={localizePath('/contact', lang)}>Email</a>
+  </div>
+</section>
+
+<section style="margin-top: 56px;">
+  <h2 class="sect">{lang === 'es' ? 'Ahora mismo' : 'Currently'}</h2>
+  <ul class="rows">
+    {c.now.map((r) => (
+      <li class="row"><span class="row-k">{r.k}</span><span class="row-v">{r.v}</span></li>
+    ))}
+  </ul>
+</section>
+
+<p class="note" style="margin-top: 56px;">{c.note}</p>

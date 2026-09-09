@@ -15,24 +15,26 @@
       --text: #0f1b61;
       --muted: #59689a;
       --accent: #7f00e0;
-      --alt1: #0e7490;
-      --alt2: #5aa7c4;
+      --accent-text: #7f00e0;
+      --on-accent: #ffffff;
+      --alt: #0e7490;
       --rule: #d5e5f0;
     }
     .page.dark {
-      --bg: #0b1020;
-      --surface: #151d36;
-      --text: #dfe6ff;
-      --muted: #96a4d2;
-      --accent: #b388ff;
-      --alt1: #7fd4e8;
-      --alt2: #aadcec;
-      --rule: #242d4d;
+      --bg: #000000;
+      --surface: #0e0e14;
+      --text: #ede9f5;
+      --muted: #9a93b0;
+      --accent: #7f00e0;
+      --accent-text: #b657ff;
+      --on-accent: #ffffff;
+      --alt: #aadcec;
+      --rule: #1f1b2b;
     }
 
     * { box-sizing: border-box; }
     body { margin: 0; }
-    a { color: var(--accent); text-decoration: none; }
+    a { color: var(--accent-text); text-decoration: none; }
     a:hover { color: var(--text); text-decoration: underline; text-underline-offset: 3px; }
 
     .page {
@@ -50,12 +52,12 @@
     .mark {
       font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace;
       font-size: 13px; font-weight: 500; letter-spacing: 0.14em;
-      color: var(--accent);
+      color: var(--accent-text);
       border: 1px solid var(--rule); padding: 5px 8px; border-radius: 3px;
     }
     .nav { display: flex; flex-wrap: wrap; gap: 18px; }
     .nav a { font-size: 14px; color: var(--muted); }
-    .nav a:hover { color: var(--accent); text-decoration: none; }
+    .nav a:hover { color: var(--accent-text); text-decoration: none; }
 
     .eyebrow {
       font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace;
@@ -83,13 +85,13 @@
     .links { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; margin-top: 30px; }
     .btn {
       display: inline-flex; align-items: center; gap: 8px;
-      background: var(--accent); color: var(--bg);
+      background: var(--accent); color: var(--on-accent);
       padding: 11px 18px; border-radius: 4px;
       font-size: 15px; font-weight: 500;
     }
-    .btn:hover { color: var(--bg); opacity: 0.88; text-decoration: none; }
+    .btn:hover { color: var(--on-accent); opacity: 0.88; text-decoration: none; }
     .lnk { font-size: 15px; color: var(--muted); }
-    .lnk:hover { color: var(--accent); }
+    .lnk:hover { color: var(--accent-text); }
 
     .rows { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0; }
     .row {
@@ -108,7 +110,7 @@
     .spine { border-left: 1px solid var(--rule); position: relative; }
     .spine::before {
       content: ""; position: absolute; left: -4px; top: 9px;
-      width: 7px; height: 7px; border-radius: 50%; background: var(--accent);
+      width: 7px; height: 7px; border-radius: 50%; background: var(--accent-text);
     }
     .role-body { display: flex; flex-direction: column; gap: 12px; }
     .role-h { display: flex; flex-direction: column; gap: 4px; }
@@ -121,7 +123,7 @@
     .impact { display: grid; grid-template-columns: 92px 1fr; gap: 16px; align-items: baseline; }
     .metric {
       font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace;
-      font-size: 15px; font-weight: 500; color: var(--accent);
+      font-size: 15px; font-weight: 500; color: var(--accent-text);
     }
     .impact-t { font-size: 15px; line-height: 1.55; color: var(--text); }
     .tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 6px; }
@@ -135,13 +137,13 @@
     .quote { display: flex; flex-direction: column; gap: 18px; position: relative; }
     .qmark {
       font-family: Newsreader, Georgia, serif; font-size: 82px; line-height: 1;
-      color: var(--accent); opacity: 0.22; height: 34px; margin: 0; user-select: none;
+      color: var(--accent-text); opacity: 0.30; height: 34px; margin: 0; user-select: none;
     }
     .qtext {
       font-family: Newsreader, Georgia, serif; font-size: 23px; line-height: 1.45;
       font-weight: 400; margin: 0; text-wrap: pretty;
     }
-    .qattr { display: flex; flex-direction: column; gap: 2px; padding-left: 15px; border-left: 2px solid var(--accent); }
+    .qattr { display: flex; flex-direction: column; gap: 2px; padding-left: 15px; border-left: 2px solid var(--accent-text); }
     .qname { font-size: 14.5px; font-weight: 600; }
     .qrole {
       font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace;
@@ -167,47 +169,69 @@
     </header>
 
     <section>
-      <p class="eyebrow">Recommendations</p>
-      <h1 class="name" style="font-size: 46px;">In other<br>people&rsquo;s words</h1>
-      <p class="lede">[ONE LINE OF FRAMING &mdash; who these people are to you, and over what period.]</p>
+      <p class="eyebrow">Experience</p>
+      <h1 class="name" style="font-size: 46px;">What I&rsquo;ve<br>shipped</h1>
+      <p class="lede">[TWO LINES ON HOW YOU WORK &mdash; the thread connecting these roles, not a restatement of them.]</p>
     </section>
 
     <section>
-      <div class="quotes">
-      <figure class="quote">
-        <p class="qmark">&ldquo;</p>
-        <blockquote class="qtext">[QUOTE ONE &mdash; the strongest thing a senior engineer said about working with you. Two or three sentences; longer than this reads as padding.]</blockquote>
-        <figcaption class="qattr">
-          <span class="qname">[NAME]</span>
-          <span class="qrole">[ROLE] &middot; [COMPANY]</span>
-        </figcaption>
-      </figure>
+      <h2 class="sect">Roles</h2>
+      <div class="roles">
+      <article class="role">
+        <div class="spine"></div>
+        <div class="role-body">
+          <div class="role-h">
+            <h3 class="role-co">[COMPANY ONE]</h3>
+            <p class="role-meta">[ROLE TITLE] &middot; [START] &ndash; present</p>
+          </div>
+          <ul class="impacts">
+            <li class="impact"><span class="metric">[N]&times;</span><span class="impact-t">[IMPACT: what changed, and what it was worth.]</span></li>
+            <li class="impact"><span class="metric">[N] hrs</span><span class="impact-t">[IMPACT: time or toil removed, and for whom.]</span></li>
+            <li class="impact"><span class="metric">[N]</span><span class="impact-t">[IMPACT: scale &mdash; accounts, findings, services covered.]</span></li>
+          </ul>
+          <div class="tags">
+            <span class="tag">[TECH]</span>
+            <span class="tag">[TECH]</span>
+            <span class="tag">[TECH]</span>
+            <span class="tag">[TECH]</span>
+          </div>
+        </div>
+      </article>
 
-      <figure class="quote">
-        <p class="qmark">&ldquo;</p>
-        <blockquote class="qtext">[QUOTE TWO &mdash; ideally about a different quality than the first, so the two do not overlap.]</blockquote>
-        <figcaption class="qattr">
-          <span class="qname">[NAME]</span>
-          <span class="qrole">[ROLE] &middot; [COMPANY]</span>
-        </figcaption>
-      </figure>
-
-      <figure class="quote">
-        <p class="qmark">&ldquo;</p>
-        <blockquote class="qtext">[QUOTE THREE &mdash; optional. Three is plenty; more starts to read defensive.]</blockquote>
-        <figcaption class="qattr">
-          <span class="qname">[NAME]</span>
-          <span class="qrole">[ROLE] &middot; [COMPANY]</span>
-        </figcaption>
-      </figure>
+      <article class="role">
+        <div class="spine"></div>
+        <div class="role-body">
+          <div class="role-h">
+            <h3 class="role-co">[COMPANY TWO]</h3>
+            <p class="role-meta">[ROLE TITLE] &middot; [START] &ndash; [END]</p>
+          </div>
+          <ul class="impacts">
+            <li class="impact"><span class="metric">[N]%</span><span class="impact-t">[IMPACT: a number you can defend in an interview.]</span></li>
+            <li class="impact"><span class="metric">[N]</span><span class="impact-t">[IMPACT: something that outlived your time there.]</span></li>
+          </ul>
+          <div class="tags">
+            <span class="tag">[TECH]</span>
+            <span class="tag">[TECH]</span>
+            <span class="tag">[TECH]</span>
+          </div>
+        </div>
+      </article>
       </div>
     </section>
 
-    <p class="note">Every quote needs the author&rsquo;s permission before it ships. Where the recommendation already exists publicly on LinkedIn, link it.</p>
+    <section>
+      <h2 class="sect">Open source</h2>
+      <ul class="rows">
+        <li class="row"><span class="row-k">[PROJECT]</span><span class="row-v">[WHAT YOU CONTRIBUTED, AND WHY IT MATTERED]</span></li>
+        <li class="row"><span class="row-k">[PROJECT]</span><span class="row-v">[WHAT YOU CONTRIBUTED, AND WHY IT MATTERED]</span></li>
+      </ul>
+    </section>
+
+    <p class="note">Layout only. Metrics are the load-bearing element here &mdash; the design assumes every impact line leads with a number.</p>
   </div>
 </div>
 </x-dc>
-<script data-dc-script data-props='{"dark":{"editor":"boolean","default":false,"section":"Theme"},"$preview":{"width":900,"height":1040}}'>
+<script data-dc-script data-props='{"dark":{"editor":"boolean","default":true,"section":"Theme"},"$preview":{"width":900,"height":1240}}'>
 class Component extends DCLogic {
   renderVals() {
     return { themeClass: this.props.dark ? 'dark' : '' };

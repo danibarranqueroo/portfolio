@@ -1,0 +1,29 @@
+---
+import { content } from '../../data/content';
+import type { Lang } from '../../i18n/ui';
+
+const { lang } = Astro.props as { lang: Lang };
+const c = content[lang].recommendations;
+---
+<section>
+  <p class="eyebrow">{c.eyebrow}</p>
+  <h1 class="display display-sm" set:html={c.title.replace('\n', '<br />')} />
+  <p class="lede">{c.lede}</p>
+</section>
+
+<section style="margin-top: 56px;">
+  <div class="quotes">
+    {c.quotes.map((q) => (
+      <figure class="quote">
+        <p class="qmark" aria-hidden="true">&ldquo;</p>
+        <blockquote class="qtext">{q.text}</blockquote>
+        <figcaption class="qattr">
+          <span class="qname">{q.name}</span>
+          <span class="qrole">{q.role}</span>
+        </figcaption>
+      </figure>
+    ))}
+  </div>
+</section>
+
+<p class="note" style="margin-top: 56px;">{c.note}</p>

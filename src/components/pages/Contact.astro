@@ -1,0 +1,22 @@
+---
+import { content } from '../../data/content';
+import type { Lang } from '../../i18n/ui';
+
+const { lang } = Astro.props as { lang: Lang };
+const c = content[lang].contact;
+---
+<section>
+  <p class="eyebrow">{c.eyebrow}</p>
+  <h1 class="display display-sm" set:html={c.title.replace('\n', '<br />')} />
+  <p class="lede">{c.lede}</p>
+</section>
+
+<section style="margin-top: 56px;">
+  <ul class="rows">
+    {c.channels.map((r) => (
+      <li class="row"><span class="row-k">{r.k}</span><span class="row-v">{r.v}</span></li>
+    ))}
+  </ul>
+</section>
+
+<p class="note" style="margin-top: 56px;">{c.note}</p>

@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import { content } from '../data/content';
 import { languages } from '../i18n/ui';
 import { getLangFromUrl, localizePath, useTranslations } from '../i18n/utils';
 
@@ -11,15 +12,17 @@ interface Props {
 const { title, description } = Astro.props;
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+const c = content[lang];
 
 const canonical = new URL(Astro.url.pathname, Astro.site);
 
-// Reciprocal hreflang alternates. Strip any existing locale prefix first so
-// the mapping works from every page, not just the default locale.
+// Strip any locale prefix so hreflang mapping works from every page.
 const bare = Astro.url.pathname.replace(/^\/(es)(?=\/|$)/, '') || '/';
+const normalized = bare.endsWith('/') && bare !== '/' ? bare.slice(0, -1) : bare;
+
 const alternates = (Object.keys(languages) as Array<keyof typeof languages>).map((l) => ({
   lang: l,
-  href: new URL(localizePath(bare, l), Astro.site).toString(),
+  href: new URL(localizePath(normalized, l), Astro.site).toString(),
 }));
 
 const nav = [
@@ -28,8 +31,9 @@ const nav = [
   { key: 'nav.projects', path: '/projects' },
   { key: 'nav.recommendations', path: '/recommendations' },
   { key: 'nav.contact', path: '/contact' },
-  { key: 'nav.cv', path: '/cv' },
 ] as const;
+
+const other = (Object.keys(languages) as Array<keyof typeof languages>).find((l) => l !== lang);
 ---
 
 <html lang={lang}>
@@ -41,24 +45,46 @@ const nav = [
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     {alternates.map((a) => <link rel="alternate" hreflang={a.lang} href={a.href} />)}
-    <link rel="alternate" hreflang="x-default" href={new URL(bare, Astro.site).toString()} />
+    <link rel="alternate" hreflang="x-default" href={new URL(normalized, Astro.site).toString()} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+    />
   </head>
-  <body class="font-sans">
-    <a href="#main" class="sr-only focus:not-sr-only">Skip to content</a>
-    <header>
-      <nav aria-label="Primary">
-        <ul>
-          {nav.map((item) => (
-            <li><a href={localizePath(item.path, lang)}>{t(item.key)}</a></li>
-          ))}
-        </ul>
-      </nav>
-    </header>
-    <main id="main">
-      <slot />
-    </main>
-    <footer>
-      <!-- Blog is deliberately absent from nav until it has posts. -->
-    </footer>
+
+  <body>
+    <a href="#main" class="skip">Skip to content</a>
+    <div class="wrap">
+      <header class="site-header">
+        <a class="mark" href={localizePath('/', lang)} aria-label="Home">DB</a>
+        <nav class="nav" aria-label="Primary">
+          {
+            nav.map((item) => {
+              const href = localizePath(item.path, lang);
+              const current = normalized === item.path;
+              return (
+                <a href={href} aria-current={current ? 'page' : undefined}>
+                  {t(item.key)}
+                </a>
+              );
+            })
+          }
+        </nav>
+      </header>
+
+      <main id="main">
+        <slot />
+      </main>
+
+      <footer class="site-footer">
+        <span>{c.footer.rights}</span>
+        <span>
+          {other && <a href={localizePath(normalized, other)}>{languages[other]}</a>}
+        </span>
+      </footer>
+    </div>
   </body>
 </html>

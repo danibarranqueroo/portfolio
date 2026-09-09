@@ -1,0 +1,21 @@
+---
+import type { Lang } from '../../i18n/ui';
+
+const { lang } = Astro.props as { lang: Lang };
+const es = lang === 'es';
+---
+<section>
+  <p class="eyebrow">CV</p>
+  <h1 class="display display-sm">{es ? 'Currículum' : 'Curriculum vitae'}</h1>
+  <p class="lede">
+    {es
+      ? 'Esta página se generará a partir de los mismos datos que «Experiencia» y «Sobre mí», y de ella saldrá el PDF.'
+      : 'This page will render from the same data as Experience and About, and the PDF will be generated from it.'}
+  </p>
+</section>
+
+<p class="note" style="margin-top: 56px;">
+  {es
+    ? 'Pendiente: el esquema de CV validado con Zod y el proceso que genera el PDF. Se hace cuando lleguen los datos reales.'
+    : 'Not built yet: the Zod-validated CV schema and the PDF pipeline. Both land once real CV data exists.'}
+</p>

@@ -1,17 +1,22 @@
 import json, os
 
 PAL = {
-  "warm": {
-    "light": dict(bg="#fbf1c7", surface="#f2e5bc", text="#3c3836", muted="#7c6f64",
-                  accent="#bc5c00", alt1="#4c7a5d", alt2="#904180", rule="#e3d5ad"),
-    "dark":  dict(bg="#1d2021", surface="#282828", text="#d4be98", muted="#a89984",
-                  accent="#e78a4e", alt1="#a9b665", alt2="#d3869b", rule="#3c3836"),
-  },
+  # Chosen direction: cool. Light mode is unchanged from the exploration.
+  # Dark mode sits on TRUE BLACK at Dani's request.
+  #
+  # accent      = the brand purple. Used only as a FILL (button backgrounds,
+  #               large decorative marks). White on it is 7.05:1 in both modes.
+  # accent_text = anything that must read as a line or as text. In light mode
+  #               it IS the brand purple; on black #7f00e0 is only 2.98:1, which
+  #               fails even the 3:1 bar, so dark mode lifts the SAME hue (274 deg,
+  #               100% sat) to 67% lightness -> #b657ff at 5.80:1.
   "cool": {
     "light": dict(bg="#f4f9fc", surface="#e7f1f8", text="#0f1b61", muted="#59689a",
-                  accent="#7f00e0", alt1="#0e7490", alt2="#5aa7c4", rule="#d5e5f0"),
-    "dark":  dict(bg="#0b1020", surface="#151d36", text="#dfe6ff", muted="#96a4d2",
-                  accent="#b388ff", alt1="#7fd4e8", alt2="#aadcec", rule="#242d4d"),
+                  accent="#7f00e0", accent_text="#7f00e0", on_accent="#ffffff",
+                  alt="#0e7490", rule="#d5e5f0"),
+    "dark":  dict(bg="#000000", surface="#0e0e14", text="#ede9f5", muted="#9a93b0",
+                  accent="#7f00e0", accent_text="#b657ff", on_accent="#ffffff",
+                  alt="#aadcec", rule="#1f1b2b"),
   },
 }
 
@@ -21,7 +26,7 @@ FONTS = ('<link rel="stylesheet" href="https://fonts.googleapis.com/css2?'
          'family=IBM+Plex+Mono:wght@400;500&display=swap">')
 
 def tokens(p, sel):
-    return sel + " {\n" + "".join(f"      --{k}: {v};\n" for k, v in p.items()) + "    }"
+    return sel + " {\n" + "".join(f"      --{k.replace(chr(95), chr(45))}: {v};\n" for k, v in p.items()) + "    }"
 
 def css(temp):
     return f"""{FONTS}
@@ -31,7 +36,7 @@ def css(temp):
 
     * {{ box-sizing: border-box; }}
     body {{ margin: 0; }}
-    a {{ color: var(--accent); text-decoration: none; }}
+    a {{ color: var(--accent-text); text-decoration: none; }}
     a:hover {{ color: var(--text); text-decoration: underline; text-underline-offset: 3px; }}
 
     .page {{
@@ -49,12 +54,12 @@ def css(temp):
     .mark {{
       font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace;
       font-size: 13px; font-weight: 500; letter-spacing: 0.14em;
-      color: var(--accent);
+      color: var(--accent-text);
       border: 1px solid var(--rule); padding: 5px 8px; border-radius: 3px;
     }}
     .nav {{ display: flex; flex-wrap: wrap; gap: 18px; }}
     .nav a {{ font-size: 14px; color: var(--muted); }}
-    .nav a:hover {{ color: var(--accent); text-decoration: none; }}
+    .nav a:hover {{ color: var(--accent-text); text-decoration: none; }}
 
     .eyebrow {{
       font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace;
@@ -82,13 +87,13 @@ def css(temp):
     .links {{ display: flex; flex-wrap: wrap; align-items: center; gap: 14px; margin-top: 30px; }}
     .btn {{
       display: inline-flex; align-items: center; gap: 8px;
-      background: var(--accent); color: var(--bg);
+      background: var(--accent); color: var(--on-accent);
       padding: 11px 18px; border-radius: 4px;
       font-size: 15px; font-weight: 500;
     }}
-    .btn:hover {{ color: var(--bg); opacity: 0.88; text-decoration: none; }}
+    .btn:hover {{ color: var(--on-accent); opacity: 0.88; text-decoration: none; }}
     .lnk {{ font-size: 15px; color: var(--muted); }}
-    .lnk:hover {{ color: var(--accent); }}
+    .lnk:hover {{ color: var(--accent-text); }}
 
     .rows {{ list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0; }}
     .row {{
@@ -107,7 +112,7 @@ def css(temp):
     .spine {{ border-left: 1px solid var(--rule); position: relative; }}
     .spine::before {{
       content: ""; position: absolute; left: -4px; top: 9px;
-      width: 7px; height: 7px; border-radius: 50%; background: var(--accent);
+      width: 7px; height: 7px; border-radius: 50%; background: var(--accent-text);
     }}
     .role-body {{ display: flex; flex-direction: column; gap: 12px; }}
     .role-h {{ display: flex; flex-direction: column; gap: 4px; }}
@@ -120,7 +125,7 @@ def css(temp):
     .impact {{ display: grid; grid-template-columns: 92px 1fr; gap: 16px; align-items: baseline; }}
     .metric {{
       font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace;
-      font-size: 15px; font-weight: 500; color: var(--accent);
+      font-size: 15px; font-weight: 500; color: var(--accent-text);
     }}
     .impact-t {{ font-size: 15px; line-height: 1.55; color: var(--text); }}
     .tags {{ display: flex; flex-wrap: wrap; gap: 7px; margin-top: 6px; }}
@@ -134,13 +139,13 @@ def css(temp):
     .quote {{ display: flex; flex-direction: column; gap: 18px; position: relative; }}
     .qmark {{
       font-family: Newsreader, Georgia, serif; font-size: 82px; line-height: 1;
-      color: var(--accent); opacity: 0.22; height: 34px; margin: 0; user-select: none;
+      color: var(--accent-text); opacity: 0.30; height: 34px; margin: 0; user-select: none;
     }}
     .qtext {{
       font-family: Newsreader, Georgia, serif; font-size: 23px; line-height: 1.45;
       font-weight: 400; margin: 0; text-wrap: pretty;
     }}
-    .qattr {{ display: flex; flex-direction: column; gap: 2px; padding-left: 15px; border-left: 2px solid var(--accent); }}
+    .qattr {{ display: flex; flex-direction: column; gap: 2px; padding-left: 15px; border-left: 2px solid var(--accent-text); }}
     .qname {{ font-size: 14.5px; font-weight: 600; }}
     .qrole {{
       font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace;
@@ -152,7 +157,8 @@ def css(temp):
     }}
   </style>"""
 
-def doc(temp, body, w, h):
+def doc(temp, body, w, h, dark=False):
+    dark_json = "true" if dark else "false"
     return f"""<!doctype html>
 <html>
 <head>
@@ -170,7 +176,7 @@ def doc(temp, body, w, h):
   </div>
 </div>
 </x-dc>
-<script data-dc-script data-props='{{"dark":{{"editor":"boolean","default":false,"section":"Theme"}},"$preview":{{"width":{w},"height":{h}}}}}'>
+<script data-dc-script data-props='{{"dark":{{"editor":"boolean","default":{dark_json},"section":"Theme"}},"$preview":{{"width":{w},"height":{h}}}}}'>
 class Component extends DCLogic {{
   renderVals() {{
     return {{ themeClass: this.props.dark ? 'dark' : '' }};
@@ -310,30 +316,36 @@ RECS = NAV + """
 PAGES = [("Landing", LANDING, 900, 780), ("Experience", EXPERIENCE, 900, 1240),
          ("Recommendations", RECS, 900, 1040)]
 
-for page, body, w, h in PAGES:
-    for temp in ("warm", "cool"):
-        name = "Main" if (page == "Landing" and temp == "warm") else f"{page}{temp.capitalize()}"
-        open(f"{name}.dc.html", "w").write(doc(temp, body, w, h))
-        print(f"wrote {name}.dc.html  ({page} / {temp})")
+import glob
+for stale in glob.glob("*.dc.html"):
+    os.remove(stale)
 
-GAP_X, GAP_Y = 1000, 0
-arts, y = [], 0
+emitted = []
 for page, body, w, h in PAGES:
-    for i, temp in enumerate(("warm", "cool")):
-        name = "Main" if (page == "Landing" and temp == "warm") else f"{page}{temp.capitalize()}"
-        arts.append({"file": f"{name}.dc.html", "x": i * GAP_X, "y": y, "w": w, "h": h,
-                     "title": f"{page} — {temp.capitalize()}"})
-    y += h + 150
+    for mode in ("Light", "Dark"):
+        name = "Main" if (page == "Landing" and mode == "Light") else f"{page}{mode}"
+        open(f"{name}.dc.html", "w").write(doc("cool", body, w, h, dark=(mode == "Dark")))
+        emitted.append((name, page, mode, w, h))
+        print(f"wrote {name}.dc.html  ({page} / {mode.lower()})")
+
+COL, GAP_Y = 1000, 150
+arts, y, row = [], 0, {}
+for name, page, mode, w, h in emitted:
+    if page not in row:
+        row[page] = y
+        y += h + GAP_Y
+    arts.append({"file": f"{name}.dc.html", "x": 0 if mode == "Light" else COL,
+                 "y": row[page], "w": w, "h": h, "title": f"{page} — {mode}"})
 
 canvas = {
   "artboards": arts,
   "annotations": [
     {"id": "brief", "x": -430, "y": 0, "w": 360,
-     "text": "Same layout, same type, two palettes.\nOnly the colour changes — so what you are\npicking here is temperature, nothing else.\n\nType is identical in all six:\nNewsreader (display), IBM Plex Sans (body),\nIBM Plex Mono (metadata + metrics)."},
-    {"id": "dark-note", "x": -430, "y": 250, "w": 360,
-     "text": "Each artboard has a Dark toggle above it.\nDark mode is a token swap, no JavaScript —\nthe real site uses CSS light-dark()."},
-    {"id": "craft", "x": -430, "y": 930, "w": 360,
-     "text": "Experience and Recommendations are where\nthe craft budget goes. Everything else\nstays deliberately quiet.\n\nExperience assumes every impact line\nleads with a number."},
+     "text": "Cool direction, confirmed.\nLight on the left, dark on the right.\n\nType: Newsreader (display),\nIBM Plex Sans (body),\nIBM Plex Mono (metadata + metrics)."},
+    {"id": "purple", "x": -430, "y": 300, "w": 360,
+     "text": "About the purple on black:\n\n#7f00e0 on #000 is only 2.98:1 — it fails\neven the 3:1 bar, so it cannot be text or a\nline in dark mode.\n\nSo the brand purple stays as a FILL (the\nbutton, white text on it at 7.05:1), and\nanything that must read as text or a line\nuses the SAME hue (274°) lifted to\n#b657ff — 5.80:1 on black."},
+    {"id": "craft", "x": -430, "y": 1000, "w": 360,
+     "text": "Experience and Recommendations carry the\ncraft budget. Everything else stays quiet.\n\nExperience assumes every impact line\nleads with a number."},
   ],
   "launch": {"view": "canvas"},
 }

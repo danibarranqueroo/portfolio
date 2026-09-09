@@ -33,7 +33,16 @@ export default defineConfig({
     // NOTE: a meta CSP cannot express frame-ancestors / report-uri / sandbox.
     // Those are set as real headers in public/_headers — both policies apply
     // and the browser enforces their intersection.
-    csp: true,
+    csp: {
+      styleDirective: {
+        // TODO(fonts): self-host the three faces and delete this allowance.
+        // Google Fonts means a third-party request on every page load, which
+        // is a poor look on a security engineer's site and costs a DNS +
+        // TLS round trip. Kept for now so the design can be reviewed; the
+        // matching font-src lives in public/_headers.
+        resources: ['https://fonts.googleapis.com'],
+      },
+    },
   },
 
   vite: { plugins: [tailwindcss()] },

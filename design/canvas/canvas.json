@@ -6,47 +6,47 @@
       "y": 0,
       "w": 900,
       "h": 780,
-      "title": "Landing \u2014 Warm"
+      "title": "Landing \u2014 Light"
     },
     {
-      "file": "LandingCool.dc.html",
+      "file": "LandingDark.dc.html",
       "x": 1000,
       "y": 0,
       "w": 900,
       "h": 780,
-      "title": "Landing \u2014 Cool"
+      "title": "Landing \u2014 Dark"
     },
     {
-      "file": "ExperienceWarm.dc.html",
+      "file": "ExperienceLight.dc.html",
       "x": 0,
       "y": 930,
       "w": 900,
       "h": 1240,
-      "title": "Experience \u2014 Warm"
+      "title": "Experience \u2014 Light"
     },
     {
-      "file": "ExperienceCool.dc.html",
+      "file": "ExperienceDark.dc.html",
       "x": 1000,
       "y": 930,
       "w": 900,
       "h": 1240,
-      "title": "Experience \u2014 Cool"
+      "title": "Experience \u2014 Dark"
     },
     {
-      "file": "RecommendationsWarm.dc.html",
+      "file": "RecommendationsLight.dc.html",
       "x": 0,
       "y": 2320,
       "w": 900,
       "h": 1040,
-      "title": "Recommendations \u2014 Warm"
+      "title": "Recommendations \u2014 Light"
     },
     {
-      "file": "RecommendationsCool.dc.html",
+      "file": "RecommendationsDark.dc.html",
       "x": 1000,
       "y": 2320,
       "w": 900,
       "h": 1040,
-      "title": "Recommendations \u2014 Cool"
+      "title": "Recommendations \u2014 Dark"
     }
   ],
   "annotations": [
@@ -55,21 +55,21 @@
       "x": -430,
       "y": 0,
       "w": 360,
-      "text": "Same layout, same type, two palettes.\nOnly the colour changes \u2014 so what you are\npicking here is temperature, nothing else.\n\nType is identical in all six:\nNewsreader (display), IBM Plex Sans (body),\nIBM Plex Mono (metadata + metrics)."
+      "text": "Cool direction, confirmed.\nLight on the left, dark on the right.\n\nType: Newsreader (display),\nIBM Plex Sans (body),\nIBM Plex Mono (metadata + metrics)."
     },
     {
-      "id": "dark-note",
+      "id": "purple",
       "x": -430,
-      "y": 250,
+      "y": 300,
       "w": 360,
-      "text": "Each artboard has a Dark toggle above it.\nDark mode is a token swap, no JavaScript \u2014\nthe real site uses CSS light-dark()."
+      "text": "About the purple on black:\n\n#7f00e0 on #000 is only 2.98:1 \u2014 it fails\neven the 3:1 bar, so it cannot be text or a\nline in dark mode.\n\nSo the brand purple stays as a FILL (the\nbutton, white text on it at 7.05:1), and\nanything that must read as text or a line\nuses the SAME hue (274\u00b0) lifted to\n#b657ff \u2014 5.80:1 on black."
     },
     {
       "id": "craft",
       "x": -430,
-      "y": 930,
+      "y": 1000,
       "w": 360,
-      "text": "Experience and Recommendations are where\nthe craft budget goes. Everything else\nstays deliberately quiet.\n\nExperience assumes every impact line\nleads with a number."
+      "text": "Experience and Recommendations carry the\ncraft budget. Everything else stays quiet.\n\nExperience assumes every impact line\nleads with a number."
     }
   ],
   "launch": {

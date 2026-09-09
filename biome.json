@@ -12,7 +12,8 @@
       "!**/.astro",
       "!**/node_modules",
       "!**/pnpm-lock.yaml",
-      "!**/public"
+      "!**/public",
+      "!**/design"
     ]
   },
   "formatter": {

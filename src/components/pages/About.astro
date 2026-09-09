@@ -1,0 +1,27 @@
+---
+import { content } from '../../data/content';
+import type { Lang } from '../../i18n/ui';
+
+const { lang } = Astro.props as { lang: Lang };
+const c = content[lang].about;
+---
+<section>
+  <p class="eyebrow">{c.eyebrow}</p>
+  <h1 class="display display-sm">{c.title}</h1>
+  <p class="lede">{c.lede}</p>
+</section>
+
+<section style="margin-top: 56px;" class="prose">
+  {c.body.map((p) => <p>{p}</p>)}
+</section>
+
+<section style="margin-top: 56px;">
+  <h2 class="sect">{lang === 'es' ? 'Formación y certificaciones' : 'Education & certifications'}</h2>
+  <ul class="rows">
+    {c.education.map((r) => (
+      <li class="row"><span class="row-k">{r.k}</span><span class="row-v">{r.v}</span></li>
+    ))}
+  </ul>
+</section>
+
+<p class="note" style="margin-top: 56px;">{c.note}</p>
