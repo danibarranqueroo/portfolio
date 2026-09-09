@@ -12,6 +12,7 @@ export const ui = {
     'nav.recommendations': 'Recommendations',
     'nav.contact': 'Contact',
     'nav.cv': 'CV',
+    'theme.toggle': 'Switch between light and dark theme',
   },
   es: {
     'nav.about': 'Sobre mí',
@@ -20,5 +21,6 @@ export const ui = {
     'nav.recommendations': 'Recomendaciones',
     'nav.contact': 'Contacto',
     'nav.cv': 'CV',
+    'theme.toggle': 'Cambiar entre tema claro y oscuro',
   },
 } as const satisfies Record<Lang, Record<string, string>>;

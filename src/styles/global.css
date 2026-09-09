@@ -18,8 +18,19 @@
                          to 67% lightness, giving #b657ff at 5.80:1.
    Every pairing below was measured, not estimated.
    --------------------------------------------------------------------------- */
+/* Theme resolution.
+   Default: follow the operating system.
+   Once the visitor picks a theme, data-theme pins it. Because every colour
+   token is a light-dark() pair, forcing a theme only means overriding
+   color-scheme — no token is redefined anywhere. */
 :root {
   color-scheme: light dark;
+}
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
 }
 
 @theme {
@@ -402,6 +413,69 @@ a:hover {
 .skip:focus {
   left: 16px;
   top: 16px;
+}
+
+/* --- theme toggle -------------------------------------------------------- */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  background: none;
+  border: 1px solid var(--color-rule);
+  border-radius: 3px;
+  color: var(--color-muted);
+  cursor: pointer;
+  transition:
+    color 0.15s ease,
+    border-color 0.15s ease;
+}
+.theme-toggle:hover {
+  color: var(--color-accent-text);
+  border-color: var(--color-accent-text);
+}
+.theme-toggle svg {
+  width: 17px;
+  height: 17px;
+  display: block;
+}
+
+/* Which icon shows is decided entirely in CSS, so it is correct on first
+   paint with no JavaScript. The icon shows the theme you would switch TO.
+   Order matters: the [data-theme] rules must win over the media query. */
+.icon-sun {
+  display: none;
+}
+.icon-moon {
+  display: block;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .icon-sun {
+    display: block;
+  }
+  :root:not([data-theme="light"]) .icon-moon {
+    display: none;
+  }
+}
+:root[data-theme="dark"] .icon-sun {
+  display: block;
+}
+:root[data-theme="dark"] .icon-moon {
+  display: none;
+}
+:root[data-theme="light"] .icon-sun {
+  display: none;
+}
+:root[data-theme="light"] .icon-moon {
+  display: block;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 18px;
 }
 
 /* Motion is a garnish, never a requirement. */

@@ -58,11 +58,60 @@ ships. Options, to decide in the blog phase:
 3. Switch to Prism, as the warning suggests.
 4. Weaken CSP. Rejected.
 
+## Theme toggle: `is:inline` scripts are NOT hashed by Astro's CSP
+
+The theme button needs a blocking inline script in `<head>` — anything
+deferred or bundled runs after first paint, so a visitor with a stored theme
+would see the system theme flash first. That means `is:inline`.
+
+**`is:inline` opts a script out of Astro's processing, which also opts it out
+of Astro's automatic CSP hashing.** The build succeeds, dev looks fine, and
+the script is then silently blocked in production — restoring exactly the
+flash it was added to prevent. It only shows up in a real build.
+
+The fix: the script text lives in `src/lib/theme-init.mjs` as a single
+constant. `astro.config.mjs` imports it, derives its SHA-256, and passes that
+to `security.csp.scriptDirective.hashes`; `BaseLayout.astro` imports the same
+constant and renders it with `set:html`. Neither side can drift — edit the
+script and the hash follows.
+
+Keep it on one line. Whitespace a build step might normalise would change the
+hash and re-break it.
+
+*Related trap:* Biome's `organizeImports` will split an import block around an
+interleaved comment or `const` and can drop an import entirely. Keep every
+import in `astro.config.mjs` contiguous at the top.
+
+## Forcing a theme only overrides `color-scheme`
+
+Because every colour token is a `light-dark()` pair, pinning a theme does not
+redefine a single token:
+
+```css
+:root { color-scheme: light dark; }          /* follow the OS */
+:root[data-theme="light"] { color-scheme: light; }
+:root[data-theme="dark"]  { color-scheme: dark; }
+```
+
+Which icon the button shows is decided purely in CSS — a `prefers-color-scheme`
+media query for the default, then `[data-theme]` rules after it to win when the
+visitor has chosen. So the icon is correct on first paint with no JavaScript.
+Rule order matters: the `[data-theme]` rules must come after the media query.
+
+**Known limitation:** the toggle is two-state. Once a visitor picks a theme
+there is no in-page way back to "follow my OS" short of clearing site data.
+A three-state cycle (system → light → dark) would fix it at the cost of a
+control that needs a label to be understandable. Two-state was chosen
+deliberately; revisit if anyone asks.
+
 ## We are not at zero JS, and that is on purpose
 
 `prefetch: { prefetchAll: true }` ships **2.4 KB** of JavaScript
-(`dist/_astro/page.*.js`) to make hover-navigation instant. That is the entire
-client-side JS budget for the site right now.
+(`dist/_astro/page.*.js`) to make hover-navigation instant. That is the only
+external script on the site.
+
+The theme toggle adds no external JS: both of its scripts are inline and
+CSP-hashed, costing roughly 400 bytes of HTML per page.
 
 The trade is deliberate: 2.4 KB for materially better navigation across a
 multi-page site. If a strictly-zero-JS baseline ever matters more, delete the
