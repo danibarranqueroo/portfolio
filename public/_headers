@@ -1,0 +1,31 @@
+# Cloudflare Workers static-assets header rules (limit: 100 rules).
+#
+# IMPORTANT — how CSP is split here:
+# Astro emits a <meta> CSP carrying per-build SHA-256 hashes for inline
+# scripts and styles (security.csp in astro.config.mjs). When a page is
+# covered by two policies, BOTH are enforced independently and content must
+# satisfy each one. So this file must NOT set default-src, script-src or
+# style-src: doing so would block hash-allowed inline content that the meta
+# policy correctly permits, because the hashes only exist in the meta tag.
+#
+# This file therefore carries only the directives a <meta> CSP cannot express
+# (frame-ancestors, report-to, sandbox) plus directives that never interact
+# with hashes.
+
+/*
+  Content-Security-Policy: frame-ancestors 'none'; base-uri 'none'; form-action 'self'; object-src 'none'; upgrade-insecure-requests
+  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
+  X-Frame-Options: DENY
+
+# Astro fingerprints these filenames, so they are safe to cache forever.
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# The PDF CV is regenerated each build; let it revalidate.
+/cv/*.pdf
+  Cache-Control: public, max-age=3600, must-revalidate

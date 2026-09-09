@@ -1,0 +1,42 @@
+{
+  $schema: 'https://docs.renovatebot.com/renovate-schema.json',
+  extends: ['config:recommended', ':semanticCommits'],
+
+  // Mirror the pnpm-workspace.yaml quarantine. Without this, Renovate would
+  // happily open a PR for a package pnpm will then refuse to install.
+  minimumReleaseAge: '7 days',
+
+  // Exact pins only, matching savePrefix: '' in pnpm-workspace.yaml.
+  rangeStrategy: 'pin',
+
+  schedule: ['before 9am on monday'],
+  prConcurrentLimit: 3,
+  labels: ['dependencies'],
+
+  lockFileMaintenance: { enabled: true, schedule: ['before 9am on monday'] },
+
+  packageRules: [
+    {
+      // One grouped PR for routine updates keeps review cheap.
+      matchUpdateTypes: ['minor', 'patch'],
+      groupName: 'non-major dependencies',
+    },
+    {
+      // Majors get their own PR; they need reading, not rubber-stamping.
+      matchUpdateTypes: ['major'],
+      dependencyDashboardApproval: true,
+    },
+    {
+      // TypeScript is deliberately held at 6.x: @astrojs/check caps its peer
+      // at ^6 and TS 7 breaks astro check. See docs/DECISIONS.md.
+      matchPackageNames: ['typescript'],
+      allowedVersions: '<7.0.0',
+    },
+    {
+      // Keep actions SHA-pinned; Renovate updates the SHA and the comment.
+      matchManagers: ['github-actions'],
+      pinDigests: true,
+      groupName: 'github actions',
+    },
+  ],
+}

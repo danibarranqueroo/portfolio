@@ -1,0 +1,13 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "portfolio",
+  "compatibility_date": "2026-09-01",
+
+  // No "main" entry: this is a pure static-asset Worker. It serves files and
+  // runs no code, so it never consumes the Workers request quota and static
+  // bandwidth is unmetered on the free plan.
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page"
+  }
+}
