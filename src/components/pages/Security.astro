@@ -1,0 +1,137 @@
+---
+import { rounds } from '../../data/spotter';
+import type { Lang } from '../../i18n/ui';
+import { audit } from '../../lib/audit.mjs';
+
+const { lang } = Astro.props as { lang: Lang };
+const es = lang === 'es';
+const set = rounds[lang];
+
+const sig =
+  audit.signature === 'G'
+    ? es
+      ? 'válida'
+      : 'valid'
+    : audit.signature === 'U'
+      ? es
+        ? 'sin confianza'
+        : 'untrusted'
+      : es
+        ? 'ninguna'
+        : 'none';
+
+const facts = [
+  { k: es ? 'Commit' : 'Commit', v: audit.commit, mono: true },
+  { k: es ? 'Firma' : 'Signature', v: sig, good: audit.signature === 'G' },
+  { k: es ? 'Construido' : 'Built', v: `${audit.builtAt} UTC`, mono: true },
+  { k: es ? 'Node' : 'Node', v: audit.node, mono: true },
+  { k: 'pnpm', v: audit.pnpm.replace('pnpm@', ''), mono: true },
+  { k: es ? 'Dependencias directas' : 'Direct dependencies', v: String(audit.directDeps) },
+  { k: es ? 'Resueltas en total' : 'Total resolved', v: String(audit.packages) },
+  {
+    k: es ? 'Rangos flexibles' : 'Floating ranges',
+    v: String(audit.floatingCount),
+    good: audit.floatingCount === 0,
+  },
+  {
+    k: es ? 'Cuarentena' : 'Release quarantine',
+    v: es ? `${audit.quarantineDays} días` : `${audit.quarantineDays} days`,
+  },
+  {
+    k: es ? 'Scripts permitidos' : 'Build scripts allowed',
+    v: audit.allowedBuilds.join(', '),
+    mono: true,
+  },
+  {
+    k: es ? 'Actions ancladas' : 'Actions SHA-pinned',
+    v: `${audit.actionsPinned}/${audit.actionsTotal}`,
+    good: audit.actionsPinned === audit.actionsTotal,
+  },
+];
+---
+
+<section>
+  <p class="eyebrow">{es ? 'Seguridad' : 'Security'}</p>
+  <h1 class="display display-sm">{es ? 'Esta página,\nauditada' : 'This page,\naudited'}</h1>
+  <p class="lede">
+    {es
+      ? 'Ninguna cifra de aquí está escrita a mano. Todas salen del lockfile, del manifiesto, de la política de pnpm, de los workflows o de git, en tiempo de compilación.'
+      : 'None of these numbers are written by hand. Every one is read at build time from the lockfile, the manifest, the pnpm policy, the workflow files or git.'}
+  </p>
+</section>
+
+<section style="margin-top: 56px;">
+  <h2 class="sect">{es ? 'En la compilación' : 'At build time'}</h2>
+  <ul class="rows">
+    {
+      facts.map((f) => (
+        <li class="row">
+          <span class="row-k">{f.k}</span>
+          <span class="row-v">
+            <span class={f.mono ? 'val mono' : 'val'} data-good={f.good === true ? '' : undefined}>
+              {f.v}
+            </span>
+          </span>
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
+<section style="margin-top: 56px;">
+  <h2 class="sect">{es ? 'En tu navegador, ahora' : 'In your browser, right now'}</h2>
+  <ul class="rows" data-live-audit>
+    <li class="row">
+      <span class="row-k">{es ? 'Hashes CSP' : 'CSP hashes'}</span>
+      <span class="row-v"><span class="val mono" data-live="csp">…</span></span>
+    </li>
+    <li class="row">
+      <span class="row-k">{es ? 'JS externo' : 'External JS'}</span>
+      <span class="row-v"><span class="val mono" data-live="js">…</span></span>
+    </li>
+    <li class="row">
+      <span class="row-k">{es ? 'Cabeceras' : 'Response headers'}</span>
+      <span class="row-v"><span class="val mono" data-live="headers">…</span></span>
+    </li>
+  </ul>
+  <p class="note" style="margin-top: 20px;">
+    {es
+      ? 'Las cabeceras las sirve Cloudflare desde public/_headers, así que en el servidor de desarrollo no aparecen. Eso es esperado, no un fallo.'
+      : 'Response headers are served by Cloudflare from public/_headers, so they are absent on the dev server. That is expected, not a failure.'}
+  </p>
+</section>
+
+<section style="margin-top: 72px;">
+  <h2 class="sect">{es ? 'Encuentra el fallo' : 'Spot the misconfiguration'}</h2>
+  <p class="prose" style="margin-bottom: 28px;">
+    {es
+      ? 'Tres configuraciones reales. Haz clic en la línea peligrosa de cada una.'
+      : 'Three real configurations. Click the dangerous line in each.'}
+    <span class="score" data-score>0/{set.length}</span>
+  </p>
+
+  <div class="spotters">
+    {
+      set.map((r) => (
+        <article class="spotter" data-round data-answer={r.answer}>
+          <h3 class="spotter-h">{r.title}</h3>
+          <ol class="code" role="group" aria-label={r.title}>
+            {r.lines.map((line, i) => (
+              <li>
+                <button type="button" class="code-line" data-line={i}>
+                  <span class="ln" aria-hidden="true">{i + 1}</span>
+                  <code>{line}</code>
+                </button>
+              </li>
+            ))}
+          </ol>
+          <div class="reveal" data-reveal hidden>
+            <p class="reveal-verdict" data-verdict />
+            <p class="reveal-why">{r.why}</p>
+            <p class="reveal-fix"><span class="fix-k">{es ? 'Solución' : 'Fix'}</span> {r.fix}</p>
+          </div>
+        </article>
+      ))
+    }
+  </div>
+</section>

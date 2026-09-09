@@ -139,6 +139,52 @@ v4 syntax (`@theme`, `@import "tailwindcss"`) at all.
 
 `public/` is excluded — it holds static assets, not source.
 
+## The four interactive pieces
+
+Built together at Dani's request so they could be compared, with the note that
+the design direction ("concentrated craft") argues for keeping at most two.
+Expect to cut some.
+
+1. **Animated portrait** (landing hero). Draws in, blinks, pupils track the
+   cursor. The paths are a PLACEHOLDER abstract head — no photo has been
+   supplied, and inventing someone's likeness is worse than an obvious
+   stand-in. Swap the paths in `Portrait.astro#portrait-art`; every behaviour
+   keeps working.
+2. **Timeline draw-in** (experience). IntersectionObserver adds `.is-visible`.
+3. **"This page, audited"** (`/security`). See below.
+4. **Misconfiguration spotter** (`/security`). Three real findings: a public
+   bucket policy, an `iam:PassRole` escalation path, SSH open to the world.
+
+All motion is guarded by `prefers-reduced-motion`.
+
+## The audit page must never state something untrue
+
+Everything on `/security` is derived at build time from real artifacts —
+lockfile, manifest, `pnpm-workspace.yaml`, workflow files, git. Nothing is
+typed by hand. If a number there is wrong, fix the repo, not the copy.
+
+Two bugs during construction, both of which would have published a false claim:
+
+- **A naive `/uses:/` regex counted the literal `uses:` inside the shell script
+  of the pin-checking CI job**, reporting "6/8 actions pinned" when all 6 real
+  actions are pinned. Now anchored to a YAML key at line start.
+- **`import.meta.url` does not survive Vite's build transform.** `audit.mjs`
+  resolved its file reads relative to it, so during a real build every read
+  failed, `safe()` swallowed it, and the page rendered zeroes — while running
+  the module directly under `node` looked perfect. Now anchored to
+  `process.cwd()`, which Astro guarantees is the project root.
+
+The lesson generalises: a page that makes factual claims about itself needs
+its data path verified **in a real build**, not just in isolation.
+
+## Astro `<script>` blocks are TypeScript
+
+JSDoc `@type` annotations work in `astro.config.mjs` (a `.mjs` file) but not
+inside an `.astro` `<script>` block, which is checked as TypeScript — annotate
+parameters directly there. `querySelectorAll` also returns `Element`, which has
+no `.style`; pass a generic (`querySelectorAll<SVGCircleElement>`) when you
+need one.
+
 ## Open
 
 - **Domain** not registered. `site` in `astro.config.mjs` is a placeholder and

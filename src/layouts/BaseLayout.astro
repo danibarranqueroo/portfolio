@@ -32,6 +32,9 @@ const nav = [
   { key: 'nav.projects', path: '/projects' },
   { key: 'nav.recommendations', path: '/recommendations' },
   { key: 'nav.contact', path: '/contact' },
+  // In the nav for review. It may end up as a footer link instead — six items
+  // is already the comfortable maximum.
+  { key: 'nav.security', path: '/security' },
 ] as const;
 
 const other = (Object.keys(languages) as Array<keyof typeof languages>).find((l) => l !== lang);
@@ -107,6 +110,148 @@ const other = (Object.keys(languages) as Array<keyof typeof languages>).find((l)
     </div>
 
     <script>
+      // --- portrait: pupils drift toward the cursor ---------------------------
+      const portrait = document.querySelector('[data-portrait]');
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+      if (portrait && !reduced.matches) {
+        const pupils = portrait.querySelectorAll<SVGCircleElement>('.pt-pupil');
+        // Throttle to one update per frame; pointermove fires far more often.
+        let queued = false;
+        let lastX = 0;
+        let lastY = 0;
+        const apply = () => {
+          queued = false;
+          const box = portrait.getBoundingClientRect();
+          const cx = box.left + box.width / 2;
+          const cy = box.top + box.height / 2;
+          // Normalise to -1..1 over roughly a screen-width of travel, then
+          // allow only a few px of movement so it reads as a glance.
+          const nx = Math.max(-1, Math.min(1, (lastX - cx) / (box.width * 3)));
+          const ny = Math.max(-1, Math.min(1, (lastY - cy) / (box.height * 3)));
+          for (const pupil of pupils) {
+            pupil.style.setProperty('--px', `${(nx * 2.6).toFixed(2)}px`);
+            pupil.style.setProperty('--py', `${(ny * 2).toFixed(2)}px`);
+          }
+        };
+        window.addEventListener(
+          'pointermove',
+          (e) => {
+            lastX = e.clientX;
+            lastY = e.clientY;
+            if (!queued) {
+              queued = true;
+              requestAnimationFrame(apply);
+            }
+          },
+          { passive: true },
+        );
+      }
+
+      // --- experience timeline: draw in when scrolled to ----------------------
+      const roles = document.querySelector('.roles[data-animate]');
+      if (roles) {
+        if (reduced.matches || !('IntersectionObserver' in window)) {
+          roles.classList.add('is-visible');
+        } else {
+          const io = new IntersectionObserver(
+            (entries) => {
+              for (const entry of entries) {
+                if (entry.isIntersecting) {
+                  entry.target.classList.add('is-visible');
+                  io.unobserve(entry.target);
+                }
+              }
+            },
+            { threshold: 0.15 },
+          );
+          io.observe(roles);
+        }
+      }
+
+      // --- live audit: report what this page actually is ----------------------
+      const liveAudit = document.querySelector('[data-live-audit]');
+      if (liveAudit) {
+        const set = (key: string, text: string) => {
+          const el = liveAudit.querySelector(`[data-live="${key}"]`);
+          if (el) el.textContent = text;
+        };
+
+        // Read this page's own CSP out of the document it was served with.
+        const meta = document.querySelector('meta[http-equiv="content-security-policy" i]');
+        const csp = meta?.getAttribute('content') ?? '';
+        const hashes = csp.match(/'sha\d{3}-[^']+'/g) ?? [];
+        set('csp', hashes.length ? `${hashes.length} inline scripts/styles hashed` : 'none found');
+
+        // Count the external scripts the browser was actually asked to fetch.
+        const external = document.querySelectorAll('script[src]');
+        set('js', external.length === 0 ? '0 files' : `${external.length} file(s)`);
+
+        // Ask the server for this very page and read back the headers it sets.
+        fetch(window.location.href, { method: 'HEAD' })
+          .then((res) => {
+            const wanted = [
+              'strict-transport-security',
+              'x-content-type-options',
+              'referrer-policy',
+              'permissions-policy',
+              'content-security-policy',
+            ];
+            const present = wanted.filter((h) => res.headers.get(h));
+            set(
+              'headers',
+              present.length
+                ? `${present.length}/${wanted.length} present`
+                : 'none (dev server — set by Cloudflare in production)',
+            );
+          })
+          .catch(() => set('headers', 'could not be read'));
+      }
+
+      // --- spotter ------------------------------------------------------------
+      const rounds = document.querySelectorAll('[data-round]');
+      if (rounds.length) {
+        const scoreEl = document.querySelector('[data-score]');
+        let score = 0;
+        let answered = 0;
+        for (const round of rounds) {
+          const answer = Number(round.getAttribute('data-answer'));
+          const list = round.querySelector('.code');
+          const reveal = round.querySelector('[data-reveal]');
+          const verdict = round.querySelector('[data-verdict]');
+          for (const btn of round.querySelectorAll('.code-line')) {
+            btn.addEventListener('click', () => {
+              if (list?.hasAttribute('data-done')) return;
+              list?.setAttribute('data-done', '');
+              const picked = Number(btn.getAttribute('data-line'));
+              const right = picked === answer;
+              if (right) score += 1;
+              answered += 1;
+              btn.setAttribute('data-state', right ? 'right' : 'wrong');
+              if (!right) {
+                const correct = round.querySelector(`.code-line[data-line="${answer}"]`);
+                correct?.setAttribute('data-state', 'right');
+              }
+              if (verdict) {
+                verdict.textContent = right
+                  ? document.documentElement.lang === 'es'
+                    ? 'Correcto.'
+                    : 'Correct.'
+                  : document.documentElement.lang === 'es'
+                    ? 'No exactamente — la línea marcada es la peligrosa.'
+                    : 'Not quite — the highlighted line is the dangerous one.';
+              }
+              reveal?.removeAttribute('hidden');
+              if (scoreEl) scoreEl.textContent = `${score}/${rounds.length}`;
+              // Nudge the count only once everything has been attempted.
+              if (answered === rounds.length && scoreEl) {
+                scoreEl.setAttribute('data-complete', '');
+              }
+            });
+          }
+        }
+      }
+
+      // --- theme toggle -------------------------------------------------------
       const toggle = document.querySelector('[data-theme-toggle]');
       toggle?.addEventListener('click', () => {
         const root = document.documentElement;
