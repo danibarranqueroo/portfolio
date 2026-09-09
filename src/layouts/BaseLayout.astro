@@ -110,26 +110,35 @@ const other = (Object.keys(languages) as Array<keyof typeof languages>).find((l)
     </div>
 
     <script>
-      // --- avatar: tilt toward the pointer -----------------------------------
+      // --- avatar: eyes follow the pointer ------------------------------------
       const avatar = document.querySelector('[data-avatar]');
-      const inner = avatar?.querySelector<HTMLElement>('.avatar-img');
       const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
-      if (avatar && inner && !reduced.matches) {
-        const MAX = 9; // degrees; beyond this it stops reading as a tilt
+      if (avatar && !reduced.matches) {
+        const eyes = avatar.querySelectorAll<HTMLElement>('.eye img');
+        // Travel is a fraction of the rendered width, so it holds at any size.
+        // Beyond about this much the iris leaves the lid and looks unhinged.
+        const TRAVEL = 0.0135;
         let queued = false;
         let lastX = 0;
         let lastY = 0;
         const apply = () => {
           queued = false;
           const box = avatar.getBoundingClientRect();
-          const cx = box.left + box.width / 2;
-          const cy = box.top + box.height / 2;
-          // Normalise over roughly three avatar-widths of travel so the tilt
-          // responds to the whole viewport rather than only a near hover.
-          const nx = Math.max(-1, Math.min(1, (lastX - cx) / (box.width * 3)));
-          const ny = Math.max(-1, Math.min(1, (lastY - cy) / (box.height * 3)));
-          inner.style.setProperty('--ry', `${(nx * MAX).toFixed(2)}deg`);
-          inner.style.setProperty('--rx', `${(-ny * MAX).toFixed(2)}deg`);
+          if (!box.width) return;
+          // Track from the eyes, not the middle of the picture, or the gaze
+          // reads as slightly off whenever the pointer is level with them.
+          const cx = box.left + box.width * 0.49;
+          const cy = box.top + box.height * 0.435;
+          const max = box.width * TRAVEL;
+          // Normalise over roughly two avatar-widths of travel so the eyes
+          // respond across the viewport rather than only very near the face.
+          const nx = Math.max(-1, Math.min(1, (lastX - cx) / (box.width * 2)));
+          const ny = Math.max(-1, Math.min(1, (lastY - cy) / (box.height * 2)));
+          for (const eye of eyes) {
+            eye.style.setProperty('--ex', `${(nx * max).toFixed(2)}px`);
+            // Vertical range is tighter: the lid crops the iris much sooner.
+            eye.style.setProperty('--ey', `${(ny * max * 0.6).toFixed(2)}px`);
+          }
         };
         window.addEventListener(
           'pointermove',

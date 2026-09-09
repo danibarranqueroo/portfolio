@@ -478,22 +478,54 @@ main > .wide {
 }
 
 /* --- avatar -------------------------------------------------------------- */
-/* A cutout, not a framed photo: no circle, no border, no crop. The drop-shadow
-   follows the alpha silhouette rather than a box. */
+/* A cutout, not a framed photo: no circle, no border, no crop.
+   The eyes are circular windows onto a second copy of the same image; nudging
+   that copy moves the iris. Percentages throughout so it scales with the
+   rendered size. Source is 375x666, irises at (134,290) and (252,290) r~17. */
 .avatar {
+  position: relative;
   width: 240px;
   flex: none;
-  perspective: 800px;
 }
 .avatar-img {
   width: 100%;
   height: auto;
   display: block;
-  transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
-  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
   /* The render carries enough rim light that the hair reads against black
      unaided, so dark mode only needs a faint purple lift, not a halo. */
   filter: drop-shadow(0 14px 22px light-dark(rgba(15, 27, 97, 0.24), rgba(179, 87, 255, 0.2)));
+}
+
+.eye {
+  position: absolute;
+  width: 9.07%;
+  aspect-ratio: 1;
+  top: 40.99%;
+  border-radius: 50%;
+  overflow: hidden;
+  pointer-events: none;
+}
+.eye-l {
+  left: 31.2%;
+}
+.eye-r {
+  left: 62.67%;
+}
+.eye img {
+  position: absolute;
+  width: 1102.9%;
+  height: auto;
+  max-width: none;
+  display: block;
+  top: -803%;
+  transform: translate(var(--ex, 0px), var(--ey, 0px));
+  transition: transform 0.22s ease-out;
+}
+.eye-l img {
+  left: -344.1%;
+}
+.eye-r img {
+  left: -691.1%;
 }
 
 @media (max-width: 520px) {
@@ -503,7 +535,7 @@ main > .wide {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .avatar-img {
+  .eye img {
     transform: none;
     transition: none;
   }

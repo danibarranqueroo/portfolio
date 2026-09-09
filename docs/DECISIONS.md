@@ -195,6 +195,33 @@ Dark mode uses only a faint purple lift. The worry that dark hair would merge
 into a black background turned out to be unfounded — the render carries enough
 rim light — and a stronger glow left a visible haze under the shoulders.
 
+## How the eyes follow the pointer
+
+The first version tilted the whole image in 3D. Dani's note: "now it's like
+all the image is following the mouse, is it possible to make only the eyes?"
+
+The image is a raster, so the painted pupils cannot be moved, and overlaying
+synthetic eyes looks pasted-on — these are heavily stylised, with a lash line,
+lid shadow and a gloss highlight that would all have to be faked exactly.
+
+What works instead: each eye is a small circular window holding a **second copy
+of the same image**, aligned so the iris sits inside the window. Shifting that
+copy a couple of pixels moves the iris while the face around it stays put.
+Because the pixels come from the original, colour and shading match perfectly,
+and real sclera slides in on the trailing side — which is what an eye movement
+actually looks like.
+
+Geometry measured off the 375x666 source by rendering it under a pixel grid:
+irises at (134, 290) and (252, 290), radius ~17. Every position is a percentage
+so it holds at any rendered size. Vertical travel is 60% of horizontal because
+the lid crops the iris much sooner going up and down.
+
+`getImage()` is used rather than three `<Image>` tags so all three copies point
+at one asset — the browser fetches the 24 KB WebP once.
+
+Verified by rendering the real markup and stylesheet at five gaze directions
+before shipping.
+
 ## The audit page must never state something untrue
 
 Everything on `/security` is derived at build time from real artifacts —

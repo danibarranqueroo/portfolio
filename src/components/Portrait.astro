@@ -1,32 +1,41 @@
 ---
-import { Image } from 'astro:assets';
-import avatar from '../assets/avatar.png';
+import { getImage } from 'astro:assets';
+import avatarSrc from '../assets/avatar.png';
 
 /**
- * Free-standing avatar cutout with a perspective tilt.
+ * Avatar cutout whose eyes follow the pointer.
  *
- * The source is a background-removed PNG, so there is no frame, circle or
- * crop — the silhouette is the shape. astro:assets re-encodes it to WebP at
- * build time (sharp), which takes it from ~300 KB to a fraction of that while
- * keeping the alpha channel; a plain <img> would have shipped the raw PNG.
+ * The image is a raster, so the painted pupils cannot be moved. Overlaying
+ * synthetic eyes looks pasted-on — these eyes are heavily stylised, with a
+ * lash line, lid shadow and a specific gloss highlight that would have to be
+ * faked exactly.
  *
- * A real WebGL model was considered and rejected: the asset cannot be derived
- * from one image here, and three.js is ~150 KB gzipped against a 2.5 KB JS
- * budget. See docs/DECISIONS.md.
+ * Instead each eye is a small circular window holding a SECOND copy of the
+ * same image, aligned so the iris sits in the window. Shifting that copy a
+ * couple of pixels moves the iris while the surrounding face stays put, and
+ * because the pixels come from the original the colour and shading match
+ * perfectly. Real sclera slides in on the trailing side, which is exactly
+ * what an eye movement looks like.
  *
- * Under prefers-reduced-motion the tilt is inert and it renders flat.
+ * Geometry comes from measuring the source (375x666): iris centres at
+ * (134, 290) and (252, 290), radius ~17. All positions are percentages so it
+ * holds at any rendered size.
+ *
+ * getImage() rather than three <Image> tags so every copy points at one
+ * asset: the browser fetches it once.
  */
+const avatar = await getImage({ src: avatarSrc, format: 'webp' });
+const { src, attributes } = avatar;
+const dims = { width: attributes.width, height: attributes.height };
 ---
 
 <div class="avatar" data-avatar aria-hidden="true">
-  <Image
-    class="avatar-img"
-    src={avatar}
-    alt=""
-    widths={[240, 480]}
-    sizes="(max-width: 520px) 150px, 240px"
-    format="webp"
-    loading="eager"
-    fetchpriority="high"
-  />
+  <img class="avatar-img" src={src} alt="" {...dims} loading="eager" fetchpriority="high" />
+
+  <span class="eye eye-l">
+    <img src={src} alt="" {...dims} aria-hidden="true" />
+  </span>
+  <span class="eye eye-r">
+    <img src={src} alt="" {...dims} aria-hidden="true" />
+  </span>
 </div>
