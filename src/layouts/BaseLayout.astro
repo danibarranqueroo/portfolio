@@ -112,7 +112,7 @@ const other = (Object.keys(languages) as Array<keyof typeof languages>).find((l)
     <script>
       // --- avatar: tilt toward the pointer -----------------------------------
       const avatar = document.querySelector('[data-avatar]');
-      const inner = avatar?.querySelector<HTMLElement>('.avatar-inner');
+      const inner = avatar?.querySelector<HTMLElement>('.avatar-img');
       const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
       if (avatar && inner && !reduced.matches) {
         const MAX = 9; // degrees; beyond this it stops reading as a tilt

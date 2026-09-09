@@ -478,38 +478,32 @@ main > .wide {
 }
 
 /* --- avatar -------------------------------------------------------------- */
+/* A cutout, not a framed photo: no circle, no border, no crop. The drop-shadow
+   follows the alpha silhouette rather than a box. */
 .avatar {
-  width: 210px;
+  width: 240px;
   flex: none;
-  perspective: 700px;
+  perspective: 800px;
 }
-.avatar-inner {
-  aspect-ratio: 1;
-  border-radius: 50%;
-  overflow: hidden;
-  border: 2px solid var(--color-accent-text);
-  transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
-  transform-style: preserve-3d;
-  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-  box-shadow: 0 10px 30px -12px color-mix(in oklab, var(--color-accent) 55%, transparent);
-}
-.avatar img {
+.avatar-img {
   width: 100%;
-  height: 100%;
+  height: auto;
   display: block;
-  object-fit: cover;
-  /* Frames the head in the circle: the face sits ~40% down the source image. */
-  object-position: 50% 40%;
+  transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  /* The render carries enough rim light that the hair reads against black
+     unaided, so dark mode only needs a faint purple lift, not a halo. */
+  filter: drop-shadow(0 14px 22px light-dark(rgba(15, 27, 97, 0.24), rgba(179, 87, 255, 0.2)));
 }
 
 @media (max-width: 520px) {
   .avatar {
-    width: 128px;
+    width: 150px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .avatar-inner {
+  .avatar-img {
     transform: none;
     transition: none;
   }

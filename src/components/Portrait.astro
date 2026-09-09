@@ -1,28 +1,32 @@
 ---
+import { Image } from 'astro:assets';
+import avatar from '../assets/avatar.png';
+
 /**
- * Avatar with a perspective tilt that follows the pointer.
+ * Free-standing avatar cutout with a perspective tilt.
  *
- * This replaced a hand-drawn SVG line portrait. Dani's avatar is already a
- * 3D-style render, so using the real image gets the dimensional feel for
- * ~59 KB and a few lines of transform — where a real WebGL model would cost
- * ~150 KB gzipped of three.js plus an asset that could not actually be made
- * to resemble him.
+ * The source is a background-removed PNG, so there is no frame, circle or
+ * crop — the silhouette is the shape. astro:assets re-encodes it to WebP at
+ * build time (sharp), which takes it from ~300 KB to a fraction of that while
+ * keeping the alpha channel; a plain <img> would have shipped the raw PNG.
  *
- * The image is plain <img> rather than astro:assets because that needs sharp,
- * and the file is already sized and compressed for its one display size.
+ * A real WebGL model was considered and rejected: the asset cannot be derived
+ * from one image here, and three.js is ~150 KB gzipped against a 2.5 KB JS
+ * budget. See docs/DECISIONS.md.
+ *
  * Under prefers-reduced-motion the tilt is inert and it renders flat.
  */
 ---
 
 <div class="avatar" data-avatar aria-hidden="true">
-  <div class="avatar-inner">
-    <img
-      src="/img/avatar.jpg"
-      alt=""
-      width="420"
-      height="746"
-      decoding="async"
-      fetchpriority="high"
-    />
-  </div>
+  <Image
+    class="avatar-img"
+    src={avatar}
+    alt=""
+    widths={[240, 480]}
+    sizes="(max-width: 520px) 150px, 240px"
+    format="webp"
+    loading="eager"
+    fetchpriority="high"
+  />
 </div>

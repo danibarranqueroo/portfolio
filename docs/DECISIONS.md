@@ -177,10 +177,23 @@ smooth outlines read as a helmet, spiky ones as flames, and only chained
 elliptical arcs read as curls — and was still clearly a drawing of nobody in
 particular. The real image was better on every axis including size.
 
-The image is a plain `<img>` rather than `astro:assets` because that needs
-`sharp` installed, and the file is already sized and compressed for its single
-display size. `object-position: 50% 40%` frames the head in the circle; 30%
-crops the chin and 50% clips the hair.
+It is a **cutout, not a framed photo** — the source PNG has its background
+removed, so there is no circle, border or crop and the silhouette is the shape.
+An earlier circular crop read, in Dani's words, as "a circle with the photo
+inside".
+
+`sharp` is installed as a devDependency purely so `astro:assets` can re-encode
+it: the 300 KB source PNG becomes a **24 KB WebP** (15 KB at the small
+breakpoint) with alpha intact, emitted with a proper srcset. That is a 92%
+saving on the one image every page loads, which is worth a build-time
+dependency — and `sharp` was already on the `allowBuilds` allowlist.
+
+Note `<Image>` takes `format` (singular); `formats` is a `<Picture>` prop.
+Astro will not upscale, so the widths cap at the source's 375px.
+
+Dark mode uses only a faint purple lift. The worry that dark hair would merge
+into a black background turned out to be unfounded — the render carries enough
+rim light — and a stronger glow left a visible haze under the shoulders.
 
 ## The audit page must never state something untrue
 
