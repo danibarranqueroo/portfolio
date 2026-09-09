@@ -1,0 +1,109 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+# Least privilege by default; jobs elevate only what they need.
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # Never let a build script run in CI unless allowBuilds permits it.
+  CI: true
+
+jobs:
+  quality:
+    name: lint · typecheck · build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      # Every action is pinned to a full commit SHA, never a tag. A tag is
+      # mutable and can be repointed at malicious code; a SHA cannot.
+      - name: Checkout
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: false
+
+      - name: Install pnpm
+        # Reads the pinned version from package.json "packageManager".
+        uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4
+
+      - name: Install Node
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Install dependencies
+        # --frozen-lockfile fails if pnpm-lock.yaml is out of date, so a
+        # dependency can never be silently added or changed by CI.
+        run: pnpm install --frozen-lockfile
+
+      - name: Verify no floating version ranges
+        run: |
+          if grep -nE '"(\^|~)[0-9]' package.json; then
+            echo "::error::package.json contains a floating version range. Pin exact versions."
+            exit 1
+          fi
+          echo "All dependencies are pinned exactly."
+
+      - name: Lint and format check
+        run: pnpm exec biome ci .
+
+      - name: Typecheck
+        run: pnpm run typecheck
+
+      - name: Build
+        run: pnpm run build
+
+      - name: Audit dependencies
+        run: pnpm audit --audit-level=moderate
+
+  secrets:
+    name: secret scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      # GitHub's native secret scanning is unavailable on free private repos,
+      # so we run our own. Remove this only if the repo goes public AND native
+      # secret scanning with push protection is enabled.
+      - name: Gitleaks
+        uses: gitleaks/gitleaks-action@ff98106e4c7b2bc287b24eaf42907196329070c7 # v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  actions-pinned:
+    name: verify actions are SHA-pinned
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: false
+
+      - name: Fail on any tag-referenced action
+        run: |
+          # Any "uses:" reference that is not pinned to a 40-char hex SHA is
+          # mutable and can be repointed at malicious code.
+          bad=$(grep -rhoE 'uses:[[:space:]]*[^[:space:]]+' .github/workflows/ \
+                | awk '{print $2}' \
+                | grep -vE '@[0-9a-f]{40}$' || true)
+          if [ -n "$bad" ]; then
+            echo "::error::These actions are not pinned to a commit SHA:"
+            echo "$bad"
+            exit 1
+          fi
+          echo "All actions are pinned to commit SHAs."
