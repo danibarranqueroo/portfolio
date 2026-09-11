@@ -48,13 +48,6 @@ export interface SiteContent {
   footer: { rights: string; source: string };
 }
 
-const PH = {
-  role: '[ROLE TITLE]',
-  company1: '[COMPANY ONE]',
-  company2: '[COMPANY TWO]',
-  tech: '[TECH]',
-};
-
 export const content: Record<Lang, SiteContent> = {
   en: {
     landing: {
