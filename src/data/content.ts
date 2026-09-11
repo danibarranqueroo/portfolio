@@ -45,7 +45,7 @@ export interface Links {
 }
 
 export interface SiteContent {
-  landing: PageCopy & { now: Row[]; cta: string; note: string };
+  landing: PageCopy & { statement: string; now: Row[]; cta: string; note: string };
   about: PageCopy & { body: string[]; education: Row[]; note: string };
   experience: PageCopy & { roles: Role[]; oss: Row[]; speaking: Row[]; note: string };
   projects: PageCopy & { items: Row[]; note: string };
@@ -61,9 +61,10 @@ const YEAR = new Date().getFullYear();
 export const content: Record<Lang, SiteContent> = {
   en: {
     landing: {
-      eyebrow: 'Cloud security engineer',
+      eyebrow: 'Cloud security engineer at Prowler',
       title: 'Daniel\nBarranquero',
       lede: 'I build the providers and checks that let anyone audit the cloud they actually run on.',
+      statement: 'From Granada, making every cloud you use auditable and secure.',
       cta: 'Read the CV',
       now: [
         { k: 'Role', v: 'Cloud Security Engineer at Prowler' },
@@ -251,9 +252,10 @@ export const content: Record<Lang, SiteContent> = {
 
   es: {
     landing: {
-      eyebrow: 'Ingeniero de seguridad cloud',
+      eyebrow: 'Ingeniero de seguridad cloud en Prowler',
       title: 'Daniel\nBarranquero',
       lede: 'Construyo los proveedores y los checks con los que cualquiera puede auditar la nube en la que trabaja.',
+      statement: 'Desde Granada, haciendo que cualquier nube que uses sea auditable y segura.',
       cta: 'Ver el CV',
       now: [
         { k: 'Puesto', v: 'Cloud Security Engineer en Prowler' },

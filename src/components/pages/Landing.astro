@@ -11,12 +11,12 @@ const links = content[lang].links;
 <section class="wide">
   <div class="hero">
     <div class="hero-text">
-      <p class="eyebrow">{c.eyebrow}</p>
-      <h1 class="display" set:html={c.title.replace('\n', '<br />')} />
+      <p class="hero-name">{c.title.replace('\n', ' ')}</p>
+      <h1 class="display statement">{c.statement}</h1>
+      <p class="eyebrow hero-role">{c.eyebrow}</p>
     </div>
     <Portrait />
   </div>
-  <p class="lede">{c.lede}</p>
   <div class="links">
     <a class="btn" href={localizePath('/cv', lang)}>{c.cta}</a>
     <a class="lnk" href={links.github} rel="me noopener" target="_blank">GitHub</a>
