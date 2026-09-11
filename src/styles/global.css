@@ -594,6 +594,158 @@ main > .wide {
   content: " ✓";
 }
 
+/* --- security page: prowler scan ----------------------------------------- */
+.scan-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  align-items: center;
+  padding: 22px 24px;
+  border: 1px solid var(--color-rule);
+  border-radius: 5px;
+  background: var(--color-surface);
+  margin-bottom: 34px;
+}
+.scan-score {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-right: 32px;
+  border-right: 1px solid var(--color-rule);
+}
+.scan-rate {
+  font-family: var(--font-display);
+  font-size: 46px;
+  line-height: 1;
+  font-weight: 500;
+  color: var(--color-accent-text);
+}
+.scan-rate-k {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+.scan-meta {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px 26px;
+  flex: 1 1 260px;
+}
+.scan-meta li {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.scan-sub {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  margin: 30px 0 14px;
+}
+
+.checks {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.check {
+  padding: 14px 16px;
+  border: 1px solid var(--color-rule);
+  border-radius: 4px;
+}
+.check-fail {
+  border-left: 3px solid var(--color-accent-text);
+}
+.check-top {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.check-title {
+  font-size: 15px;
+  line-height: 1.45;
+}
+.check-id {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: var(--color-muted);
+  display: block;
+  margin-top: 5px;
+}
+.check-note {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--color-muted);
+  margin: 12px 0 0;
+  text-wrap: pretty;
+}
+
+/* Severity and disposition are the only place colour carries meaning here, so
+   both also carry a text label — never colour alone. */
+.sev,
+.disp {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 7px;
+  border-radius: 3px;
+  border: 1px solid currentColor;
+  white-space: nowrap;
+}
+.sev-critical,
+.sev-high {
+  color: light-dark(#b3261e, #ff8a80);
+}
+.sev-medium {
+  color: light-dark(#8a5a00, #ffcc80);
+}
+.sev-low {
+  color: var(--color-muted);
+}
+.disp {
+  margin-right: 9px;
+}
+.disp-blocked {
+  color: light-dark(#8a5a00, #ffcc80);
+}
+.disp-accepted {
+  color: var(--color-alt);
+}
+.disp-todo {
+  color: var(--color-accent-text);
+}
+
+.checks-pass .check {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 10px 16px;
+}
+.check-tick {
+  color: var(--color-alt);
+  font-size: 14px;
+}
+
+@media (max-width: 640px) {
+  .scan-score {
+    padding-right: 0;
+    border-right: none;
+  }
+}
+
 /* --- security page: spotter ---------------------------------------------- */
 .score {
   font-family: var(--font-mono);

@@ -230,6 +230,51 @@ at one asset — the browser fetches the 24 KB WebP once.
 Verified by rendering the real markup and stylesheet at five gaze directions
 before shipping.
 
+## Prowler scans this repository, for real
+
+`/security` renders findings from an actual Prowler scan of this repository's
+GitHub configuration — not a mock-up.
+
+**Which provider, and why.** Prowler supports 23 providers. Three were
+candidates:
+
+- **`github` — 27 checks, used.** Branch protection, signed commits, workflow
+  token permissions, secret scanning, Dependabot, CODEOWNERS. Directly
+  applicable today.
+- **`cloudflare` — 29 checks, deferred.** HSTS, minimum TLS, DNSSEC, WAF, CAA,
+  SPF/DKIM/DMARC. Nearly all are zone-level and need a registered domain, so
+  this waits for Phase 7. When the domain lands, the same pipeline gains a
+  second provider and the page gets a second section.
+- **`iac` — not applicable.** Scans Terraform, CloudFormation and Kubernetes
+  manifests. This project has none; `wrangler.jsonc` is not IaC in that sense.
+
+**The pipeline.** `.github/workflows/security-scan.yml` runs weekly, installs
+Prowler pinned to 5.42.0, scans, and pipes the JSON-OCSF through
+`scripts/normalize-prowler.mjs`, which reduces 116 KB of OCSF envelope to a
+20 KB file holding only what renders. That file, `src/data/security-scan.json`,
+**is committed** — so the page has real data in local development, and its
+history is a record of how the posture changed over time.
+
+Three details that are easy to get wrong:
+
+- **The built-in `GITHUB_TOKEN` is not enough.** Reading branch protection and
+  security settings needs Administration:Read, which it does not have. The
+  workflow needs a fine-grained PAT in `PROWLER_GITHUB_TOKEN`, and skips with a
+  warning rather than failing when the secret is absent.
+- **The result is committed through the REST API, not `git push`.** `main`
+  requires signed commits; commits created via the API are signed by GitHub,
+  while a push from Actions is unsigned and would be rejected by our own
+  ruleset.
+- **Prowler exits 3 when it finds anything**, so the scan step tolerates a
+  non-zero exit. Treating that as failure would break the workflow on every run
+  that found a single issue.
+
+**Failures are published, with a stated reason.** Each failing check carries a
+disposition in `scripts/normalize-prowler.mjs` — `blocked`, `accepted` or
+`todo` — so the page says why something is still failing instead of hiding it.
+Publishing a green score that was achieved by omission would make the page
+worthless. Every disposition is a reviewed commit, not render-time invention.
+
 ## The audit page must never state something untrue
 
 Everything on `/security` is derived at build time from real artifacts —

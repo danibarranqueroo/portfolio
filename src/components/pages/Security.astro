@@ -2,10 +2,29 @@
 import { rounds } from '../../data/spotter';
 import type { Lang } from '../../i18n/ui';
 import { audit } from '../../lib/audit.mjs';
+import { type Finding, loadScan, type Severity } from '../../lib/security-scan';
 
 const { lang } = Astro.props as { lang: Lang };
 const es = lang === 'es';
 const set = rounds[lang];
+
+const scan = loadScan();
+
+const dispositionLabel = {
+  blocked: es ? 'bloqueado' : 'blocked',
+  accepted: es ? 'riesgo aceptado' : 'accepted risk',
+  todo: es ? 'pendiente' : 'to do',
+};
+const severityLabel: Record<Severity, string> = {
+  Critical: es ? 'crítica' : 'critical',
+  High: es ? 'alta' : 'high',
+  Medium: es ? 'media' : 'medium',
+  Low: es ? 'baja' : 'low',
+  Informational: es ? 'informativa' : 'info',
+};
+const scanDate = scan ? scan.generatedAt.slice(0, 10) : null;
+const fails: Finding[] = scan ? scan.findings.filter((f) => f.status === 'FAIL') : [];
+const passes: Finding[] = scan ? scan.findings.filter((f) => f.status === 'PASS') : [];
 
 const sig =
   audit.signature === 'G'
@@ -99,6 +118,81 @@ const facts = [
       ? 'Las cabeceras las sirve Cloudflare desde public/_headers, así que en el servidor de desarrollo no aparecen. Eso es esperado, no un fallo.'
       : 'Response headers are served by Cloudflare from public/_headers, so they are absent on the dev server. That is expected, not a failure.'}
   </p>
+</section>
+
+<section class="wide">
+  <h2 class="sect">{es ? 'Escaneo de Prowler' : 'Prowler scan'}</h2>
+
+  {
+    !scan ? (
+      <p class="note">
+        {es
+          ? 'Todavía no hay ningún escaneo. Se genera en CI antes de cada despliegue.'
+          : 'No scan has been generated yet. CI produces one before every deploy.'}
+      </p>
+    ) : (
+      <>
+        <p class="prose" style="margin-bottom: 26px;">
+          {es
+            ? 'Prowler audita la configuración de este repositorio en GitHub. Los resultados de abajo son reales, sin editar, del último escaneo.'
+            : 'Prowler audits this repository’s own GitHub configuration. The results below are real and unedited, from the most recent scan.'}
+        </p>
+
+        <div class="scan-head">
+          <div class="scan-score" data-rate={scan.passRate}>
+            <span class="scan-rate">{scan.passRate}%</span>
+            <span class="scan-rate-k">{es ? 'controles superados' : 'controls passing'}</span>
+          </div>
+          <ul class="scan-meta">
+            <li><span class="row-k">{es ? 'Superados' : 'Passing'}</span> <span class="val mono" data-good>{scan.pass}</span></li>
+            <li><span class="row-k">{es ? 'Fallidos' : 'Failing'}</span> <span class="val mono">{scan.fail}</span></li>
+            <li><span class="row-k">{es ? 'Objetivo' : 'Target'}</span> <span class="val mono">{scan.target}</span></li>
+            <li><span class="row-k">Prowler</span> <span class="val mono">v{scan.prowlerVersion}</span></li>
+            <li><span class="row-k">{es ? 'Fecha' : 'Scanned'}</span> <span class="val mono">{scanDate}</span></li>
+          </ul>
+        </div>
+
+        <h3 class="scan-sub">
+          {es ? 'Fallos, y por qué siguen ahí' : 'Failing, and why they are still failing'}
+        </h3>
+        <ul class="checks">
+          {fails.map((f) => (
+            <li class="check check-fail">
+              <div class="check-top">
+                <span class={`sev sev-${f.severity.toLowerCase()}`}>{severityLabel[f.severity]}</span>
+                <span class="check-title">{f.title}</span>
+              </div>
+              <code class="check-id">{f.id}</code>
+              {f.disposition && (
+                <p class="check-note">
+                  <span class={`disp disp-${f.disposition.state}`}>
+                    {dispositionLabel[f.disposition.state]}
+                  </span>
+                  {f.disposition.note}
+                </p>
+              )}
+            </li>
+          ))}
+        </ul>
+
+        <h3 class="scan-sub">{es ? 'Superados' : 'Passing'}</h3>
+        <ul class="checks checks-pass">
+          {passes.map((f) => (
+            <li class="check">
+              <span class="check-tick" aria-hidden="true">✓</span>
+              <span class="check-title">{f.title}</span>
+            </li>
+          ))}
+        </ul>
+
+        <p class="note" style="margin-top: 26px;">
+          {es
+            ? 'Nada de esto está escrito a mano: el JSON-OCSF de Prowler se normaliza en tiempo de compilación. Los fallos se muestran tal cual, con su motivo; ocultarlos haría inútil la página.'
+            : 'None of this is written by hand: Prowler’s JSON-OCSF is normalized at build time. Failures are shown as they are, with a stated reason — hiding them would make the page pointless.'}
+        </p>
+      </>
+    )
+  }
 </section>
 
 <section class="wide">

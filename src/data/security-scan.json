@@ -1,0 +1,256 @@
+{
+  "generatedAt": "2026-09-11T12:14:19.783833",
+  "prowlerVersion": "5.42.0",
+  "provider": "github",
+  "target": "danibarranqueroo/portfolio",
+  "total": 18,
+  "pass": 10,
+  "fail": 8,
+  "passRate": 56,
+  "failBySeverity": {
+    "High": 5,
+    "Medium": 3
+  },
+  "findings": [
+    {
+      "id": "repository_default_branch_dismisses_stale_reviews",
+      "title": "Repository default branch dismisses stale pull request approvals",
+      "status": "FAIL",
+      "severity": "High",
+      "detail": "Repository portfolio does not dismiss stale pull request approvals when new commits are pushed.",
+      "risk": "Without this setting, a contributor can receive approvals on a clean version of their code, then push malicious or unauthorized changes afterward. The pull request retains its approvals and can be merged without anyone reviewing the new changes, bypassing the entire code review process.",
+      "remediation": "Enable \"Dismiss stale pull request approvals when new commits are pushed\" in your branch protection rules. This ensures every code change undergoes a fresh review before merging.",
+      "service": "repository",
+      "categories": ["identity-access"],
+      "disposition": {
+        "state": "accepted",
+        "note": "Depends on a pull-request review workflow, which a solo repository does not run."
+      }
+    },
+    {
+      "id": "repository_default_branch_requires_codeowners_review",
+      "title": "Repository default branch requires code owner approval for changes to owned code",
+      "status": "FAIL",
+      "severity": "High",
+      "detail": "Repository portfolio does not require code owner approval for changes to owned code.",
+      "risk": "Without required **Code Owners** review, non-owners can merge changes to sensitive code, undermining **integrity**.\nThis increases the chance of **malicious code injection**, hidden backdoors, or fragile changes that enable **data exfiltration** or cause outages, impacting confidentiality and availability.",
+      "remediation": "Enforce **Code Owners** review on the default branch and keep `CODEOWNERS` accurate and team-based.\nApply **least privilege**, require **status checks** and **signed commits**, extend protections to admins, and audit ownership regularly. Co-own critical paths to ensure coverage and reduce single-point approval gaps.",
+      "service": "repository",
+      "categories": ["software-supply-chain"],
+      "disposition": {
+        "state": "accepted",
+        "note": "Code owner review means reviewing your own code on a solo repository. CODEOWNERS exists so ownership is explicit, but enforcing self-review would be theatre."
+      }
+    },
+    {
+      "id": "repository_default_branch_status_checks_required",
+      "title": "Repository default branch requires status checks",
+      "status": "FAIL",
+      "severity": "High",
+      "detail": "Repository portfolio does not enforce status checks.",
+      "risk": "Without required checks, unvetted commits can be merged, degrading code **integrity** and **availability**. Skipped or failing validations may introduce vulnerable dependencies, break builds, or allow malicious code, enabling supply-chain compromise and rapid propagation to production.",
+      "remediation": "Enforce branch protection to require **status checks** on the default branch.\n- Gate merges on build, tests, and security scans\n- Use `require up-to-date` behavior to reduce integration risk\n- Apply to admins and limit bypasses\n- Combine with **least privilege** and required reviews for defense in depth",
+      "service": "repository",
+      "categories": ["ci-cd"],
+      "disposition": {
+        "state": "todo",
+        "note": "CI already runs lint, typecheck, build, audit, gitleaks and a SHA-pin check on every push. Making them a merge gate requires moving to a pull-request workflow."
+      }
+    },
+    {
+      "id": "repository_immutable_releases_enabled",
+      "title": "Repository has immutable releases enabled",
+      "status": "FAIL",
+      "severity": "High",
+      "detail": "Repository portfolio does not have immutable releases enabled.",
+      "risk": "If immutable releases are disabled, release assets can be tampered with after publication, allowing attackers to substitute malicious binaries and undermining supply chain integrity.",
+      "remediation": "Enable **immutable releases** in the repository settings so release artifacts cannot be altered once published.",
+      "service": "repository",
+      "categories": ["software-supply-chain"],
+      "disposition": {
+        "state": "todo",
+        "note": "This repository publishes no releases yet, so there is nothing to make immutable."
+      }
+    },
+    {
+      "id": "repository_secret_scanning_enabled",
+      "title": "Repository has secret scanning enabled to detect sensitive data",
+      "status": "FAIL",
+      "severity": "High",
+      "detail": "Repository portfolio does not have secret scanning enabled to detect sensitive data.",
+      "risk": "Without **secret scanning**, exposed credentials can persist unnoticed, enabling:\n- Unauthorized access to cloud and third-party services\n- **Supply-chain compromise** via tampered pipelines\n- Data exfiltration and repo takeover\n\nThis degrades **confidentiality** and **integrity**, and increases blast radius of a single leaked key.",
+      "remediation": "Enable **secret scanning** (and **push protection** where available) across repositories.\n- Store secrets in a dedicated **secrets manager**, never in code\n- Define custom patterns and enable generic detection for org-specific secrets\n- Rotate and revoke exposed credentials quickly\n- Enforce **least privilege** and add **defense-in-depth** monitoring",
+      "service": "repository",
+      "categories": ["secrets"],
+      "disposition": {
+        "state": "blocked",
+        "note": "GitHub only offers secret scanning for public repositories or paid plans. The GitHub API rejects it here with a 422. Gitleaks runs on every pull request instead, which covers the same ground from CI."
+      }
+    },
+    {
+      "id": "repository_default_branch_requires_conversation_resolution",
+      "title": "Repository default branch requires conversation resolution before merging",
+      "status": "FAIL",
+      "severity": "Medium",
+      "detail": "Repository portfolio does not require conversation resolution on default branch (main).",
+      "risk": "Unresolved threads let code with known concerns reach default, weakening **integrity** and **confidentiality**. Insecure changes or secrets may ship, enabling injection, auth bypass, or data exposure. **Availability** can suffer from regressions; review accountability is reduced.",
+      "remediation": "Enable `Require conversation resolution before merging` on the default branch.\n\nAlso enforce:\n- Required approvals and CI checks\n- **CODEOWNERS** on critical paths\n- **Least privilege** for merge rights\n- Apply rules to admins to prevent bypass",
+      "service": "repository",
+      "categories": ["software-supply-chain"],
+      "disposition": {
+        "state": "accepted",
+        "note": "Depends on a pull-request review workflow, which a solo repository does not run."
+      }
+    },
+    {
+      "id": "repository_default_branch_requires_multiple_approvals",
+      "title": "Repository default branch requires at least 2 approvals for code changes",
+      "status": "FAIL",
+      "severity": "Medium",
+      "detail": "Repository portfolio does not enforce at least 2 approvals for code changes.",
+      "risk": "Without multi-review approval on the default branch, a single actor can merge changes, degrading **integrity** and **accountability**. This enables:\n- supply-chain tampering or backdoors\n- introduction of exploitable bugs\n- bypass of change control via compromised accounts",
+      "remediation": "Enforce the **four-eyes principle** by requiring at least `2` approvals for merges to the default branch.\n\nStrengthen with **separation of duties** using code owner reviews, dismiss stale approvals, apply protections to admins, and pair with required status checks for **defense in depth**.",
+      "service": "repository",
+      "categories": ["ci-cd", "software-supply-chain"],
+      "disposition": {
+        "state": "accepted",
+        "note": "Requires two approving reviews. This is a one-person repository, so a second approver does not exist. Stated rather than hidden."
+      }
+    },
+    {
+      "id": "repository_has_codeowners_file",
+      "title": "Repository has a CODEOWNERS file",
+      "status": "FAIL",
+      "severity": "Medium",
+      "detail": "Repository portfolio does not have a CODEOWNERS file.",
+      "risk": "Missing `CODEOWNERS` undermines **integrity** and **separation of duties**:\n- PRs can merge without accountable, domain reviews\n- Critical paths risk unauthorized or low-quality changes\nThis raises **software supply chain** exposure, enabling code tampering, hidden backdoors, and unsafe config modifications.",
+      "remediation": "Define and maintain a `CODEOWNERS` file mapping sensitive paths to responsible teams or users, preferring teams for resilience. Combine with branch protections requiring code-owner reviews to enforce **separation of duties** and **least privilege**. Keep entries current and cover critical directories to avoid pattern gaps.",
+      "service": "repository",
+      "categories": ["software-supply-chain"],
+      "disposition": {
+        "state": "todo",
+        "note": "A CODEOWNERS file was added; this result predates it or the scan has not rerun."
+      }
+    },
+    {
+      "id": "repository_default_branch_disallows_force_push",
+      "title": "Repository default branch denies force pushes",
+      "status": "PASS",
+      "severity": "High",
+      "detail": "Repository portfolio does deny force pushes on default branch (main).",
+      "risk": "Allowing **force pushes on the default branch** erodes **integrity** and **auditability** by enabling history rewrites and deletion of commits. Attackers or insiders can inject unreviewed code, bypass reviews and status checks, and corrupt PRs, risking supply-chain compromise and reduced **availability**.",
+      "remediation": "Disable `Allow force pushes` on the default branch. Enforce PR-based changes with required reviews and status checks, require signed commits and linear history, and restrict bypass to minimal actors. Apply protections to admins too to uphold **least privilege** and **defense in depth**.",
+      "service": "repository",
+      "categories": ["software-supply-chain"],
+      "disposition": null
+    },
+    {
+      "id": "repository_default_branch_protection_applies_to_admins",
+      "title": "Repository default branch protection applies to administrators",
+      "status": "PASS",
+      "severity": "High",
+      "detail": "Repository portfolio does enforce administrators to be subject to the same branch protection rules as other users.",
+      "risk": "Without admin enforcement, privileged users can bypass reviews and checks, enabling **unauthorized code changes**. A compromised admin token can inject backdoors, alter dependencies, or disable safeguards, undermining **integrity**, exposing secrets (**confidentiality**), and causing outages (**availability**).",
+      "remediation": "Enable **branch protection for administrators** and disallow bypasses. Apply **least privilege** and **separation of duties** by requiring PR reviews, required status checks, and signed commits on critical branches. Limit force pushes and deletions, and regularly review admin roles and audit logs.",
+      "service": "repository",
+      "categories": ["identity-access"],
+      "disposition": null
+    },
+    {
+      "id": "repository_default_branch_protection_enabled",
+      "title": "Repository enforces branch protection on the default branch",
+      "status": "PASS",
+      "severity": "High",
+      "detail": "Repository portfolio does enforce branch protection on default branch (main).",
+      "risk": "Without default-branch protection, changes can bypass reviews and checks, enabling:\n- Unauthorized direct pushes/force pushes\n- Malicious code injection and workflow tampering\n- Accidental deletions or unstable releases\nThis undermines code **integrity** and service **availability**.",
+      "remediation": "Enforce **branch protection** on the default branch:\n- Require pull requests with approvals (least privilege)\n- Enforce required status checks and conversation resolution\n- Require signed commits and linear history; block force pushes/deletions\n- Restrict push to trusted actors and apply rules to admins\nUse **CODEOWNERS** to strengthen review accountability.",
+      "service": "repository",
+      "categories": ["identity-access", "software-supply-chain"],
+      "disposition": null
+    },
+    {
+      "id": "repository_default_branch_requires_signed_commits",
+      "title": "Repository default branch requires signed commits",
+      "status": "PASS",
+      "severity": "High",
+      "detail": "Repository portfolio does require signed commits on default branch (main).",
+      "risk": "Without required signing, commit authorship can be spoofed and unverified changes added, impacting integrity.\n- Backdoor injection\n- History tampering and forged identities\n- Release pipeline abuse and supply-chain compromise",
+      "remediation": "Enforce `Require signed commits` on default and release branches.\n- Standardize GPG/SSH/S/MIME for humans and bots\n- Protect and rotate signing keys; least privilege on bypass\n- Pair with required reviews and status checks for defense-in-depth",
+      "service": "repository",
+      "categories": ["software-supply-chain"],
+      "disposition": null
+    },
+    {
+      "id": "repository_default_workflow_permissions_read_only",
+      "title": "Repository grants workflows a read-only default GITHUB_TOKEN",
+      "status": "PASS",
+      "severity": "High",
+      "detail": "Repository portfolio grants workflows a read-only default GITHUB_TOKEN.",
+      "risk": "A write-capable default **GITHUB_TOKEN** is available to every workflow in the repository, so any compromised step or dependency inherits it, leading to:\n- Code integrity loss from pushed commits, moved tags, or altered releases\n- Supply chain compromise when the token publishes packages or artifacts\n- Weakened review controls when the token acts on pull requests and issues",
+      "remediation": "Set the repository default **GITHUB_TOKEN** permissions to read-only and grant write scopes per workflow with an explicit `permissions` block, following **least privilege**.\n\nA repository can override an organization default, so verify this setting per repository even when the organization already defaults to read-only. Prefer short-lived **GitHub App** tokens over broad credentials when a workflow genuinely needs write access.",
+      "service": "repository",
+      "categories": ["ci-cd", "software-supply-chain"],
+      "disposition": null
+    },
+    {
+      "id": "repository_dependency_scanning_enabled",
+      "title": "Repository has package vulnerability scanning (Dependabot alerts) enabled",
+      "status": "PASS",
+      "severity": "High",
+      "detail": "Repository portfolio has package vulnerability scanning (Dependabot alerts) enabled.",
+      "risk": "Without automated scanning, known vulnerable dependencies may persist unnoticed, enabling supply-chain compromise. Exploits in third-party libraries can drive RCE, data theft, or build tampering, undermining confidentiality, integrity, and availability across code and CI/CD.",
+      "remediation": "Enable **dependency vulnerability scanning** with `Dependabot alerts` or an equivalent SCA tool across repositories. Apply **defense in depth**: keep manifests and lockfiles current, triage alerts quickly, use automated security updates with required reviews, and surface results in PR checks and notifications.",
+      "service": "repository",
+      "categories": ["vulnerabilities", "software-supply-chain"],
+      "disposition": null
+    },
+    {
+      "id": "repository_default_branch_deletion_disabled",
+      "title": "Repository denies default branch deletion",
+      "status": "PASS",
+      "severity": "Medium",
+      "detail": "Repository portfolio does deny default branch deletion.",
+      "risk": "Permitting default branch deletion undermines **availability** by breaking CI/CD, releases, and PR targets.\n\nIt also impacts **integrity**: the canonical ref can be removed, enabling history tampering, branch hijacking, and harder audits/rollbacks.",
+      "remediation": "Disable deletions on the **default branch** using **branch protection** or **rulesets** (`Allow deletions=false`). Apply controls to admins, minimize bypass lists, and enforce **least privilege**. Combine with required pull requests and status checks for **defense in depth**.",
+      "service": "repository",
+      "categories": ["software-supply-chain"],
+      "disposition": null
+    },
+    {
+      "id": "repository_inactive_not_archived",
+      "title": "Repository is archived or active within the configured inactivity threshold",
+      "status": "PASS",
+      "severity": "Medium",
+      "detail": "Repository portfolio has been active within the last 180 days (1 days ago).",
+      "risk": "Unarchived, long-inactive repos expand attack surface. Stale code and dependencies can hide unpatched flaws; writable state enables **integrity** compromise via malicious commits or workflow abuse; exposed secrets threaten **confidentiality**. Attackers can leverage them for lateral movement and supply-chain tampering.",
+      "remediation": "Adopt **lifecycle management**:\n- Archive or delete repos no longer needed\n- If retained, update dependencies, rotate secrets, disable unused workflows, and restrict writes under **least privilege**\n- Define an inactivity policy (e.g., `180` days) with periodic reviews to prevent dormant, writable codebases",
+      "service": "repository",
+      "categories": ["software-supply-chain"],
+      "disposition": null
+    },
+    {
+      "id": "repository_branch_delete_on_merge_enabled",
+      "title": "Repository deletes branches after pull request merge",
+      "status": "PASS",
+      "severity": "Low",
+      "detail": "Repository portfolio does delete branches on merge in default branch (main).",
+      "risk": "Without automatic deletion, merged branches persist, weakening **integrity** and **confidentiality**: outdated code may be reused, secret remnants can linger, and reviews become ambiguous. Stale refs can still trigger CI with obsolete workflows, raising risks of supply-chain tampering and faulty deployments.",
+      "remediation": "Enable **automatic head-branch deletion** after merges to minimize stale refs and confusion.\n- Enforce **least privilege** for branch creation\n- Apply **branch protection** and rulesets\n- Prefer short-lived feature branches with periodic pruning\n- Guard CI to avoid runs from obsolete branches",
+      "service": "repository",
+      "categories": ["software-supply-chain"],
+      "disposition": null
+    },
+    {
+      "id": "repository_default_branch_requires_linear_history",
+      "title": "Repository default branch requires linear history",
+      "status": "PASS",
+      "severity": "Low",
+      "detail": "Repository portfolio does require linear history on default branch (main).",
+      "risk": "Without a **linear history**, commit provenance is harder to verify, weakening **integrity** and **accountability**.\n\nMerge commits can obscure diffs entering the default branch, hindering audits and rollbacks, enabling unnoticed **malicious or unreviewed code**, and delaying incident response.",
+      "remediation": "Enable `Require linear history` on the default branch and allow only `squash` or `rebase` merges.\n\nReinforce with **branch protection**: require pull requests and reviews, **status checks**, and **signed commits**. Limit bypass to trusted roles (least privilege) to preserve **traceability** and **defense in depth**.",
+      "service": "repository",
+      "categories": ["software-supply-chain"],
+      "disposition": null
+    }
+  ]
+}
