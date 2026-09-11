@@ -48,6 +48,9 @@ export interface SiteContent {
   footer: { rights: string; source: string };
 }
 
+/** Computed at build time so the footer never goes quietly stale. */
+const YEAR = new Date().getFullYear();
+
 export const content: Record<Lang, SiteContent> = {
   en: {
     landing: {
@@ -75,8 +78,8 @@ export const content: Record<Lang, SiteContent> = {
       ],
       education: [
         {
-          k: '[YEARS]',
-          v: 'Dual degree, Computer Engineering and Business Administration — [UNIVERSITY]',
+          k: '2019–2025',
+          v: 'Dual degree, Computer Engineering and Business Administration — Universidad de Granada',
         },
         { k: '2023', v: 'Google Cloud — Digital Leader learning path, four badges' },
       ],
@@ -210,7 +213,7 @@ export const content: Record<Lang, SiteContent> = {
       ],
       note: 'The PGP key and security.txt are the point of this page. They cost almost nothing and they are a real signal in your field.',
     },
-    footer: { rights: '© [YEAR] Daniel Barranquero', source: 'Source' },
+    footer: { rights: `© ${YEAR} Daniel Barranquero`, source: 'Source' },
   },
 
   es: {
@@ -242,8 +245,8 @@ export const content: Record<Lang, SiteContent> = {
       ],
       education: [
         {
-          k: '[AÑOS]',
-          v: 'Doble Grado en Ingeniería Informática y Administración de Empresas — [UNIVERSIDAD]',
+          k: '2019–2025',
+          v: 'Doble Grado en Ingeniería Informática y Administración de Empresas — Universidad de Granada',
         },
         { k: '2023', v: 'Google Cloud — ruta de formación Digital Leader, cuatro insignias' },
       ],
@@ -377,6 +380,6 @@ export const content: Record<Lang, SiteContent> = {
       ],
       note: 'La clave PGP y security.txt son el motivo de esta página. Cuestan casi nada y son una señal real en tu campo.',
     },
-    footer: { rights: '© [AÑO] Daniel Barranquero', source: 'Código' },
+    footer: { rights: `© ${YEAR} Daniel Barranquero`, source: 'Código' },
   },
 };
