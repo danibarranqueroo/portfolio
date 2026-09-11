@@ -79,9 +79,11 @@ export const content: Record<Lang, SiteContent> = {
       title: 'Who I am',
       lede: 'I came to the cloud almost by accident, and stayed because every new provider is a whole system to take apart.',
       body: [
+        'Hey there — I’m Dani. Cloud security engineer at Prowler, and a graduate of the Universidad de Granada in Computer Engineering and Business Administration. Away from the screen: sport, coffee, watching football, video games, and the geekier end of film and television — Marvel, Game of Thrones, that whole world.',
         'Security interested me long before the cloud did. I took a Google Cloud course mostly out of curiosity, and it pulled me in. The offer from Prowler arrived just as I was finishing my degree, and that was when I found out this work genuinely excites me.',
-        'I started by going deep on AWS, then opened out. Today I write new checks for AWS, Azure and GCP, and I have added whole providers — MongoDB Atlas, Microsoft 365, Vercel, Linode, OpenStack — so that anyone running on them can scan and secure them. 269 merged pull requests into Prowler so far.',
-        'I studied a dual degree in Computer Engineering and Business Administration. The business half gave me a different way of looking at the work: understanding what a client actually needs, weighing a feature against a SWOT analysis, being able to synthesise an argument and explain it. It means I am not only the person who writes the code.',
+        'I started by going deep on AWS, then opened out. Today I write new checks for AWS, Azure and GCP, and I have added whole providers — MongoDB Atlas, Microsoft 365, Vercel, Linode, OpenStack — so that anyone running on them can scan and secure them. 528 commits into Prowler so far.',
+        'The degree gave me the foundations I still use every day: Docker, cloud computing, web development, networking, and enough of the underlying systems to reason about what a service is really doing. The business half gave me something different — understanding what a client actually needs, weighing a feature against a SWOT analysis, reading a project as a business decision rather than only a technical one, and being able to synthesise an argument and explain it. It means I am not only the person who writes the code, and I can be useful in rooms where that matters.',
+        'I have also lived and studied in Annecy, in France, and Shrewsbury, in England. Being dropped somewhere you do not speak the language fluently teaches you to work things out and to get on with people quickly — which turns out to be most of what remote work in an international team asks of you.',
         'What I want next is to go deeper into cloud architecture. It is where I have the most room to grow, compared with the programming and the security — and naming that is more useful than pretending otherwise.',
       ],
       education: [
@@ -108,7 +110,7 @@ export const content: Record<Lang, SiteContent> = {
             },
             {
               metric: '15',
-              text: 'Cloud providers touched across 269 merged pull requests: AWS, Azure, Google Cloud, Microsoft 365, OpenStack, Okta, MongoDB Atlas, Oracle Cloud, Alibaba Cloud, GitHub, Vercel and Linode among them.',
+              text: 'Cloud providers worked on: AWS, Azure, Google Cloud, Microsoft 365, OpenStack, Okta, MongoDB Atlas, Oracle Cloud, Alibaba Cloud, GitHub, Vercel and Linode among them.',
             },
             {
               metric: '2',
@@ -273,9 +275,11 @@ export const content: Record<Lang, SiteContent> = {
       title: 'Quién soy',
       lede: 'Llegué a la nube casi por casualidad y me quedé porque cada proveedor nuevo es un sistema entero que desmontar.',
       body: [
+        '¡Hola! Soy Dani. Ingeniero de seguridad cloud en Prowler y graduado en la Universidad de Granada en Ingeniería Informática y Administración de Empresas. Fuera de la pantalla: deporte, café, ver fútbol, videojuegos y la parte más friki del cine y las series — Marvel, Juego de Tronos y todo ese mundo.',
         'La seguridad me interesaba mucho antes que la nube. Hice un curso de Google Cloud casi por curiosidad y me fue enganchando. Justo al terminar la carrera me llegó la oportunidad de entrar en Prowler, y ahí descubrí que esto me entusiasma de verdad.',
-        'Empecé profundizando en AWS y poco a poco me fui abriendo. Hoy escribo checks nuevos para AWS, Azure y GCP, y he añadido proveedores completos — MongoDB Atlas, Microsoft 365, Vercel, Linode, OpenStack — para que cualquiera que trabaje sobre ellos pueda escanearlos y securizarlos. 269 pull requests mergeadas en Prowler hasta ahora.',
-        'Estudié un doble grado en Ingeniería Informática y Administración de Empresas. La parte de negocio me dio otra forma de mirar el trabajo: entender qué necesita de verdad un cliente, valorar una feature con un análisis DAFO, sintetizar un argumento y saber explicarlo. Hace que no sea solo el que programa.',
+        'Empecé profundizando en AWS y poco a poco me fui abriendo. Hoy escribo checks nuevos para AWS, Azure y GCP, y he añadido proveedores completos — MongoDB Atlas, Microsoft 365, Vercel, Linode, OpenStack — para que cualquiera que trabaje sobre ellos pueda escanearlos y securizarlos. 528 commits en Prowler hasta ahora.',
+        'La carrera me dio las bases que sigo usando a diario: Docker, cloud computing, desarrollo web, redes y suficiente de los sistemas que hay debajo como para razonar qué está haciendo de verdad un servicio. La parte de empresa me dio otra cosa distinta: entender qué necesita de verdad un cliente, valorar una feature con un análisis DAFO, leer un proyecto como una decisión de negocio y no solo técnica, y saber sintetizar un argumento y explicarlo. Hace que no sea solo el que programa, y que pueda aportar en salas donde eso importa.',
+        'También he vivido y estudiado en Annecy, en Francia, y en Shrewsbury, en Inglaterra. Que te suelten en un sitio donde no dominas el idioma te enseña a buscarte la vida y a entenderte rápido con la gente — que resulta ser buena parte de lo que pide trabajar en remoto con un equipo internacional.',
         'Lo siguiente que quiero es profundizar en arquitectura cloud. Es donde más recorrido me queda, comparado con la parte de programación y de seguridad, y decirlo es más útil que disimularlo.',
       ],
       education: [
@@ -302,7 +306,7 @@ export const content: Record<Lang, SiteContent> = {
             },
             {
               metric: '15',
-              text: 'Proveedores cloud tocados en 269 pull requests mergeadas: AWS, Azure, Google Cloud, Microsoft 365, OpenStack, Okta, MongoDB Atlas, Oracle Cloud, Alibaba Cloud, GitHub, Vercel y Linode, entre otros.',
+              text: 'Proveedores cloud en los que he trabajado: AWS, Azure, Google Cloud, Microsoft 365, OpenStack, Okta, MongoDB Atlas, Oracle Cloud, Alibaba Cloud, GitHub, Vercel y Linode, entre otros.',
             },
             {
               metric: '2',
