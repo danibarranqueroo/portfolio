@@ -1,21 +1,126 @@
 ---
+import { content } from '../../data/content';
 import type { Lang } from '../../i18n/ui';
 
+/**
+ * The CV renders from exactly the same data as About and Experience, so the
+ * two can never drift apart. Print styles turn it into an A4 document, which
+ * is also what the PDF pipeline will capture when it lands.
+ */
 const { lang } = Astro.props as { lang: Lang };
 const es = lang === 'es';
+const c = content[lang];
+const links = c.links;
 ---
-<section>
-  <p class="eyebrow">CV</p>
-  <h1 class="display display-sm">{es ? 'Currículum' : 'Curriculum vitae'}</h1>
-  <p class="lede">
-    {es
-      ? 'Esta página se generará a partir de los mismos datos que «Experiencia» y «Sobre mí», y de ella saldrá el PDF.'
-      : 'This page will render from the same data as Experience and About, and the PDF will be generated from it.'}
-  </p>
-</section>
 
-<p class="note">
-  {es
-    ? 'Pendiente: el esquema de CV validado con Zod y el proceso que genera el PDF. Se hace cuando lleguen los datos reales.'
-    : 'Not built yet: the Zod-validated CV schema and the PDF pipeline. Both land once real CV data exists.'}
-</p>
+<section class="wide cv">
+  <header class="cv-head">
+    <div>
+      <h1 class="display display-sm">Daniel Barranquero</h1>
+      <p class="cv-role">{es ? 'Ingeniero de Seguridad Cloud' : 'Cloud Security Engineer'}</p>
+    </div>
+    <ul class="cv-contact">
+      <li><a href={links.email}>josedanielbarranqueroortigosa@gmail.com</a></li>
+      <li><a href={links.github} rel="me noopener">github.com/danibarranqueroo</a></li>
+      <li><a href={links.linkedin} rel="me noopener">linkedin.com/in/danibarranquero</a></li>
+      <li>Granada, {es ? 'España' : 'Spain'}</li>
+    </ul>
+  </header>
+
+  <div class="cv-actions no-print">
+    <button type="button" class="btn" data-print>
+      {es ? 'Descargar en PDF' : 'Download as PDF'}
+    </button>
+    <span class="lnk">
+      {es ? 'Se abre el diálogo de impresión: elige «Guardar como PDF».' : 'Opens the print dialog — choose “Save as PDF”.'}
+    </span>
+  </div>
+
+  <section class="cv-block">
+    <h2 class="sect">{es ? 'Perfil' : 'Profile'}</h2>
+    <p class="cv-lede">{c.landing.lede}</p>
+  </section>
+
+  <section class="cv-block">
+    <h2 class="sect">{es ? 'Experiencia' : 'Experience'}</h2>
+    {
+      c.experience.roles.map((role) => (
+        <article class="cv-role-entry">
+          <div class="cv-role-head">
+            <h3 class="cv-co">{role.company}</h3>
+            <p class="role-meta">{role.meta}</p>
+          </div>
+          <ul class="impacts">
+            {role.impacts.map((i) => (
+              <li class="impact">
+                <span class="metric">{i.metric}</span>
+                <span class="impact-t">{i.text}</span>
+              </li>
+            ))}
+          </ul>
+          <div class="tags">
+            {role.tags.map((t) => (
+              <span class="tag">{t}</span>
+            ))}
+          </div>
+        </article>
+      ))
+    }
+  </section>
+
+  <section class="cv-block">
+    <h2 class="sect">{es ? 'Open source' : 'Open source'}</h2>
+    <ul class="rows">
+      {
+        c.experience.oss.map((r) => (
+          <li class="row">
+            <span class="row-k">{r.k}</span>
+            <span class="row-v">{r.v}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="cv-block">
+    <h2 class="sect">{es ? 'Proyectos' : 'Projects'}</h2>
+    <ul class="rows">
+      {
+        c.projects.items.map((r) => (
+          <li class="row">
+            <span class="row-k">{r.k}</span>
+            <span class="row-v">{r.v}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="cv-block">
+    <h2 class="sect">{es ? 'Charlas y conferencias' : 'Speaking and conferences'}</h2>
+    <ul class="rows">
+      {
+        c.experience.speaking.map((r) => (
+          <li class="row">
+            <span class="row-k">{r.k}</span>
+            <span class="row-v">{r.v}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="cv-block">
+    <h2 class="sect">{es ? 'Formación' : 'Education'}</h2>
+    <ul class="rows">
+      {
+        c.about.education.map((r) => (
+          <li class="row">
+            <span class="row-k">{r.k}</span>
+            <span class="row-v">{r.v}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</section>

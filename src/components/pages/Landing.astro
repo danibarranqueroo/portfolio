@@ -6,6 +6,7 @@ import Portrait from '../Portrait.astro';
 
 const { lang } = Astro.props as { lang: Lang };
 const c = content[lang].landing;
+const links = content[lang].links;
 ---
 <section class="wide">
   <div class="hero">
@@ -18,9 +19,9 @@ const c = content[lang].landing;
   <p class="lede">{c.lede}</p>
   <div class="links">
     <a class="btn" href={localizePath('/cv', lang)}>{c.cta}</a>
-    <a class="lnk" href="#">GitHub</a>
-    <a class="lnk" href="#">LinkedIn</a>
-    <a class="lnk" href={localizePath('/contact', lang)}>Email</a>
+    <a class="lnk" href={links.github} rel="me noopener" target="_blank">GitHub</a>
+    <a class="lnk" href={links.linkedin} rel="me noopener" target="_blank">LinkedIn</a>
+    <a class="lnk" href={links.email}>Email</a>
   </div>
 </section>
 
@@ -33,4 +34,4 @@ const c = content[lang].landing;
   </ul>
 </section>
 
-<p class="note">{c.note}</p>
+{c.note && <p class="note">{c.note}</p>}

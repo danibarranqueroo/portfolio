@@ -193,10 +193,10 @@ main > .wide {
 .display {
   font-family: var(--font-display);
   font-weight: 500;
-  font-size: clamp(38px, 7vw, 82px);
-  line-height: 1;
-  letter-spacing: -0.025em;
-  margin: 14px 0 0;
+  font-size: clamp(44px, 9.5vw, 112px);
+  line-height: 0.92;
+  letter-spacing: -0.035em;
+  margin: 10px 0 0;
   text-wrap: balance;
 }
 .display-sm {
@@ -474,6 +474,116 @@ main > .wide {
 @media (max-width: 520px) {
   .hero {
     gap: 18px;
+  }
+}
+
+/* The landing title is the loudest thing on the site; section titles are not.
+   .display-sm resets the tracking the hero size needs. */
+.display-sm {
+  line-height: 1;
+  letter-spacing: -0.022em;
+}
+
+/* --- CV ------------------------------------------------------------------ */
+.cv-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--color-rule);
+}
+.cv-role {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-accent-text);
+  margin: 10px 0 0;
+}
+.cv-contact {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 13.5px;
+  line-height: 1.75;
+  text-align: right;
+}
+.cv-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  margin-top: 26px;
+}
+.cv-actions .btn {
+  border: 0;
+  font-family: inherit;
+  cursor: pointer;
+}
+.cv-block {
+  margin-top: 44px;
+}
+.cv-lede {
+  font-size: 17px;
+  line-height: 1.6;
+  margin: 0;
+  max-width: 62ch;
+}
+.cv-role-entry + .cv-role-entry {
+  margin-top: 28px;
+}
+.cv-role-head {
+  margin-bottom: 12px;
+}
+.cv-co {
+  font-family: var(--font-display);
+  font-size: 23px;
+  font-weight: 500;
+  margin: 0;
+}
+
+/* Print: an A4 document, and the source the PDF pipeline will capture. */
+@media print {
+  @page {
+    size: A4;
+    margin: 16mm 14mm;
+  }
+  :root {
+    color-scheme: light;
+  }
+  .site-header,
+  .site-footer,
+  .no-print,
+  .skip {
+    display: none !important;
+  }
+  .wrap {
+    max-width: none;
+    padding: 0;
+    gap: 0;
+  }
+  main {
+    display: block;
+  }
+  body {
+    font-size: 10.5pt;
+  }
+  .display {
+    font-size: 26pt;
+  }
+  .cv-block {
+    margin-top: 18pt;
+    break-inside: avoid;
+  }
+  .cv-role-entry,
+  .row,
+  .impact {
+    break-inside: avoid;
+  }
+  a {
+    text-decoration: none;
   }
 }
 

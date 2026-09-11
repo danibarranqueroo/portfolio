@@ -38,6 +38,12 @@ interface PageCopy {
   lede: string;
 }
 
+export interface Links {
+  github: string;
+  linkedin: string;
+  email: string;
+}
+
 export interface SiteContent {
   landing: PageCopy & { now: Row[]; cta: string; note: string };
   about: PageCopy & { body: string[]; education: Row[]; note: string };
@@ -46,6 +52,7 @@ export interface SiteContent {
   recommendations: PageCopy & { quotes: Quote[]; note: string };
   contact: PageCopy & { channels: Row[]; note: string };
   footer: { rights: string; source: string };
+  links: Links;
 }
 
 /** Computed at build time so the footer never goes quietly stale. */
@@ -61,10 +68,10 @@ export const content: Record<Lang, SiteContent> = {
       now: [
         { k: 'Role', v: 'Cloud Security Engineer at Prowler' },
         { k: 'Focus', v: 'Multi-cloud security checks, and new providers end to end' },
-        { k: 'Open source', v: 'Prowler — 269 merged pull requests' },
+        { k: 'Open source', v: 'Prowler, 528 commits' },
         { k: 'Based in', v: 'Granada, Spain' },
       ],
-      note: 'Experience, Projects and Recommendations are still placeholder. Bracketed text marks a fact yet to be supplied — nothing here is invented.',
+      note: '',
     },
     about: {
       eyebrow: 'About',
@@ -83,7 +90,7 @@ export const content: Record<Lang, SiteContent> = {
         },
         { k: '2023', v: 'Google Cloud — Digital Leader learning path, four badges' },
       ],
-      note: 'Education sits here rather than on its own page: a dual degree and a course make a section, not a page. Stated once, plainly.',
+      note: '',
     },
     experience: {
       eyebrow: 'Experience',
@@ -197,7 +204,7 @@ export const content: Record<Lang, SiteContent> = {
           v: 'Built in the open: pinned dependencies with a seven-day release quarantine, a strict CSP, signed commits, and a security page that runs Prowler against its own repository and publishes what fails. More projects are coming; this page will grow.',
         },
       ],
-      note: 'This page was missing from the original plan. For a cloud-security engineer it usually does more work than an education section.',
+      note: '',
     },
     recommendations: {
       eyebrow: 'Recommendations',
@@ -232,9 +239,14 @@ export const content: Record<Lang, SiteContent> = {
         { k: 'LinkedIn', v: 'linkedin.com/in/danibarranquero' },
         { k: 'Security', v: '/.well-known/security.txt' },
       ],
-      note: 'The PGP key and security.txt are the point of this page. They cost almost nothing and they are a real signal in your field.',
+      note: '',
     },
     footer: { rights: `© ${YEAR} Daniel Barranquero`, source: 'Source' },
+    links: {
+      github: 'https://github.com/danibarranqueroo',
+      linkedin: 'https://www.linkedin.com/in/danibarranquero',
+      email: 'mailto:josedanielbarranqueroortigosa@gmail.com',
+    },
   },
 
   es: {
@@ -249,10 +261,10 @@ export const content: Record<Lang, SiteContent> = {
           k: 'Enfoque',
           v: 'Checks de seguridad multinube y proveedores nuevos de principio a fin',
         },
-        { k: 'Open source', v: 'Prowler — 269 pull requests mergeadas' },
+        { k: 'Open source', v: 'Prowler, 528 commits' },
         { k: 'Ubicación', v: 'Granada, España' },
       ],
-      note: 'Experiencia, Proyectos y Recomendaciones siguen siendo marcadores. El texto entre corchetes marca un dato pendiente — aquí no hay nada inventado.',
+      note: '',
     },
     about: {
       eyebrow: 'Sobre mí',
@@ -271,7 +283,7 @@ export const content: Record<Lang, SiteContent> = {
         },
         { k: '2023', v: 'Google Cloud — ruta de formación Digital Leader, cuatro insignias' },
       ],
-      note: 'La formación va aquí y no en su propia página: un doble grado y un curso son una sección, no una página. Dicho una vez, sin más.',
+      note: '',
     },
     experience: {
       eyebrow: 'Experiencia',
@@ -385,7 +397,7 @@ export const content: Record<Lang, SiteContent> = {
           v: 'Hecha en abierto: dependencias fijadas con una cuarentena de siete días, CSP estricta, commits firmados y una página de seguridad que ejecuta Prowler contra su propio repositorio y publica lo que falla. Vienen más proyectos; esta página crecerá.',
         },
       ],
-      note: 'Esta página no estaba en el plan original. Para un ingeniero de seguridad cloud suele pesar más que una sección de formación.',
+      note: '',
     },
     recommendations: {
       eyebrow: 'Recomendaciones',
@@ -420,8 +432,13 @@ export const content: Record<Lang, SiteContent> = {
         { k: 'LinkedIn', v: 'linkedin.com/in/danibarranquero' },
         { k: 'Seguridad', v: '/.well-known/security.txt' },
       ],
-      note: 'La clave PGP y security.txt son el motivo de esta página. Cuestan casi nada y son una señal real en tu campo.',
+      note: '',
     },
     footer: { rights: `© ${YEAR} Daniel Barranquero`, source: 'Código' },
+    links: {
+      github: 'https://github.com/danibarranqueroo',
+      linkedin: 'https://www.linkedin.com/in/danibarranquero',
+      email: 'mailto:josedanielbarranqueroortigosa@gmail.com',
+    },
   },
 };

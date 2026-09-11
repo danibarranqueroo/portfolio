@@ -4,6 +4,17 @@ import type { Lang } from '../../i18n/ui';
 
 const { lang } = Astro.props as { lang: Lang };
 const c = content[lang].contact;
+const links = content[lang].links;
+
+/** Map a channel label to its href, so the rows are clickable, not just text. */
+const hrefFor = (key: string): string | undefined => {
+  const k = key.toLowerCase();
+  if (k === 'email') return links.email;
+  if (k === 'github') return links.github;
+  if (k === 'linkedin') return links.linkedin;
+  if (k === 'security' || k === 'seguridad') return '/.well-known/security.txt';
+  return undefined;
+};
 ---
 <section>
   <p class="eyebrow">{c.eyebrow}</p>
@@ -13,10 +24,26 @@ const c = content[lang].contact;
 
 <section class="wide">
   <ul class="rows">
-    {c.channels.map((r) => (
-      <li class="row"><span class="row-k">{r.k}</span><span class="row-v">{r.v}</span></li>
-    ))}
+    {
+      c.channels.map((r) => {
+        const href = hrefFor(r.k);
+        return (
+          <li class="row">
+            <span class="row-k">{r.k}</span>
+            <span class="row-v">
+              {href ? (
+                <a href={href} rel="me noopener">
+                  {r.v}
+                </a>
+              ) : (
+                r.v
+              )}
+            </span>
+          </li>
+        );
+      })
+    }
   </ul>
 </section>
 
-<p class="note">{c.note}</p>
+{c.note && <p class="note">{c.note}</p>}

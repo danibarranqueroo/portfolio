@@ -268,6 +268,14 @@ const other = (Object.keys(languages) as Array<keyof typeof languages>).find((l)
         }
       }
 
+      // --- CV: print to PDF ---------------------------------------------------
+      // The print stylesheet turns the CV into an A4 document, so "save as PDF"
+      // in the print dialog produces the same file the pipeline will generate
+      // once Playwright renders it in CI.
+      document.querySelector('[data-print]')?.addEventListener('click', () => {
+        window.print();
+      });
+
       // --- theme toggle -------------------------------------------------------
       const toggle = document.querySelector('[data-theme-toggle]');
       toggle?.addEventListener('click', () => {
