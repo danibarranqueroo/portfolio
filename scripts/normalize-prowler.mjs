@@ -70,14 +70,6 @@ const DISPOSITION = {
     state: 'todo',
     note: 'CI already runs lint, typecheck, build, audit, gitleaks and a SHA-pin check on every push. Making them a merge gate requires moving to a pull-request workflow.',
   },
-  repository_immutable_releases_enabled: {
-    state: 'todo',
-    note: 'This repository publishes no releases yet, so there is nothing to make immutable.',
-  },
-  repository_has_codeowners_file: {
-    state: 'todo',
-    note: 'A CODEOWNERS file was added; this result predates it or the scan has not rerun.',
-  },
 };
 
 const severityRank = { Critical: 0, High: 1, Medium: 2, Low: 3, Informational: 4 };
