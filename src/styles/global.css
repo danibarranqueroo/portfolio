@@ -577,9 +577,12 @@ main > .wide {
     margin-top: 18pt;
     break-inside: avoid;
   }
-  .cv-role-entry,
-  .row,
-  .impact {
+  /* Scoped under .cv so specificity is not lower than the .cv-role-entry +
+     .cv-role-entry rule above — a descending-specificity selector is exactly
+     the cascade trap that bit the portrait and the layout edits earlier. */
+  .cv .cv-role-entry,
+  .cv .row,
+  .cv .impact {
     break-inside: avoid;
   }
   a {
