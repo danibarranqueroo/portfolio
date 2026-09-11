@@ -30,10 +30,11 @@ const nav = [
   { key: 'nav.about', path: '/about' },
   { key: 'nav.experience', path: '/experience' },
   { key: 'nav.projects', path: '/projects' },
-  { key: 'nav.recommendations', path: '/recommendations' },
   { key: 'nav.contact', path: '/contact' },
-  // In the nav for review. It may end up as a footer link instead — six items
-  // is already the comfortable maximum.
+  // Recommendations is deliberately absent until it has real quotes, for the
+  // same reason the blog is: a nav link to an empty page is worse than no link.
+  //
+  // Security is here for review. It may end up as a footer link instead.
   { key: 'nav.security', path: '/security' },
 ] as const;
 

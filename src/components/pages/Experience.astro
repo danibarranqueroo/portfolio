@@ -40,6 +40,18 @@ const c = content[lang].experience;
 </section>
 
 <section class="wide">
+  <h2 class="sect">{lang === 'es' ? 'Charlas y conferencias' : 'Speaking and conferences'}</h2>
+  <ul class="rows">
+    {c.speaking.map((r) => (
+      <li class="row">
+        <span class="row-k">{r.k}</span>
+        <span class="row-v">{r.v}</span>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<section class="wide">
   <h2 class="sect">Open source</h2>
   <ul class="rows">
     {c.oss.map((r) => (

@@ -41,7 +41,7 @@ interface PageCopy {
 export interface SiteContent {
   landing: PageCopy & { now: Row[]; cta: string; note: string };
   about: PageCopy & { body: string[]; education: Row[]; note: string };
-  experience: PageCopy & { roles: Role[]; oss: Row[]; note: string };
+  experience: PageCopy & { roles: Role[]; oss: Row[]; speaking: Row[]; note: string };
   projects: PageCopy & { items: Row[]; note: string };
   recommendations: PageCopy & { quotes: Quote[]; note: string };
   contact: PageCopy & { channels: Row[]; note: string };
@@ -147,6 +147,28 @@ export const content: Record<Lang, SiteContent> = {
           v: 'Brought OpenStack and Okta into Prowler end to end, and MongoDB Atlas through the API and UI — so teams on those platforms can scan them like any other cloud.',
         },
       ],
+      speaking: [
+        {
+          k: 'Hackén, Jaén',
+          v: 'Speaker, two consecutive years.',
+        },
+        {
+          k: 'fwd:cloudsec',
+          v: 'Attended — Berlin.',
+        },
+        {
+          k: 'AWS re:Invent',
+          v: 'Attended — Las Vegas.',
+        },
+        {
+          k: 'RootedCON',
+          v: 'Attended — Madrid.',
+        },
+        {
+          k: 'Commentary',
+          v: 'Wrote publicly on the Vercel breach as it unfolded.',
+        },
+      ],
       note: 'Every number here comes from the public repository and can be checked. Some of the work is not public — features that came from enterprise customer requests, plus internal support — so these figures are a floor, not a total.',
     },
     projects: {
@@ -208,7 +230,6 @@ export const content: Record<Lang, SiteContent> = {
         { k: 'Email', v: 'josedanielbarranqueroortigosa@gmail.com' },
         { k: 'GitHub', v: 'github.com/danibarranqueroo' },
         { k: 'LinkedIn', v: 'linkedin.com/in/danibarranquero' },
-        { k: 'PGP', v: '[FINGERPRINT] — key at /pgp.txt' },
         { k: 'Security', v: '/.well-known/security.txt' },
       ],
       note: 'The PGP key and security.txt are the point of this page. They cost almost nothing and they are a real signal in your field.',
@@ -314,6 +335,28 @@ export const content: Record<Lang, SiteContent> = {
           v: 'He traído OpenStack y Okta a Prowler de principio a fin, y MongoDB Atlas a través de la API y la interfaz — para que quien trabaje sobre esas plataformas pueda escanearlas como cualquier otra nube.',
         },
       ],
+      speaking: [
+        {
+          k: 'Hackén, Jaén',
+          v: 'Ponente, dos años consecutivos.',
+        },
+        {
+          k: 'fwd:cloudsec',
+          v: 'Asistente — Berlín.',
+        },
+        {
+          k: 'AWS re:Invent',
+          v: 'Asistente — Las Vegas.',
+        },
+        {
+          k: 'RootedCON',
+          v: 'Asistente — Madrid.',
+        },
+        {
+          k: 'Divulgación',
+          v: 'Escribí públicamente sobre la brecha de Vercel mientras ocurría.',
+        },
+      ],
       note: 'Todos los números salen del repositorio público y se pueden comprobar. Parte del trabajo no es público — features que vinieron de peticiones de clientes enterprise, además del soporte interno — así que estas cifras son un suelo, no un total.',
     },
     projects: {
@@ -375,7 +418,6 @@ export const content: Record<Lang, SiteContent> = {
         { k: 'Email', v: 'josedanielbarranqueroortigosa@gmail.com' },
         { k: 'GitHub', v: 'github.com/danibarranqueroo' },
         { k: 'LinkedIn', v: 'linkedin.com/in/danibarranquero' },
-        { k: 'PGP', v: '[HUELLA] — clave en /pgp.txt' },
         { k: 'Seguridad', v: '/.well-known/security.txt' },
       ],
       note: 'La clave PGP y security.txt son el motivo de esta página. Cuestan casi nada y son una señal real en tu campo.',
