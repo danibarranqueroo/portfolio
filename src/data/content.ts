@@ -92,33 +92,66 @@ export const content: Record<Lang, SiteContent> = {
     experience: {
       eyebrow: 'Experience',
       title: 'What I’ve\nshipped',
-      lede: '[TWO LINES ON HOW YOU WORK — the thread connecting these roles, not a restatement of them.]',
+      lede: 'I work on the detection side of an open-source cloud security scanner: the checks that find misconfigurations, and the providers that let people run them against whatever cloud they are actually on.',
       roles: [
         {
-          company: PH.company1,
-          meta: `${PH.role} · [START] – present`,
+          company: 'Prowler',
+          meta: 'Cloud Security Engineer · Jan 2025 – present · Remote',
           impacts: [
-            { metric: '[N]×', text: '[IMPACT: what changed, and what it was worth.]' },
-            { metric: '[N] hrs', text: '[IMPACT: time or toil removed, and for whom.]' },
-            { metric: '[N]', text: '[IMPACT: scale — accounts, findings, services covered.]' },
+            {
+              metric: '528',
+              text: 'Commits merged into Prowler — the sixth-highest of 398 contributors on a project with 14.8k stars, and 294,573 lines added.',
+            },
+            {
+              metric: '15',
+              text: 'Cloud providers touched across 269 merged pull requests: AWS, Azure, Google Cloud, Microsoft 365, OpenStack, Okta, MongoDB Atlas, Oracle Cloud, Alibaba Cloud, GitHub, Vercel and Linode among them.',
+            },
+            {
+              metric: '2',
+              text: 'Providers built end to end — OpenStack and Okta — from the core SDK through the checks, the API, the web UI and the documentation.',
+            },
+            {
+              metric: '144',
+              text: 'Pull requests touching security checks and fixers: the detection logic organisations run against their own infrastructure.',
+            },
+            {
+              metric: 'Now',
+              text: 'Leading the detection and remediation team, after a year of community issue triage, pull request review and Slack support.',
+            },
           ],
-          tags: [PH.tech, PH.tech, PH.tech, PH.tech],
+          tags: ['Python', 'AWS', 'Azure', 'Google Cloud', 'OpenStack', 'Okta', 'Microsoft 365'],
         },
         {
-          company: PH.company2,
-          meta: `${PH.role} · [START] – [END]`,
+          company: 'Prowler',
+          meta: 'Intern Cloud Security Engineer · Jun 2024 – Dec 2024 · Remote',
           impacts: [
-            { metric: '[N]%', text: '[IMPACT: a number you can defend in an interview.]' },
-            { metric: '[N]', text: '[IMPACT: something that outlived your time there.]' },
+            {
+              metric: '80',
+              text: 'Pull requests merged during the internship, starting with test coverage for Google Cloud checks and moving quickly into new detections.',
+            },
+            {
+              metric: '7',
+              text: 'Months from first commit to a full-time offer.',
+            },
           ],
-          tags: [PH.tech, PH.tech, PH.tech],
+          tags: ['Python', 'Google Cloud', 'AWS', 'pytest'],
         },
       ],
       oss: [
-        { k: '[PROJECT]', v: '[WHAT YOU CONTRIBUTED, AND WHY IT MATTERED]' },
-        { k: '[PROJECT]', v: '[WHAT YOU CONTRIBUTED, AND WHY IT MATTERED]' },
+        {
+          k: 'Prowler',
+          v: 'The open-source cloud security platform. Sixth by commit count of 398 contributors — 528 commits across 15 providers.',
+        },
+        {
+          k: 'Attack Paths',
+          v: 'Contributed to and extended Prowler’s Attack Paths: the graph showing how an attacker could chain misconfigurations to reach critical resources. Worked on the graph UI, the query layer, the API and the docs.',
+        },
+        {
+          k: 'Provider coverage',
+          v: 'Brought OpenStack and Okta into Prowler end to end, and MongoDB Atlas through the API and UI — so teams on those platforms can scan them like any other cloud.',
+        },
       ],
-      note: 'The layout assumes every impact line leads with a number. If a line has no number, it probably belongs in About instead.',
+      note: 'Every number here comes from the public repository and can be checked. Some of the work is not public — features that came from enterprise customer requests, plus internal support — so these figures are a floor, not a total.',
     },
     projects: {
       eyebrow: 'Projects',
@@ -209,33 +242,66 @@ export const content: Record<Lang, SiteContent> = {
     experience: {
       eyebrow: 'Experiencia',
       title: 'Lo que he\nconstruido',
-      lede: '[DOS LÍNEAS SOBRE CÓMO TRABAJAS — el hilo que une estos puestos, no un resumen de ellos.]',
+      lede: 'Trabajo en la parte de detección de un escáner de seguridad cloud open source: los checks que encuentran malas configuraciones y los proveedores que permiten ejecutarlos sobre la nube en la que cada uno trabaja.',
       roles: [
         {
-          company: '[EMPRESA UNO]',
-          meta: '[PUESTO] · [INICIO] – actualidad',
+          company: 'Prowler',
+          meta: 'Cloud Security Engineer · ene. 2025 – actualidad · En remoto',
           impacts: [
-            { metric: '[N]×', text: '[IMPACTO: qué cambió y cuánto valió.]' },
-            { metric: '[N] h', text: '[IMPACTO: trabajo manual eliminado, y para quién.]' },
-            { metric: '[N]', text: '[IMPACTO: escala — cuentas, hallazgos, servicios cubiertos.]' },
+            {
+              metric: '528',
+              text: 'Commits mergeados en Prowler — el sexto de 398 contribuidores en un proyecto con 14.800 estrellas, y 294.573 líneas añadidas.',
+            },
+            {
+              metric: '15',
+              text: 'Proveedores cloud tocados en 269 pull requests mergeadas: AWS, Azure, Google Cloud, Microsoft 365, OpenStack, Okta, MongoDB Atlas, Oracle Cloud, Alibaba Cloud, GitHub, Vercel y Linode, entre otros.',
+            },
+            {
+              metric: '2',
+              text: 'Proveedores construidos de principio a fin — OpenStack y Okta — desde el SDK hasta los checks, la API, la interfaz web y la documentación.',
+            },
+            {
+              metric: '144',
+              text: 'Pull requests sobre checks y fixers de seguridad: la lógica de detección que las organizaciones ejecutan contra su propia infraestructura.',
+            },
+            {
+              metric: 'Hoy',
+              text: 'Liderando el equipo de detección y remediación, después de un año atendiendo issues de la comunidad, revisando pull requests y dando soporte en Slack.',
+            },
           ],
-          tags: ['[TECNOLOGÍA]', '[TECNOLOGÍA]', '[TECNOLOGÍA]', '[TECNOLOGÍA]'],
+          tags: ['Python', 'AWS', 'Azure', 'Google Cloud', 'OpenStack', 'Okta', 'Microsoft 365'],
         },
         {
-          company: '[EMPRESA DOS]',
-          meta: '[PUESTO] · [INICIO] – [FIN]',
+          company: 'Prowler',
+          meta: 'Intern Cloud Security Engineer · jun. 2024 – dic. 2024 · En remoto',
           impacts: [
-            { metric: '[N]%', text: '[IMPACTO: un número que puedas defender en una entrevista.]' },
-            { metric: '[N]', text: '[IMPACTO: algo que siguió vivo después de irte.]' },
+            {
+              metric: '80',
+              text: 'Pull requests mergeadas durante las prácticas, empezando por cobertura de tests para los checks de Google Cloud y pasando pronto a detecciones nuevas.',
+            },
+            {
+              metric: '7',
+              text: 'Meses desde el primer commit hasta la oferta a jornada completa.',
+            },
           ],
-          tags: ['[TECNOLOGÍA]', '[TECNOLOGÍA]', '[TECNOLOGÍA]'],
+          tags: ['Python', 'Google Cloud', 'AWS', 'pytest'],
         },
       ],
       oss: [
-        { k: '[PROYECTO]', v: '[QUÉ APORTASTE Y POR QUÉ IMPORTÓ]' },
-        { k: '[PROYECTO]', v: '[QUÉ APORTASTE Y POR QUÉ IMPORTÓ]' },
+        {
+          k: 'Prowler',
+          v: 'La plataforma open source de seguridad cloud. Sexto por número de commits de 398 contribuidores — 528 commits en 15 proveedores.',
+        },
+        {
+          k: 'Attack Paths',
+          v: 'He contribuido y ampliado los Attack Paths de Prowler: el grafo que muestra cómo un atacante podría encadenar malas configuraciones hasta llegar a recursos críticos. He trabajado en la interfaz del grafo, la capa de consultas, la API y la documentación.',
+        },
+        {
+          k: 'Cobertura de proveedores',
+          v: 'He traído OpenStack y Okta a Prowler de principio a fin, y MongoDB Atlas a través de la API y la interfaz — para que quien trabaje sobre esas plataformas pueda escanearlas como cualquier otra nube.',
+        },
       ],
-      note: 'El diseño asume que cada línea de impacto empieza por un número. Si una línea no lo tiene, probablemente pertenece a «Sobre mí».',
+      note: 'Todos los números salen del repositorio público y se pueden comprobar. Parte del trabajo no es público — features que vinieron de peticiones de clientes enterprise, además del soporte interno — así que estas cifras son un suelo, no un total.',
     },
     projects: {
       eyebrow: 'Proyectos',
