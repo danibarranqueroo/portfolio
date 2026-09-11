@@ -149,13 +149,30 @@ export const content: Record<Lang, SiteContent> = {
     projects: {
       eyebrow: 'Projects',
       title: 'Things I\nbuilt',
-      lede: '[ONE LINE — what connects these, or why you built them at all.]',
+      lede: 'Mostly things that started as a problem I had myself, and turned out not to be only mine.',
       items: [
-        { k: '[PROJECT]', v: '[WHAT IT DOES, AND WHAT IT TAUGHT YOU]' },
-        { k: '[PROJECT]', v: '[WHAT IT DOES, AND WHAT IT TAUGHT YOU]' },
-        { k: '[PROJECT]', v: '[WHAT IT DOES, AND WHAT IT TAUGHT YOU]' },
+        {
+          k: 'Nubify',
+          v: 'My final degree project: a Python CLI that lets someone start on AWS without the two fears that stop people — breaking something, and the bill. It estimates real cost through the AWS Pricing API before anything is created. I wrote it because I had exactly that fear in my first months at Prowler.',
+        },
+        {
+          k: 'okta-sdk-python',
+          v: 'Two bugs found and reported upstream in Okta’s own Python SDK while building Prowler’s Okta provider: a validation error on lowercase policy constraint types, and a regex missing a quantifier that broke log stream listing. One is fixed.',
+        },
+        {
+          k: 'pathfinding.cloud',
+          v: 'Brought pathfinding.cloud’s AWS privilege-escalation research into Prowler as Attack Paths coverage, and linked every Attack Paths query back to its Prowler Hub page so a finding leads to an explanation.',
+        },
+        {
+          k: 'Detection proposals',
+          v: '28 new-check proposals opened against Prowler — secrets left in Lambda layers, ECR images, Glue connections, CodePipeline definitions and SageMaker notebooks, plus Kubernetes hardening. Deciding what is worth detecting, not only implementing it.',
+        },
+        {
+          k: 'This site',
+          v: 'Built in the open: pinned dependencies with a seven-day release quarantine, a strict CSP, signed commits, and a security page that runs Prowler against its own repository and publishes what fails. More projects are coming; this page will grow.',
+        },
       ],
-      note: 'This page was missing from the original six. For a cloud-security engineer it usually does more work than Education.',
+      note: 'This page was missing from the original plan. For a cloud-security engineer it usually does more work than an education section.',
     },
     recommendations: {
       eyebrow: 'Recommendations',
@@ -299,13 +316,30 @@ export const content: Record<Lang, SiteContent> = {
     projects: {
       eyebrow: 'Proyectos',
       title: 'Cosas que\nhe hecho',
-      lede: '[UNA LÍNEA — qué los conecta, o por qué los construiste.]',
+      lede: 'Casi todo empezó siendo un problema mío, y resultó no ser solo mío.',
       items: [
-        { k: '[PROYECTO]', v: '[QUÉ HACE Y QUÉ TE ENSEÑÓ]' },
-        { k: '[PROYECTO]', v: '[QUÉ HACE Y QUÉ TE ENSEÑÓ]' },
-        { k: '[PROYECTO]', v: '[QUÉ HACE Y QUÉ TE ENSEÑÓ]' },
+        {
+          k: 'Nubify',
+          v: 'Mi Trabajo de Fin de Grado: una CLI en Python para empezar en AWS sin los dos miedos que frenan a la gente — romper algo y la factura. Estima el coste real con la AWS Pricing API antes de crear nada. Lo escribí porque yo tenía justo ese miedo en mis primeros meses en Prowler.',
+        },
+        {
+          k: 'okta-sdk-python',
+          v: 'Dos bugs encontrados y reportados en el SDK oficial de Python de Okta mientras construía el proveedor de Okta en Prowler: un error de validación con tipos de constraint en minúscula y una regex a la que le faltaba el cuantificador y rompía el listado de log streams. Uno ya está corregido.',
+        },
+        {
+          k: 'pathfinding.cloud',
+          v: 'Llevé la investigación de escalada de privilegios en AWS de pathfinding.cloud a Prowler como cobertura de Attack Paths, y enlacé cada consulta de Attack Paths con su página en Prowler Hub para que un hallazgo lleve a una explicación.',
+        },
+        {
+          k: 'Propuestas de detección',
+          v: '28 propuestas de checks nuevos abiertas en Prowler — secretos olvidados en capas de Lambda, imágenes de ECR, conexiones de Glue, definiciones de CodePipeline y notebooks de SageMaker, además de endurecimiento de Kubernetes. Decidir qué merece la pena detectar, no solo implementarlo.',
+        },
+        {
+          k: 'Esta web',
+          v: 'Hecha en abierto: dependencias fijadas con una cuarentena de siete días, CSP estricta, commits firmados y una página de seguridad que ejecuta Prowler contra su propio repositorio y publica lo que falla. Vienen más proyectos; esta página crecerá.',
+        },
       ],
-      note: 'Esta página no estaba en las seis originales. Para un ingeniero de seguridad cloud suele pesar más que la formación.',
+      note: 'Esta página no estaba en el plan original. Para un ingeniero de seguridad cloud suele pesar más que una sección de formación.',
     },
     recommendations: {
       eyebrow: 'Recomendaciones',
