@@ -44,6 +44,35 @@ export interface Links {
   email: string;
 }
 
+/** One CV entry: a job, a degree or a project. */
+export interface CvEntry {
+  title: string;
+  /** Italic subtitle under the title: role, location, stack. */
+  meta?: string;
+  /** Right-aligned on the same line as the title. */
+  dates?: string;
+  bullets?: string[];
+}
+
+/**
+ * The CV is written separately from the site copy, not derived from it.
+ * A CV bullet and a paragraph of prose have different jobs: the site says
+ * "Commits merged into Prowler, the sixth-highest of 398 contributors on a
+ * project with 14.8k stars", the CV says "528 commits, 6th of 398
+ * contributors". The cost is two sets of copy to keep true; the benefit is
+ * that neither is a compromise.
+ */
+export interface CvContent {
+  role: string;
+  location: string;
+  summary: string;
+  education: CvEntry[];
+  experience: CvEntry[];
+  projects: CvEntry[];
+  skills: Row[];
+  achievements: string[];
+}
+
 export interface SiteContent {
   landing: PageCopy & { statement: string; now: Row[]; cta: string; note: string };
   about: PageCopy & { body: string[]; education: Row[]; note: string };
@@ -53,6 +82,7 @@ export interface SiteContent {
   contact: PageCopy & { channels: Row[]; note: string };
   footer: { rights: string; source: string };
   links: Links;
+  cv: CvContent;
 }
 
 /** Computed at build time so the footer never goes quietly stale. */
@@ -237,6 +267,83 @@ export const content: Record<Lang, SiteContent> = {
       linkedin: 'https://www.linkedin.com/in/danibarranquero',
       email: 'mailto:josedanielbarranqueroortigosa@gmail.com',
     },
+    cv: {
+      role: 'Cloud Security Engineer',
+      location: 'Granada, Spain',
+      summary:
+        'Cloud security engineer on the detection side of Prowler, the open-source cloud security platform. I write the checks that find misconfigurations and build the providers that let teams run them on any cloud.',
+      education: [
+        {
+          title: 'Universidad de Granada',
+          meta: 'Dual Degree in Computer Engineering and Business Administration',
+          dates: '2019 – 2025',
+        },
+        {
+          title: 'Google Cloud',
+          meta: 'Digital Leader learning path, four badges',
+          dates: '2023',
+        },
+      ],
+      experience: [
+        {
+          title: 'Prowler',
+          meta: 'Cloud Security Engineer · Remote',
+          dates: 'Jan 2025 – Present',
+          bullets: [
+            '528 commits merged, sixth of 398 contributors on a 14.8k-star project.',
+            'Built the OpenStack and Okta providers end to end: SDK, checks, API, web UI, docs.',
+            'Security checks across 15 cloud providers, from AWS and Azure to Okta and OpenStack.',
+            'Lead the detection and remediation team: community triage, PR review, Slack support.',
+            'Extended Attack Paths, the graph chaining misconfigurations to critical resources.',
+          ],
+        },
+        {
+          title: 'Prowler',
+          meta: 'Intern Cloud Security Engineer · Remote',
+          dates: 'Jun 2024 – Dec 2024',
+          bullets: [
+            '80 pull requests merged, from Google Cloud test coverage into new detections.',
+            'Converted to a full-time offer after seven months.',
+          ],
+        },
+      ],
+      projects: [
+        {
+          title: 'Nubify',
+          meta: 'Python, AWS Pricing API',
+          bullets: [
+            'Final degree project. A CLI to start on AWS with real cost estimates before anything is created.',
+          ],
+        },
+        {
+          title: 'Detection proposals',
+          meta: 'Prowler',
+          bullets: [
+            '28 new-check proposals: secrets in Lambda layers, ECR images and Glue connections, plus Kubernetes hardening.',
+          ],
+        },
+        {
+          title: 'Personal site',
+          meta: 'Astro, TypeScript, Cloudflare',
+          bullets: [
+            'Pinned dependencies behind a seven-day quarantine, strict CSP, signed commits, and Prowler scanning its own repository.',
+          ],
+        },
+      ],
+      skills: [
+        { k: 'Languages', v: 'Python, TypeScript, Bash' },
+        {
+          k: 'Cloud',
+          v: 'AWS, Azure, Google Cloud, Microsoft 365, OpenStack, Okta, MongoDB Atlas, Oracle Cloud',
+        },
+        { k: 'Security', v: 'Cloud posture management, detection engineering, IAM, attack paths' },
+        { k: 'Tools', v: 'Git, Docker, GitHub Actions, pytest' },
+      ],
+      achievements: [
+        'Speaker at Hackén, Jaén, two consecutive years. Attended AWS re:Invent, fwd:cloudsec and RootedCON.',
+        'Reported two bugs in Okta’s official Python SDK while building Prowler’s Okta provider.',
+      ],
+    },
   },
 
   es: {
@@ -420,6 +527,86 @@ export const content: Record<Lang, SiteContent> = {
       github: 'https://github.com/danibarranqueroo',
       linkedin: 'https://www.linkedin.com/in/danibarranquero',
       email: 'mailto:josedanielbarranqueroortigosa@gmail.com',
+    },
+    cv: {
+      role: 'Ingeniero de Seguridad Cloud',
+      location: 'Granada, España',
+      summary:
+        'Ingeniero de seguridad cloud en la parte de detección de Prowler, la plataforma open source de seguridad cloud. Escribo los checks que detectan malas configuraciones y construyo los proveedores que permiten ejecutarlos en cualquier nube.',
+      education: [
+        {
+          title: 'Universidad de Granada',
+          meta: 'Doble Grado en Ingeniería Informática y Administración de Empresas',
+          dates: '2019 – 2025',
+        },
+        {
+          title: 'Google Cloud',
+          meta: 'Ruta de formación Digital Leader, cuatro insignias',
+          dates: '2023',
+        },
+      ],
+      experience: [
+        {
+          title: 'Prowler',
+          meta: 'Cloud Security Engineer · En remoto',
+          dates: 'ene. 2025 – Actualidad',
+          bullets: [
+            '528 commits mergeados, el sexto de 398 contribuidores en un proyecto de 14.800 estrellas.',
+            'Construí los proveedores de OpenStack y Okta de principio a fin: SDK, checks, API, interfaz web y documentación.',
+            'Checks de seguridad en 15 proveedores cloud, de AWS y Azure a Okta y OpenStack.',
+            'Lidero el equipo de detección y remediación: issues de la comunidad, revisión de PRs y soporte en Slack.',
+            'Amplié Attack Paths, el grafo que encadena malas configuraciones hasta recursos críticos.',
+          ],
+        },
+        {
+          title: 'Prowler',
+          meta: 'Intern Cloud Security Engineer · En remoto',
+          dates: 'jun. 2024 – dic. 2024',
+          bullets: [
+            '80 pull requests mergeadas, de la cobertura de tests de Google Cloud a detecciones nuevas.',
+            'Contrato a jornada completa a los siete meses.',
+          ],
+        },
+      ],
+      projects: [
+        {
+          title: 'Nubify',
+          meta: 'Python, AWS Pricing API',
+          bullets: [
+            'Trabajo de Fin de Grado. Una CLI para empezar en AWS con estimación de coste real antes de crear nada.',
+          ],
+        },
+        {
+          title: 'Propuestas de detección',
+          meta: 'Prowler',
+          bullets: [
+            '28 propuestas de checks nuevos: secretos en capas de Lambda, imágenes de ECR y conexiones de Glue, además de endurecimiento de Kubernetes.',
+          ],
+        },
+        {
+          title: 'Web personal',
+          meta: 'Astro, TypeScript, Cloudflare',
+          bullets: [
+            'Dependencias fijadas con cuarentena de siete días, CSP estricta, commits firmados y Prowler escaneando su propio repositorio.',
+          ],
+        },
+      ],
+      skills: [
+        { k: 'Lenguajes', v: 'Python, TypeScript, Bash' },
+        {
+          k: 'Cloud',
+          v: 'AWS, Azure, Google Cloud, Microsoft 365, OpenStack, Okta, MongoDB Atlas, Oracle Cloud',
+        },
+        {
+          k: 'Seguridad',
+          v: 'Postura de seguridad cloud, ingeniería de detección, IAM, attack paths',
+        },
+        { k: 'Herramientas', v: 'Git, Docker, GitHub Actions, pytest' },
+      ],
+      achievements: [
+        'Ponente en Hackén, Jaén, dos años consecutivos. Asistente a AWS re:Invent, fwd:cloudsec y RootedCON.',
+        'Reporté dos bugs en el SDK oficial de Python de Okta mientras construía su proveedor en Prowler.',
+      ],
     },
   },
 };

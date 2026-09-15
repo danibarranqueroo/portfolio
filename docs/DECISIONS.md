@@ -380,6 +380,39 @@ this: the page's CSP meta blocks an injected `<style>` (its hash is not in the
 policy, which is the CSP working correctly), and Tailwind's `@layer` wrappers
 have to be unwrapped for the preview renderer to apply anything.
 
+## The CV is written separately from the site
+
+The CV used to render from the site's own content, on the argument that they
+could then never drift. Dani asked for it to be condensed, and doing that
+proved the argument wrong: a CV bullet and a paragraph of prose are different
+things. The site says "Commits merged into Prowler, the sixth-highest of 398
+contributors on a project with 14.8k stars"; the CV says "528 commits merged,
+sixth of 398 contributors on a 14.8k-star project."
+
+So `content.cv` is its own block, written short. Two sets of copy to keep
+true, and neither is a compromise. If a number changes, it has to change in
+both places.
+
+Laid out after the NIT Warangal Overleaf template Dani chose: single column,
+serif, small-caps section heads over a rule, title left with dates right,
+italic subtitle, tight bullets. It is CSS, not LaTeX, so it reproduces that
+structure rather than being the template. Sections follow it too, which is
+why there is no Summary: the template has none, and the role line plus the
+first bullet already say it.
+
+**Fitting one page took measuring, not guessing.** It started at roughly a
+page and a half. The cuts, in order of how much they bought: dropping the
+summary, getting every bullet onto one line, shortening the cloud list,
+merging three achievements into two, and finally taking the print contact
+line down to 7.8pt so it stops wrapping a stray "Granada, Spain" and costing
+a whole line.
+
+Verified by clipping the rendered print layout to exactly 794x1123 px, one
+A4 page at 96dpi, and checking the last section survives. That binary test is
+reliable; measuring the PNG is not, because the preview renderer always emits
+square images. The real PDF comes from the browser's own print engine, so
+pagination can still differ by a line.
+
 ## Open
 
 - **Domain** not registered. `site` in `astro.config.mjs` is a placeholder and

@@ -546,77 +546,152 @@ main > .wide {
   letter-spacing: -0.022em;
 }
 
-/* --- CV ------------------------------------------------------------------ */
+/* --- CV ------------------------------------------------------------------
+   Laid out after the NIT Warangal Overleaf template: single column, serif,
+   small-caps section heads over a rule, title left with dates right, italic
+   subtitle, tight bullets, sized to fit one A4 page.
+   -------------------------------------------------------------------------- */
+.cv {
+  font-family: var(--font-display);
+  max-width: 58rem;
+}
 .cv-head {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: flex-end;
-  gap: 24px;
-  padding-bottom: 22px;
-  border-bottom: 1px solid var(--color-rule);
+  text-align: center;
+  padding-bottom: 12px;
+  border-bottom: 1.5px solid var(--color-text);
+}
+.cv-name {
+  font-family: var(--font-display);
+  font-size: clamp(30px, 4vw, 40px);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.1;
+  margin: 0;
 }
 .cv-role {
   font-family: var(--font-mono);
-  font-size: 13px;
-  letter-spacing: 0.14em;
+  font-size: 12px;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--color-accent-text);
-  margin: 10px 0 0;
+  margin: 8px 0 0;
 }
 .cv-contact {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+  font-family: var(--font-sans);
   font-size: 13.5px;
-  line-height: 1.75;
+  color: var(--color-muted);
+  margin: 10px 0 0;
+  line-height: 1.7;
 }
-/* Right-aligned only when it sits beside the name. Stacked under it on a
-   phone, right alignment reads as a mistake. */
-@media (min-width: 640px) {
-  .cv-contact {
-    text-align: right;
-  }
+.cv-sep {
+  padding: 0 7px;
+  opacity: 0.55;
 }
+
 .cv-actions {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 14px;
-  margin-top: 26px;
+  margin-top: 24px;
 }
 .cv-actions .btn {
   border: 0;
   font-family: inherit;
   cursor: pointer;
 }
+
 .cv-block {
-  margin-top: 44px;
+  margin-top: 26px;
 }
-.cv-lede {
-  font-size: 17px;
-  line-height: 1.6;
+.cv-sect {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text);
+  margin: 0 0 10px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--color-rule);
+}
+.cv-summary {
+  font-family: var(--font-sans);
+  font-size: 14.5px;
+  line-height: 1.55;
   margin: 0;
   max-width: 62ch;
-}
-.cv-role-entry + .cv-role-entry {
-  margin-top: 28px;
-}
-.cv-role-head {
-  margin-bottom: 12px;
-}
-.cv-co {
-  font-family: var(--font-display);
-  font-size: 23px;
-  font-weight: 500;
-  margin: 0;
+  text-wrap: pretty;
 }
 
-/* Print: an A4 document, and the source the PDF pipeline will capture. */
+.cv-entry + .cv-entry {
+  margin-top: 14px;
+}
+.cv-entry-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+}
+.cv-entry-title {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.25;
+}
+.cv-entry-dates {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--color-muted);
+  white-space: nowrap;
+}
+.cv-entry-meta {
+  font-family: var(--font-sans);
+  font-style: italic;
+  font-size: 13.5px;
+  color: var(--color-muted);
+  margin: 2px 0 0;
+}
+.cv-bullets {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 6px 0 0;
+  padding-left: 18px;
+  list-style: disc;
+}
+.cv-bullets li {
+  margin-top: 3px;
+  text-wrap: pretty;
+}
+.cv-bullets li::marker {
+  color: var(--color-accent-text);
+}
+
+.cv-skills {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+}
+.cv-skills li {
+  display: grid;
+  grid-template-columns: fit-content(140px) 1fr;
+  gap: 14px;
+  margin-top: 4px;
+}
+.cv-skill-k {
+  font-weight: 600;
+}
+
+/* --- CV in print: an A4 document, and the source the PDF is saved from ---- */
 @media print {
   @page {
     size: A4;
-    margin: 16mm 14mm;
+    margin: 13mm 14mm;
   }
   :root {
     color-scheme: light;
@@ -636,428 +711,61 @@ main > .wide {
     display: block;
   }
   body {
-    font-size: 10.5pt;
+    font-size: 9.5pt;
   }
-  .display {
-    font-size: 26pt;
+  .cv {
+    max-width: none;
+  }
+  .cv-name {
+    font-size: 21pt;
+  }
+  .cv-role {
+    font-size: 8pt;
+    margin-top: 5pt;
+  }
+  /* One line, or it wraps a stray "Granada, Spain" and costs a whole line. */
+  .cv-contact {
+    font-size: 7.8pt;
+    margin-top: 5pt;
+  }
+  .cv-sep {
+    padding: 0 5px;
   }
   .cv-block {
-    margin-top: 18pt;
+    margin-top: 7pt;
     break-inside: avoid;
   }
-  /* Scoped under .cv so specificity is not lower than the .cv-role-entry +
-     .cv-role-entry rule above — a descending-specificity selector is exactly
-     the cascade trap that bit the portrait and the layout edits earlier. */
-  .cv .cv-role-entry,
-  .cv .row,
-  .cv .impact {
+  .cv-sect {
+    font-size: 9.5pt;
+    margin-bottom: 5pt;
+  }
+  .cv-summary {
+    font-size: 9.5pt;
+    max-width: none;
+  }
+  .cv-entry + .cv-entry {
+    margin-top: 7pt;
+  }
+  .cv-entry-title {
+    font-size: 11.5pt;
+  }
+  .cv-entry-dates,
+  .cv-entry-meta {
+    font-size: 9pt;
+  }
+  .cv-bullets,
+  .cv-skills {
+    font-size: 9pt;
+    line-height: 1.35;
+  }
+  .cv .cv-entry,
+  .cv .cv-bullets li,
+  .cv .cv-skills li {
     break-inside: avoid;
   }
   a {
     text-decoration: none;
   }
-}
-
-/* The name is a label above the statement, not the headline. */
-/* Medium: reads as a name, not a label — but still clearly below the
-   statement, which is the thing the page is actually about. */
-.hero-name {
-  font-size: 24px;
-  font-weight: 500;
-  letter-spacing: -0.01em;
-  color: var(--color-muted);
-  margin: 0 0 16px;
-}
-.statement {
-  max-width: 26ch;
-  text-wrap: balance;
-}
-.hero-role {
-  margin-top: 20px;
-  color: var(--color-accent-text);
-}
-
-/* --- avatar -------------------------------------------------------------- */
-/* A cutout, not a framed photo: no circle, no border, no crop.
-   The eyes are circular windows onto a second copy of the same image; nudging
-   that copy moves the iris. Percentages throughout so it scales with the
-   rendered size. Source is 375x666, irises at (134,290) and (252,290) r~17. */
-.avatar {
-  position: relative;
-  width: 240px;
-  flex: none;
-}
-.avatar-img {
-  width: 100%;
-  height: auto;
-  display: block;
-  /* The render carries enough rim light that the hair reads against black
-     unaided, so dark mode only needs a faint purple lift, not a halo. */
-  filter: drop-shadow(0 14px 22px light-dark(rgba(15, 27, 97, 0.24), rgba(179, 87, 255, 0.2)));
-}
-
-.eye {
-  position: absolute;
-  width: 9.07%;
-  aspect-ratio: 1;
-  top: 40.99%;
-  border-radius: 50%;
-  overflow: hidden;
-  pointer-events: none;
-}
-.eye-l {
-  left: 31.2%;
-}
-.eye-r {
-  left: 62.67%;
-}
-.eye img {
-  position: absolute;
-  width: 1102.9%;
-  height: auto;
-  max-width: none;
-  display: block;
-  top: -803%;
-  transform: translate(var(--ex, 0px), var(--ey, 0px));
-  transition: transform 0.22s ease-out;
-}
-.eye-l img {
-  left: -344.1%;
-}
-.eye-r img {
-  left: -691.1%;
-}
-
-@media (max-width: 520px) {
-  .avatar {
-    width: 150px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .eye img {
-    transform: none;
-    transition: none;
-  }
-}
-
-/* --- experience timeline draw-in ----------------------------------------- */
-.spine {
-  transform-origin: top;
-}
-.roles[data-animate] .spine {
-  transform: scaleY(0);
-  transition: transform 0.7s ease-out;
-}
-.roles[data-animate] .spine::before {
-  opacity: 0;
-  transform: scale(0.4);
-  transition:
-    opacity 0.3s ease 0.45s,
-    transform 0.3s ease 0.45s;
-}
-.roles[data-animate].is-visible .spine {
-  transform: scaleY(1);
-}
-.roles[data-animate].is-visible .spine::before {
-  opacity: 1;
-  transform: scale(1);
-}
-.roles[data-animate] .role:nth-child(2) .spine {
-  transition-delay: 0.18s;
-}
-.roles[data-animate] .role:nth-child(2) .spine::before {
-  transition-delay: 0.63s;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .roles[data-animate] .spine,
-  .roles[data-animate] .spine::before {
-    transform: none;
-    opacity: 1;
-    transition: none;
-  }
-}
-
-/* --- security page: audit values ----------------------------------------- */
-.val {
-  font-size: 15px;
-}
-.val.mono {
-  font-family: var(--font-mono);
-  font-size: 13.5px;
-}
-.val[data-good] {
-  color: var(--color-alt);
-}
-.val[data-good]::after {
-  content: " ✓";
-}
-
-/* --- security page: prowler scan ----------------------------------------- */
-.scan-head {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 32px;
-  align-items: center;
-  padding: 22px 24px;
-  border: 1px solid var(--color-rule);
-  border-radius: 5px;
-  background: var(--color-surface);
-  margin-bottom: 34px;
-}
-.scan-score {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  padding-right: 32px;
-  border-right: 1px solid var(--color-rule);
-}
-.scan-rate {
-  font-family: var(--font-display);
-  font-size: 46px;
-  line-height: 1;
-  font-weight: 500;
-  color: var(--color-accent-text);
-}
-.scan-rate-k {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--color-muted);
-}
-.scan-meta {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 10px 26px;
-  flex: 1 1 260px;
-}
-.scan-meta li {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.scan-sub {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--color-muted);
-  margin: 30px 0 14px;
-}
-
-.checks {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-.check {
-  padding: 14px 16px;
-  border: 1px solid var(--color-rule);
-  border-radius: 4px;
-}
-.check-fail {
-  border-left: 3px solid var(--color-accent-text);
-}
-.check-top {
-  display: flex;
-  align-items: baseline;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-.check-title {
-  font-size: 15px;
-  line-height: 1.45;
-}
-.check-id {
-  font-family: var(--font-mono);
-  font-size: 11.5px;
-  color: var(--color-muted);
-  display: block;
-  margin-top: 5px;
-}
-.check-note {
-  font-size: 14px;
-  line-height: 1.55;
-  color: var(--color-muted);
-  margin: 12px 0 0;
-  text-wrap: pretty;
-}
-
-/* Severity and disposition are the only place colour carries meaning here, so
-   both also carry a text label — never colour alone. */
-.sev,
-.disp {
-  font-family: var(--font-mono);
-  font-size: 10.5px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  padding: 3px 7px;
-  border-radius: 3px;
-  border: 1px solid currentColor;
-  white-space: nowrap;
-}
-.sev-critical,
-.sev-high {
-  color: light-dark(#b3261e, #ff8a80);
-}
-.sev-medium {
-  color: light-dark(#8a5a00, #ffcc80);
-}
-.sev-low {
-  color: var(--color-muted);
-}
-.disp {
-  margin-right: 9px;
-}
-.disp-blocked {
-  color: light-dark(#8a5a00, #ffcc80);
-}
-.disp-accepted {
-  color: var(--color-alt);
-}
-.disp-todo {
-  color: var(--color-accent-text);
-}
-
-.checks-pass .check {
-  display: flex;
-  align-items: baseline;
-  gap: 12px;
-  padding: 10px 16px;
-}
-.check-tick {
-  color: var(--color-alt);
-  font-size: 14px;
-}
-
-@media (max-width: 640px) {
-  .scan-score {
-    padding-right: 0;
-    border-right: none;
-  }
-}
-
-/* --- security page: spotter ---------------------------------------------- */
-.score {
-  font-family: var(--font-mono);
-  font-size: 13px;
-  color: var(--color-muted);
-  border: 1px solid var(--color-rule);
-  border-radius: 3px;
-  padding: 2px 7px;
-  margin-left: 10px;
-}
-.spotters {
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
-}
-.spotter-h {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--color-muted);
-  margin: 0 0 12px;
-}
-.code {
-  list-style: none;
-  margin: 0;
-  padding: 12px 0;
-  background: var(--color-surface);
-  border: 1px solid var(--color-rule);
-  border-radius: 4px;
-  overflow-x: auto;
-}
-.code-line {
-  display: flex;
-  align-items: baseline;
-  gap: 14px;
-  width: 100%;
-  background: none;
-  border: 0;
-  border-left: 2px solid transparent;
-  padding: 3px 14px;
-  text-align: left;
-  cursor: pointer;
-  color: inherit;
-  font-family: var(--font-mono);
-  font-size: 13.5px;
-  line-height: 1.7;
-  transition:
-    background 0.12s ease,
-    border-color 0.12s ease;
-}
-.code-line:hover {
-  background: color-mix(in oklab, var(--color-accent-text) 10%, transparent);
-}
-.ln {
-  color: var(--color-muted);
-  font-size: 11.5px;
-  min-width: 14px;
-  user-select: none;
-}
-.code-line code {
-  white-space: pre;
-}
-
-.code[data-done] .code-line {
-  cursor: default;
-}
-.code[data-done] .code-line:hover {
-  background: none;
-}
-.code-line[data-state="right"] {
-  border-left-color: var(--color-alt);
-  background: color-mix(in oklab, var(--color-alt) 14%, transparent);
-}
-.code-line[data-state="wrong"] {
-  border-left-color: var(--color-accent-text);
-  background: color-mix(in oklab, var(--color-accent-text) 12%, transparent);
-  text-decoration: line-through;
-  text-decoration-color: var(--color-muted);
-}
-
-.reveal {
-  margin-top: 16px;
-  padding-left: 15px;
-  border-left: 2px solid var(--color-accent-text);
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.reveal p {
-  margin: 0;
-  font-size: 15px;
-  line-height: 1.55;
-  text-wrap: pretty;
-}
-.reveal-verdict {
-  font-weight: 600;
-}
-.reveal-why {
-  color: var(--color-text);
-}
-.reveal-fix {
-  color: var(--color-muted);
-  font-size: 14px;
-}
-.fix-k {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--color-accent-text);
-  margin-right: 6px;
 }
 
 /* --- placeholder marker -------------------------------------------------- */

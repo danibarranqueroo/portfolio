@@ -3,79 +3,95 @@ import { content } from '../../data/content';
 import type { Lang } from '../../i18n/ui';
 
 /**
- * The CV renders from exactly the same data as About and Experience, so the
- * two can never drift apart. Print styles turn it into an A4 document, which
- * is also what the PDF pipeline will capture when it lands.
+ * A one-page CV, laid out after the NIT Warangal Overleaf template Dani chose:
+ * single column, serif, small-caps section heads over a rule, title left with
+ * dates right, italic subtitle, tight bullets.
+ *
+ * It is CSS rather than LaTeX, so it is a reproduction of that structure, not
+ * the template itself. Computer Modern is not available, so the site's serif
+ * carries the same role.
+ *
+ * Content comes from content.cv, which is written short on purpose. See the
+ * note on CvContent for why it is not derived from the site copy.
  */
 const { lang } = Astro.props as { lang: Lang };
 const es = lang === 'es';
 const c = content[lang];
+const cv = c.cv;
 const links = c.links;
+
+const t = {
+  education: es ? 'Formación' : 'Education',
+  experience: es ? 'Experiencia' : 'Experience',
+  projects: es ? 'Proyectos' : 'Projects',
+  skills: es ? 'Competencias técnicas' : 'Technical skills',
+  achievements: es ? 'Otros' : 'Achievements',
+  print: es ? 'Descargar en PDF' : 'Download as PDF',
+  hint: es
+    ? 'Se abre el diálogo de impresión, elige «Guardar como PDF».'
+    : 'Opens the print dialog, then choose “Save as PDF”.',
+};
 ---
 
-<section class="wide cv">
+<article class="cv">
   <header class="cv-head">
-    <div>
-      <h1 class="display display-sm">Daniel Barranquero</h1>
-      <p class="cv-role">{es ? 'Ingeniero de Seguridad Cloud' : 'Cloud Security Engineer'}</p>
-    </div>
-    <ul class="cv-contact">
-      <li><a href={links.email}>josedanielbarranqueroortigosa@gmail.com</a></li>
-      <li><a href={links.github} rel="me noopener">github.com/danibarranqueroo</a></li>
-      <li><a href={links.linkedin} rel="me noopener">linkedin.com/in/danibarranquero</a></li>
-      <li>Granada, {es ? 'España' : 'Spain'}</li>
-    </ul>
+    <h1 class="cv-name">Daniel Barranquero</h1>
+    <p class="cv-role">{cv.role}</p>
+    <p class="cv-contact">
+      <a href={links.email}>josedanielbarranqueroortigosa@gmail.com</a>
+      <span class="cv-sep" aria-hidden="true">·</span>
+      <a href={links.github} rel="me noopener">github.com/danibarranqueroo</a>
+      <span class="cv-sep" aria-hidden="true">·</span>
+      <a href={links.linkedin} rel="me noopener">linkedin.com/in/danibarranquero</a>
+      <span class="cv-sep" aria-hidden="true">·</span>
+      <span>{cv.location}</span>
+    </p>
   </header>
 
   <div class="cv-actions no-print">
-    <button type="button" class="btn" data-print>
-      {es ? 'Descargar en PDF' : 'Download as PDF'}
-    </button>
-    <span class="lnk">
-      {es ? 'Se abre el diálogo de impresión: elige «Guardar como PDF».' : 'Opens the print dialog, then choose “Save as PDF”.'}
-    </span>
+    <button type="button" class="btn" data-print>{t.print}</button>
+    <span class="lnk">{t.hint}</span>
   </div>
 
-  <section class="cv-block">
-    <h2 class="sect">{es ? 'Perfil' : 'Profile'}</h2>
-    <p class="cv-lede">{c.landing.lede}</p>
-  </section>
 
-  <section class="cv-block">
-    <h2 class="sect">{es ? 'Experiencia' : 'Experience'}</h2>
-    {
-      c.experience.roles.map((role) => (
-        <article class="cv-role-entry">
-          <div class="cv-role-head">
-            <h3 class="cv-co">{role.company}</h3>
-            <p class="role-meta">{role.meta}</p>
+  {
+    (
+      [
+        [t.education, cv.education],
+        [t.experience, cv.experience],
+        [t.projects, cv.projects],
+      ] as const
+    ).map(([heading, entries]) => (
+      <section class="cv-block">
+        <h2 class="cv-sect">{heading}</h2>
+        {entries.map((e) => (
+          <div class="cv-entry">
+            <div class="cv-entry-top">
+              <h3 class="cv-entry-title">{e.title}</h3>
+              {e.dates && <span class="cv-entry-dates">{e.dates}</span>}
+            </div>
+            {e.meta && <p class="cv-entry-meta">{e.meta}</p>}
+            {e.bullets && (
+              <ul class="cv-bullets">
+                {e.bullets.map((b) => (
+                  <li>{b}</li>
+                ))}
+              </ul>
+            )}
           </div>
-          <ul class="impacts">
-            {role.impacts.map((i) => (
-              <li class="impact">
-                <span class="metric">{i.metric}</span>
-                <span class="impact-t">{i.text}</span>
-              </li>
-            ))}
-          </ul>
-          <div class="tags">
-            {role.tags.map((t) => (
-              <span class="tag">{t}</span>
-            ))}
-          </div>
-        </article>
-      ))
-    }
-  </section>
+        ))}
+      </section>
+    ))
+  }
 
   <section class="cv-block">
-    <h2 class="sect">{es ? 'Open source' : 'Open source'}</h2>
-    <ul class="rows">
+    <h2 class="cv-sect">{t.skills}</h2>
+    <ul class="cv-skills">
       {
-        c.experience.oss.map((r) => (
-          <li class="row">
-            <span class="row-k">{r.k}</span>
-            <span class="row-v">{r.v}</span>
+        cv.skills.map((sk) => (
+          <li>
+            <span class="cv-skill-k">{sk.k}</span>
+            <span class="cv-skill-v">{sk.v}</span>
           </li>
         ))
       }
@@ -83,44 +99,9 @@ const links = c.links;
   </section>
 
   <section class="cv-block">
-    <h2 class="sect">{es ? 'Proyectos' : 'Projects'}</h2>
-    <ul class="rows">
-      {
-        c.projects.items.map((r) => (
-          <li class="row">
-            <span class="row-k">{r.k}</span>
-            <span class="row-v">{r.v}</span>
-          </li>
-        ))
-      }
+    <h2 class="cv-sect">{t.achievements}</h2>
+    <ul class="cv-bullets">
+      {cv.achievements.map((a) => <li>{a}</li>)}
     </ul>
   </section>
-
-  <section class="cv-block">
-    <h2 class="sect">{es ? 'Charlas y conferencias' : 'Speaking and conferences'}</h2>
-    <ul class="rows">
-      {
-        c.experience.speaking.map((r) => (
-          <li class="row">
-            <span class="row-k">{r.k}</span>
-            <span class="row-v">{r.v}</span>
-          </li>
-        ))
-      }
-    </ul>
-  </section>
-
-  <section class="cv-block">
-    <h2 class="sect">{es ? 'Formación' : 'Education'}</h2>
-    <ul class="rows">
-      {
-        c.about.education.map((r) => (
-          <li class="row">
-            <span class="row-k">{r.k}</span>
-            <span class="row-v">{r.v}</span>
-          </li>
-        ))
-      }
-    </ul>
-  </section>
-</section>
+</article>
