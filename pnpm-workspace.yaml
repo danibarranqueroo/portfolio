@@ -32,3 +32,7 @@ allowBuilds:
   lefthook: true
   # Native image processing. Used by astro:assets for image optimisation.
   sharp: true
+  # Cloudflare's runtime, pulled in by wrangler. Fetches a platform binary at
+  # install time. Required to deploy at all, and it comes from Cloudflare
+  # themselves rather than a transitive third party.
+  workerd: true

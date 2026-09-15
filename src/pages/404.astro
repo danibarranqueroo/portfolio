@@ -1,0 +1,26 @@
+---
+import { localizePath } from '../i18n/utils';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+/**
+ * Served by Cloudflare for any unmatched path, via not_found_handling in
+ * wrangler.jsonc. Deliberately English-only: a 404 has no locale to read from,
+ * and guessing one is worse than picking the default.
+ */
+---
+
+<BaseLayout noindex title="Not found · Daniel Barranquero" description="That page does not exist.">
+  <section>
+    <p class="eyebrow">404</p>
+    <h1 class="display display-sm">This page does not exist</h1>
+    <p class="lede">
+      The link may be old, or I may have moved something. Either is my fault rather than yours.
+    </p>
+    <div class="links">
+      <a class="btn" href={localizePath('/', 'en')}>Go to the homepage</a>
+      <a class="lnk" href={localizePath('/experience', 'en')}>Experience</a>
+      <a class="lnk" href={localizePath('/projects', 'en')}>Projects</a>
+      <a class="lnk" href={localizePath('/contact', 'en')}>Contact</a>
+    </div>
+  </section>
+</BaseLayout>
