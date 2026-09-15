@@ -278,7 +278,11 @@ main > .wide {
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: minmax(max-content, 200px) 1fr;
+  /* fit-content(), not minmax(): a minmax track is grown to its limit before
+     free space reaches the 1fr, so minmax(max-content, 200px) sat at 200px no
+     matter how short the key was. fit-content(200px) sizes to the content and
+     only caps at 200px. */
+  grid-template-columns: fit-content(200px) 1fr;
   column-gap: 32px;
 }
 .row {
@@ -288,6 +292,18 @@ main > .wide {
   padding: 13px 0;
   border-bottom: 1px solid var(--color-rule);
   align-items: baseline;
+}
+
+/* The first row was sitting 20px lower in its slot than every row after it:
+   it inherited the section heading's bottom margin AND its own top padding,
+   while later rows only have their padding. Zero the first row's top padding
+   and let the heading margin do that job alone, so the gap above every row
+   is the same 13px. */
+.rows > .row:first-child {
+  padding-top: 0;
+}
+.sect:has(+ .rows) {
+  margin-bottom: 13px;
 }
 
 .row:last-child {
