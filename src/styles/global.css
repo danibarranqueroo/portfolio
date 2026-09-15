@@ -118,11 +118,15 @@ main > .wide {
   .wrap {
     padding: 28px 22px 72px;
   }
+  /* Collapse to one column but KEEP both line names on it, so `grid-column:
+     text` and `grid-column: wide` still resolve. Overriding `main > *` instead
+     does not work: `main > .wide` is (0,1,1) and beats the (0,0,1) of
+     `main > *`, and a media query adds no specificity. The .wide sections then
+     asked for wide-start/wide-end lines that no longer existed, grid invented
+     implicit columns for them, and the text track was squeezed to one word per
+     line with sections overlapping. */
   main {
-    grid-template-columns: minmax(0, 1fr);
-  }
-  main > * {
-    grid-column: 1;
+    grid-template-columns: [wide-start text-start] minmax(0, 1fr) [text-end wide-end];
   }
 }
 
@@ -342,15 +346,34 @@ main > .wide {
 }
 .role {
   display: grid;
+  /* Two columns, three children. Without explicit placement .role-impacts
+     wrapped onto a second row INTO the 14px spine column and its text was
+     crushed to a word per line below the breakpoint. */
   grid-template-columns: 14px 1fr;
   gap: 22px;
 }
-/* At width the role splits: spine, a meta column, then the impacts. Below
-   this the meta and impacts stack in a single column beside the spine. */
+.spine {
+  grid-row: 1 / -1;
+}
+.role-head {
+  grid-column: 2;
+}
+.role-impacts {
+  grid-column: 2;
+}
+/* At width the role opens into three columns: spine, meta, impacts. */
 @media (min-width: 820px) {
   .role {
     grid-template-columns: 14px minmax(190px, 240px) 1fr;
     column-gap: 36px;
+  }
+  .role-head {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .role-impacts {
+    grid-column: 3;
+    grid-row: 1;
   }
 }
 .spine {
@@ -405,7 +428,7 @@ main > .wide {
 }
 .impact {
   display: grid;
-  grid-template-columns: 92px 1fr;
+  grid-template-columns: fit-content(92px) 1fr;
   gap: 16px;
   align-items: baseline;
 }
@@ -547,7 +570,13 @@ main > .wide {
   padding: 0;
   font-size: 13.5px;
   line-height: 1.75;
-  text-align: right;
+}
+/* Right-aligned only when it sits beside the name. Stacked under it on a
+   phone, right alignment reads as a mistake. */
+@media (min-width: 640px) {
+  .cv-contact {
+    text-align: right;
+  }
 }
 .cv-actions {
   display: flex;

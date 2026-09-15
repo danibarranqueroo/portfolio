@@ -346,6 +346,40 @@ There is now a check for this class of bug — see the cascade-order scan in the
 verification notes. Every responsive override must come after the rule it
 overrides.
 
+## Responsive layout: two grid bugs, both about specificity and placement
+
+The page was unreadable below 900px. Two separate causes, both worth
+remembering because neither is visible in the source.
+
+**1. A media query cannot out-specify a class.** The collapse to one column
+reset `main > *` (specificity 0,0,1), but `main > .wide { grid-column: wide }`
+sits outside the query at (0,1,1) and wins, because a media query adds no
+specificity. The `.wide` sections kept asking for `wide-start`/`wide-end`
+lines that the single-column grid no longer defined, so grid invented implicit
+columns for them and squeezed the text track to one word per line, with
+sections overlapping.
+
+The fix is not a more specific override. It is to keep both line names on the
+one column, so `grid-column: text` and `grid-column: wide` both resolve and no
+override is needed at all:
+
+```css
+main { grid-template-columns: [wide-start text-start] minmax(0, 1fr) [text-end wide-end]; }
+```
+
+**2. Three children, two columns.** `.role` declared `14px 1fr` but holds a
+spine, a head and an impacts block. Below the breakpoint the third child
+wrapped onto a second row into the 14px spine column and its text was crushed.
+Explicit placement fixes it: the spine spans `grid-row: 1 / -1`, and head and
+impacts are both placed in column 2.
+
+**How these were found.** By rendering, not by reading. The built stylesheet is
+inlined into a copy of each page and loaded in `iframe`s of fixed width, since
+an iframe reports its own width to media queries. Two things bite when doing
+this: the page's CSP meta blocks an injected `<style>` (its hash is not in the
+policy, which is the CSP working correctly), and Tailwind's `@layer` wrappers
+have to be unwrapped for the preview renderer to apply anything.
+
 ## Open
 
 - **Domain** not registered. `site` in `astro.config.mjs` is a placeholder and
