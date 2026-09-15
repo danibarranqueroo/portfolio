@@ -64,7 +64,7 @@ export const content: Record<Lang, SiteContent> = {
       eyebrow: 'Cloud Security Engineer',
       title: 'Daniel\nBarranquero',
       lede: 'I build the providers and checks that let anyone audit the cloud they actually run on.',
-      statement: 'Software engineering that secures the whole stack — SDK to UI, cloud to AI.',
+      statement: 'Software engineering that secures the whole stack. SDK to UI, cloud to AI.',
       cta: 'Read the CV',
       now: [
         { k: 'Role', v: 'Cloud Security Engineer at Prowler' },
@@ -258,7 +258,7 @@ export const content: Record<Lang, SiteContent> = {
       title: 'Daniel\nBarranquero',
       lede: 'Construyo los proveedores y los checks con los que cualquiera puede auditar la nube en la que trabaja.',
       statement:
-        'Ingeniería de software que asegura todo el stack: del SDK a la UI, del cloud a la IA.',
+        'Ingeniería de software que asegura todo el stack. Del SDK a la UI, del cloud a la IA.',
       cta: 'Ver el CV',
       now: [
         { k: 'Puesto', v: 'Cloud Security Engineer en Prowler' },
