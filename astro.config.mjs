@@ -12,9 +12,10 @@ import { THEME_INIT } from './src/lib/theme-init.mjs';
 /** @type {`sha256-${string}`} */
 const THEME_INIT_HASH = `sha256-${createHash('sha256').update(THEME_INIT).digest('base64')}`;
 
-// TODO(domain): replace once the domain is registered (Phase 7).
-// Must be an absolute URL — sitemap and canonical tags depend on it.
-const SITE = 'https://example.com';
+// Absolute URL. Canonical tags, hreflang alternates, the sitemap and
+// robots.txt are all derived from this, so it must match the live host
+// exactly, including whether www is the canonical form.
+const SITE = 'https://danibarranquero.dev';
 
 export default defineConfig({
   site: SITE,

@@ -23,9 +23,16 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
 const bare = Astro.url.pathname.replace(/^\/(es)(?=\/|$)/, '') || '/';
 const normalized = bare.endsWith('/') && bare !== '/' ? bare.slice(0, -1) : bare;
 
+/**
+ * Canonical tags and the sitemap use a trailing slash, because that is the URL
+ * Astro builds. The hreflang alternates were built from a slash-stripped path,
+ * so they disagreed, and a search engine reads /about and /about/ as two URLs.
+ */
+const withSlash = (path: string) => (path === '/' || path.endsWith('/') ? path : `${path}/`);
+
 const alternates = (Object.keys(languages) as Array<keyof typeof languages>).map((l) => ({
   lang: l,
-  href: new URL(localizePath(normalized, l), Astro.site).toString(),
+  href: new URL(withSlash(localizePath(normalized, l)), Astro.site).toString(),
 }));
 
 const nav = [
@@ -53,7 +60,11 @@ const other = (Object.keys(languages) as Array<keyof typeof languages>).find((l)
     {noindex && <meta name="robots" content="noindex, follow" />}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     {alternates.map((a) => <link rel="alternate" hreflang={a.lang} href={a.href} />)}
-    <link rel="alternate" hreflang="x-default" href={new URL(normalized, Astro.site).toString()} />
+    <link
+      rel="alternate"
+      hreflang="x-default"
+      href={new URL(withSlash(normalized), Astro.site).toString()}
+    />
 
     <!-- Runs before first paint so a stored theme never flashes the wrong one.
          Its CSP hash is derived from the same constant in astro.config.mjs. -->
