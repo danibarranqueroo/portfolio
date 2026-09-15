@@ -323,13 +323,18 @@ export const content: Record<Lang, SiteContent> = {
         },
       ],
       skills: [
-        { k: 'Languages', v: 'Python, TypeScript, Bash' },
+        { k: 'Languages', v: 'Python, TypeScript, Java, C/C++, SQL, Bash' },
         {
           k: 'Cloud',
           v: 'AWS, Azure, Google Cloud, Microsoft 365, OpenStack, Okta, MongoDB Atlas, Oracle Cloud',
         },
-        { k: 'Security', v: 'Cloud posture management, detection engineering, IAM, attack paths' },
-        { k: 'Tools', v: 'Git, Docker, GitHub Actions, pytest' },
+        { k: 'Infrastructure', v: 'Docker, Kubernetes, Terraform, Linux, networking' },
+        {
+          k: 'Security',
+          v: 'Cloud posture management, detection engineering, IAM, attack paths, CIS Benchmarks, DISA STIG',
+        },
+        { k: 'AI', v: 'AI-assisted development, LLM workflows, agents and skills' },
+        { k: 'Tools', v: 'Git, GitHub Actions, pytest' },
       ],
       achievements: [
         'Sixth of 398 contributors to Prowler by commit count, on a project with 14.8k stars.',
@@ -578,16 +583,18 @@ export const content: Record<Lang, SiteContent> = {
         },
       ],
       skills: [
-        { k: 'Lenguajes', v: 'Python, TypeScript, Bash' },
+        { k: 'Lenguajes', v: 'Python, TypeScript, Java, C/C++, SQL, Bash' },
         {
           k: 'Cloud',
           v: 'AWS, Azure, Google Cloud, Microsoft 365, OpenStack, Okta, MongoDB Atlas, Oracle Cloud',
         },
+        { k: 'Infraestructura', v: 'Docker, Kubernetes, Terraform, Linux, redes' },
         {
           k: 'Seguridad',
-          v: 'Postura de seguridad cloud, ingeniería de detección, IAM, attack paths',
+          v: 'Postura de seguridad cloud, ingeniería de detección, IAM, attack paths, CIS Benchmarks, DISA STIG',
         },
-        { k: 'Herramientas', v: 'Git, Docker, GitHub Actions, pytest' },
+        { k: 'IA', v: 'Desarrollo asistido por IA, flujos con LLM, agentes y skills' },
+        { k: 'Herramientas', v: 'Git, GitHub Actions, pytest' },
       ],
       achievements: [
         'Sexto de 398 contribuidores de Prowler por número de commits, en un proyecto con 14.800 estrellas.',
