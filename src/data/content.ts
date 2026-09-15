@@ -347,18 +347,15 @@ export const content: Record<Lang, SiteContent> = {
 
   es: {
     landing: {
-      eyebrow: 'Ingeniero de Seguridad Cloud',
+      eyebrow: 'Cloud Security Engineer',
       title: 'Daniel\nBarranquero',
-      lede: 'Construyo los proveedores y los checks con los que cualquiera puede auditar la nube en la que trabaja.',
+      lede: 'Construyo los providers y los checks que permiten auditar y securizar cualquier cloud.',
       statement:
-        'Ingeniería de software que asegura todo el stack. Del SDK a la UI, del cloud a la IA.',
+        'Ingeniero de software especializado en seguridad, desarrollando full-stack, IA y cloud.',
       cta: 'Ver el CV',
       now: [
         { k: 'Puesto', v: 'Cloud Security Engineer en Prowler' },
-        {
-          k: 'Enfoque',
-          v: 'Checks de seguridad multinube y proveedores nuevos de principio a fin',
-        },
+        { k: 'Enfoque', v: 'Checks de seguridad multicloud y providers nuevos end to end' },
         { k: 'Open source', v: 'Prowler, 528 commits' },
         { k: 'Ubicación', v: 'Granada, España' },
       ],
@@ -367,28 +364,28 @@ export const content: Record<Lang, SiteContent> = {
     about: {
       eyebrow: 'Sobre mí',
       title: 'Quién soy',
-      lede: 'Llegué a la nube casi por casualidad y me quedé porque cada proveedor nuevo es un sistema entero que desmontar.',
+      lede: 'Llegué al cloud casi de casualidad y me quedé porque cada provider nuevo es un sistema entero que desmontar.',
       body: [
-        '¡Hola! Soy Dani. Ingeniero de seguridad cloud en Prowler y graduado en la Universidad de Granada en Ingeniería Informática y Administración de Empresas. Fuera de la pantalla: deporte, café, ver fútbol, videojuegos y la parte más friki del cine y las series, desde Marvel hasta Juego de Tronos.',
-        'La seguridad me interesaba mucho antes que la nube. Hice un curso de Google Cloud casi por curiosidad y me fue enganchando. Justo al terminar la carrera me llegó la oportunidad de entrar en Prowler, y ahí descubrí que esto me entusiasma de verdad.',
-        'Empecé profundizando en AWS y poco a poco me fui abriendo. Hoy escribo checks nuevos para AWS, Azure y GCP, y he añadido proveedores completos como MongoDB Atlas, Microsoft 365, Vercel, Linode y OpenStack, para que cualquiera que trabaje sobre ellos pueda escanearlos y securizarlos. 528 commits en Prowler hasta ahora.',
-        'La carrera me dio las bases que sigo usando a diario: Docker, cloud computing, desarrollo web, redes y suficiente de los sistemas que hay debajo como para razonar qué está haciendo de verdad un servicio. La parte de empresa me dio otra cosa distinta: entender qué necesita de verdad un cliente, valorar una feature con un análisis DAFO, leer un proyecto como una decisión de negocio y no solo técnica, y saber sintetizar un argumento y explicarlo. Hace que no sea solo el que programa, y que pueda aportar en salas donde eso importa.',
-        'También he vivido y estudiado en Annecy, en Francia, y en Shrewsbury, en Inglaterra. Que te suelten en un sitio donde no dominas el idioma te enseña a buscarte la vida y a entenderte rápido con la gente, que resulta ser buena parte de lo que pide trabajar en remoto con un equipo internacional.',
-        'Lo siguiente que quiero es profundizar en arquitectura cloud. Es donde más recorrido me queda, más que en la parte de programación o de seguridad, y decirlo es más útil que disimularlo.',
+        'Hola, soy Dani. Cloud Security Engineer en Prowler y graduado en el Doble Grado de Ingeniería Informática y ADE por la Universidad de Granada. Fuera de la pantalla: deporte, café, fútbol, videojuegos y la parte más friki del cine y las series, de Marvel a Juego de Tronos.',
+        'La seguridad me interesaba mucho antes que el cloud. Hice un curso de Google Cloud casi por curiosidad y me fue enganchando. Justo al terminar la carrera me llegó la oportunidad de entrar en Prowler, y ahí me di cuenta de que esto me gusta de verdad.',
+        'Empecé a fondo con AWS y poco a poco me fui abriendo. Hoy escribo checks nuevos para AWS, Azure y GCP, y he añadido providers enteros como MongoDB Atlas, Microsoft 365, Vercel, Linode y OpenStack, para que cualquiera que trabaje sobre ellos pueda escanearlos y securizarlos. 528 commits en Prowler.',
+        'La carrera me dio las bases que sigo usando a diario: Docker, cloud computing, desarrollo web, redes y lo suficiente de sistemas para entender qué hace de verdad un servicio por debajo. La parte de ADE me dio otra cosa distinta: entender qué necesita de verdad un cliente, valorar una feature con un DAFO, leer un proyecto como una decisión de negocio y no solo técnica, y saber resumir un argumento y defenderlo. Hace que no sea solo el que programa.',
+        'También he vivido y estudiado en Annecy (Francia) y en Shrewsbury (Inglaterra). Que te suelten en un sitio donde no dominas el idioma te enseña a buscarte la vida y a entenderte rápido con la gente, que al final es buena parte de lo que pide trabajar en remoto en un equipo internacional.',
+        'Lo siguiente que quiero es meterme a fondo en arquitectura cloud. Es donde más recorrido me queda, más que en programación o en seguridad, y prefiero decirlo a disimularlo.',
       ],
       education: [
         {
           k: '2019–2025',
-          v: 'Doble Grado en Ingeniería Informática y Administración de Empresas, Universidad de Granada',
+          v: 'Doble Grado en Ingeniería Informática y ADE, Universidad de Granada',
         },
-        { k: '2023', v: 'Ruta de formación Google Cloud Digital Leader, cuatro insignias' },
+        { k: '2023', v: 'Google Cloud Digital Leader, cuatro badges' },
       ],
       note: '',
     },
     experience: {
       eyebrow: 'Experiencia',
       title: 'Lo que he\nconstruido',
-      lede: 'Trabajo en la parte de detección de un escáner de seguridad cloud open source: los checks que encuentran malas configuraciones y los proveedores que permiten ejecutarlos sobre la nube en la que cada uno trabaja.',
+      lede: 'Trabajo en la parte de detección de un scanner de seguridad cloud open source: los checks que detectan malas configuraciones y los providers que permiten ejecutarlos en cualquier cloud.',
       roles: [
         {
           company: 'Prowler',
@@ -396,23 +393,23 @@ export const content: Record<Lang, SiteContent> = {
           impacts: [
             {
               metric: '528',
-              text: 'Commits mergeados en Prowler, el sexto de 398 contribuidores en un proyecto con 14.800 estrellas, y 294.573 líneas añadidas.',
+              text: 'Commits mergeados en Prowler: el sexto de 398 contribuidores en un proyecto con 14.800 estrellas y 294.573 líneas añadidas.',
             },
             {
               metric: '15',
-              text: 'Proveedores cloud en los que he trabajado: AWS, Azure, Google Cloud, Microsoft 365, OpenStack, Okta, MongoDB Atlas, Oracle Cloud, Alibaba Cloud, GitHub, Vercel y Linode, entre otros.',
+              text: 'Providers cloud en los que he trabajado: AWS, Azure, Google Cloud, Microsoft 365, OpenStack, Okta, MongoDB Atlas, Oracle Cloud, Alibaba Cloud, GitHub, Vercel y Linode, entre otros.',
             },
             {
               metric: '2',
-              text: 'OpenStack y Okta, ambos construidos de principio a fin, desde el SDK hasta los checks, la API, la interfaz web y la documentación.',
+              text: 'OpenStack y Okta, los dos montados end to end: del SDK a los checks, la API, la web y la documentación.',
             },
             {
               metric: '144',
-              text: 'Pull requests sobre checks y fixers de seguridad: la lógica de detección que las organizaciones ejecutan contra su propia infraestructura.',
+              text: 'Pull requests sobre checks y fixers: la lógica de detección que las organizaciones lanzan contra su propia infraestructura.',
             },
             {
               metric: 'Hoy',
-              text: 'Liderando el equipo de detección y remediación, después de un año atendiendo issues de la comunidad, revisando pull requests y dando soporte en Slack.',
+              text: 'Lidero el equipo de detección y remediación, después de un año atendiendo issues de la comunidad, revisando pull requests y dando soporte en Slack.',
             },
           ],
           tags: ['Python', 'AWS', 'Azure', 'Google Cloud', 'OpenStack', 'Okta', 'Microsoft 365'],
@@ -423,7 +420,7 @@ export const content: Record<Lang, SiteContent> = {
           impacts: [
             {
               metric: '80',
-              text: 'Pull requests mergeadas durante las prácticas, empezando por cobertura de tests para los checks de Google Cloud y pasando pronto a detecciones nuevas.',
+              text: 'Pull requests mergeadas durante las prácticas, empezando por los tests de los checks de Google Cloud y pasando pronto a detecciones nuevas.',
             },
             {
               metric: '7',
@@ -436,36 +433,24 @@ export const content: Record<Lang, SiteContent> = {
       oss: [
         {
           k: 'Prowler',
-          v: 'La plataforma open source de seguridad cloud. Sexto por número de commits de 398 contribuidores, con 528 commits en 15 proveedores, desde el SDK hasta los checks, la API, la interfaz web y la documentación.',
+          v: 'La plataforma open source de seguridad cloud. Sexto por número de commits de 398 contribuidores, con 528 commits en 15 providers: del SDK a los checks, la API, la web y la documentación.',
         },
         {
           k: 'pathfinding.cloud',
-          v: 'Llevé la investigación de escalada de privilegios en AWS de pathfinding.cloud a Prowler como cobertura de Attack Paths, y enlacé cada consulta con su página en Prowler Hub para que un hallazgo lleve a una explicación.',
+          v: 'Llevé la investigación de escalada de privilegios en AWS de pathfinding.cloud a Prowler como cobertura de Attack Paths, y enlacé cada query con su página en Prowler Hub para que un hallazgo lleve a su explicación.',
         },
         {
           k: 'okta-sdk-python',
-          v: 'Dos bugs encontrados y reportados en el SDK oficial de Python de Okta mientras construía el proveedor de Okta en Prowler: un error de validación con tipos de constraint en minúscula y una regex a la que le faltaba el cuantificador y rompía el listado de log streams. Uno ya está corregido.',
+          v: 'Dos bugs encontrados y reportados en el SDK oficial de Python de Okta mientras montaba su provider en Prowler: un error de validación con tipos de constraint en minúscula y una regex sin cuantificador que rompía el listado de log streams. Uno ya está arreglado.',
         },
       ],
       speaking: [
-        {
-          k: 'Hackén, Jaén',
-          v: 'Ponente, dos años consecutivos.',
-        },
-        {
-          k: 'fwd:cloudsec',
-          v: 'Asistente, Berlín.',
-        },
-        {
-          k: 'AWS re:Invent',
-          v: 'Asistente, Las Vegas.',
-        },
-        {
-          k: 'RootedCON',
-          v: 'Asistente, Madrid.',
-        },
+        { k: 'Hackén, Jaén', v: 'Ponente, dos años consecutivos.' },
+        { k: 'fwd:cloudsec', v: 'Asistente, Berlín.' },
+        { k: 'AWS re:Invent', v: 'Asistente, Las Vegas.' },
+        { k: 'RootedCON', v: 'Asistente, Madrid.' },
       ],
-      note: 'Todos los números salen del repositorio público y se pueden comprobar. Parte del trabajo no es público, incluidas features que vinieron de peticiones de clientes enterprise y el soporte interno, así que estas cifras son un suelo y no un total.',
+      note: 'Todos los números salen del repositorio público y se pueden comprobar. Parte del trabajo no es pública, como features que salieron de peticiones de clientes enterprise o el soporte interno, así que estas cifras son un mínimo y no un total.',
     },
     projects: {
       eyebrow: 'Proyectos',
@@ -474,15 +459,15 @@ export const content: Record<Lang, SiteContent> = {
       items: [
         {
           k: 'Nubify',
-          v: 'Mi Trabajo de Fin de Grado: una CLI en Python para empezar en AWS sin los dos miedos que frenan a la gente, el de romper algo y el de la factura. Estima el coste real con la AWS Pricing API antes de crear nada. Lo escribí porque yo tenía justo ese miedo en mis primeros meses en Prowler.',
+          v: 'Mi TFG: una CLI en Python para empezar en AWS sin los dos miedos que frenan a todo el mundo, romper algo y la factura. Estima el coste real con la AWS Pricing API antes de crear nada. Lo hice porque yo tenía justo ese miedo en mis primeros meses en Prowler.',
         },
         {
           k: 'Propuestas de detección',
-          v: '28 propuestas de checks nuevos abiertas en Prowler, sobre secretos olvidados en capas de Lambda, imágenes de ECR, conexiones de Glue, definiciones de CodePipeline y notebooks de SageMaker, además de endurecimiento de Kubernetes. Decidir qué merece la pena detectar, no solo implementarlo.',
+          v: '28 propuestas de checks nuevos abiertas en Prowler: secretos olvidados en capas de Lambda, imágenes de ECR, conexiones de Glue, definiciones de CodePipeline y notebooks de SageMaker, además de hardening de Kubernetes. Decidir qué merece la pena detectar, no solo implementarlo.',
         },
         {
           k: 'Esta web',
-          v: 'Hecha en abierto: dependencias fijadas con una cuarentena de siete días, CSP estricta, commits firmados y una página de seguridad que ejecuta Prowler contra su propio repositorio y publica lo que falla. Vienen más proyectos; esta página crecerá.',
+          v: 'Hecha en abierto: dependencias fijadas con cuarentena de siete días, CSP estricta, commits firmados y una página de seguridad que ejecuta Prowler contra su propio repo y publica lo que falla. Irán cayendo más proyectos y esta página irá creciendo.',
         },
       ],
       note: '',
@@ -513,7 +498,7 @@ export const content: Record<Lang, SiteContent> = {
     contact: {
       eyebrow: 'Contacto',
       title: 'Hablemos',
-      lede: 'Escríbeme sobre seguridad cloud, open source o cualquier cosa que creas que me puede interesar.',
+      lede: 'Escríbeme sobre cloud security, open source o cualquier cosa que creas que me puede interesar.',
       channels: [
         { k: 'Email', v: 'josedanielbarranqueroortigosa@gmail.com' },
         { k: 'GitHub', v: 'github.com/danibarranqueroo' },
@@ -528,19 +513,19 @@ export const content: Record<Lang, SiteContent> = {
       email: 'mailto:josedanielbarranqueroortigosa@gmail.com',
     },
     cv: {
-      role: 'Ingeniero de Seguridad Cloud',
+      role: 'Cloud Security Engineer',
       location: 'Granada, España',
       summary:
-        'Ingeniero de seguridad cloud en la parte de detección de Prowler, la plataforma open source de seguridad cloud. Escribo los checks que detectan malas configuraciones y construyo los proveedores que permiten ejecutarlos en cualquier nube.',
+        'Cloud Security Engineer en la parte de detección de Prowler, la plataforma open source de seguridad cloud. Escribo los checks que detectan malas configuraciones y monto los providers que permiten ejecutarlos en cualquier cloud.',
       education: [
         {
           title: 'Universidad de Granada',
-          meta: 'Doble Grado en Ingeniería Informática y Administración de Empresas',
+          meta: 'Doble Grado en Ingeniería Informática y ADE',
           dates: '2019 – 2025',
         },
         {
           title: 'Google Cloud',
-          meta: 'Ruta de formación Digital Leader, cuatro insignias',
+          meta: 'Digital Leader, cuatro badges',
           dates: '2023',
         },
       ],
@@ -551,8 +536,8 @@ export const content: Record<Lang, SiteContent> = {
           dates: 'ene. 2025 – Actualidad',
           bullets: [
             '528 commits mergeados desde enero de 2025.',
-            'Construí los proveedores de OpenStack y Okta de principio a fin: SDK, checks, API, interfaz web y documentación.',
-            'Checks de seguridad en 15 proveedores cloud, de AWS y Azure a Okta y OpenStack.',
+            'Monté los providers de OpenStack y Okta end to end: SDK, checks, API, web y documentación.',
+            'Checks de seguridad en 15 providers cloud, de AWS y Azure a Okta y OpenStack.',
             'Amplié Attack Paths, el grafo que encadena malas configuraciones hasta recursos críticos.',
           ],
         },
@@ -561,7 +546,7 @@ export const content: Record<Lang, SiteContent> = {
           meta: 'Intern Cloud Security Engineer · En remoto',
           dates: 'jun. 2024 – dic. 2024',
           bullets: [
-            '80 pull requests mergeadas, de la cobertura de tests de Google Cloud a detecciones nuevas.',
+            '80 pull requests mergeadas, de los tests de Google Cloud a detecciones nuevas.',
             'Contrato a jornada completa a los siete meses.',
           ],
         },
@@ -571,14 +556,14 @@ export const content: Record<Lang, SiteContent> = {
           title: 'Nubify',
           meta: 'Python, AWS Pricing API',
           bullets: [
-            'Trabajo de Fin de Grado. Una CLI para empezar en AWS con estimación de coste real antes de crear nada.',
+            'TFG. Una CLI para empezar en AWS con estimación de coste real antes de crear nada.',
           ],
         },
         {
           title: 'Web personal',
           meta: 'Astro, TypeScript, Cloudflare',
           bullets: [
-            'Dependencias fijadas con cuarentena de siete días, CSP estricta, commits firmados y Prowler escaneando su propio repositorio.',
+            'Dependencias fijadas con cuarentena de siete días, CSP estricta, commits firmados y Prowler escaneando su propio repo.',
           ],
         },
       ],
@@ -588,19 +573,19 @@ export const content: Record<Lang, SiteContent> = {
           k: 'Cloud',
           v: 'AWS, Azure, Google Cloud, Microsoft 365, OpenStack, Okta, MongoDB Atlas, Oracle Cloud',
         },
-        { k: 'Infraestructura', v: 'Docker, Kubernetes, Terraform, Linux, redes' },
+        { k: 'Infraestructura', v: 'Docker, Kubernetes, Terraform, Linux, networking' },
         {
           k: 'Seguridad',
-          v: 'Postura de seguridad cloud, ingeniería de detección, IAM, attack paths, CIS Benchmarks, DISA STIG',
+          v: 'Cloud security posture, detection engineering, IAM, attack paths, CIS Benchmarks, DISA STIG',
         },
-        { k: 'IA', v: 'Desarrollo asistido por IA, flujos con LLM, agentes y skills' },
+        { k: 'IA', v: 'Desarrollo asistido por IA, workflows con LLM, agentes y skills' },
         { k: 'Herramientas', v: 'Git, GitHub Actions, pytest' },
       ],
       achievements: [
         'Sexto de 398 contribuidores de Prowler por número de commits, en un proyecto con 14.800 estrellas.',
         'Lidero el equipo de detección y remediación.',
         'Mantengo la comunidad open source: issues, revisión de pull requests y soporte en Slack.',
-        'Ponente en Hackén, Jaén, dos años consecutivos. Asistente a AWS re:Invent, fwd:cloudsec y RootedCON.',
+        'Ponente en Hackén (Jaén) dos años consecutivos. Asistente a AWS re:Invent, fwd:cloudsec y RootedCON.',
       ],
     },
   },

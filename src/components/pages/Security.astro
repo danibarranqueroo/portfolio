@@ -12,7 +12,7 @@ const scan = loadScan();
 
 const dispositionLabel = {
   blocked: es ? 'bloqueado' : 'blocked',
-  accepted: es ? 'riesgo aceptado' : 'accepted risk',
+  accepted: es ? 'riesgo asumido' : 'accepted risk',
   todo: es ? 'pendiente' : 'to do',
 };
 const severityLabel: Record<Severity, string> = {
@@ -42,13 +42,13 @@ const sig =
 const facts = [
   { k: es ? 'Commit' : 'Commit', v: audit.commit, mono: true },
   { k: es ? 'Firma' : 'Signature', v: sig, good: audit.signature === 'G' },
-  { k: es ? 'Construido' : 'Built', v: `${audit.builtAt} UTC`, mono: true },
+  { k: es ? 'Build' : 'Built', v: `${audit.builtAt} UTC`, mono: true },
   { k: es ? 'Node' : 'Node', v: audit.node, mono: true },
   { k: 'pnpm', v: audit.pnpm.replace('pnpm@', ''), mono: true },
   { k: es ? 'Dependencias directas' : 'Direct dependencies', v: String(audit.directDeps) },
-  { k: es ? 'Resueltas en total' : 'Total resolved', v: String(audit.packages) },
+  { k: es ? 'Total resueltas' : 'Total resolved', v: String(audit.packages) },
   {
-    k: es ? 'Rangos flexibles' : 'Floating ranges',
+    k: es ? 'Versiones sin fijar' : 'Floating ranges',
     v: String(audit.floatingCount),
     good: audit.floatingCount === 0,
   },
@@ -62,7 +62,7 @@ const facts = [
     mono: true,
   },
   {
-    k: es ? 'Actions ancladas' : 'Actions SHA-pinned',
+    k: es ? 'Actions fijadas por SHA' : 'Actions SHA-pinned',
     v: `${audit.actionsPinned}/${audit.actionsTotal}`,
     good: audit.actionsPinned === audit.actionsTotal,
   },
@@ -74,13 +74,13 @@ const facts = [
   <h1 class="display display-sm">{es ? 'Esta página,\nauditada' : 'This page,\naudited'}</h1>
   <p class="lede">
     {es
-      ? 'Ninguna cifra de aquí está escrita a mano. Todas salen del lockfile, del manifiesto, de la política de pnpm, de los workflows o de git, en tiempo de compilación.'
+      ? 'Aquí no hay ni una cifra escrita a mano. Todas salen del lockfile, del package.json, de la política de pnpm, de los workflows o de git, en tiempo de build.'
       : 'None of these numbers are written by hand. Every one is read at build time from the lockfile, the manifest, the pnpm policy, the workflow files or git.'}
   </p>
 </section>
 
 <section class="wide">
-  <h2 class="sect">{es ? 'En la compilación' : 'At build time'}</h2>
+  <h2 class="sect">{es ? 'En el build' : 'At build time'}</h2>
   <ul class="rows">
     {
       facts.map((f) => (
@@ -115,45 +115,45 @@ const facts = [
   </ul>
   <p class="note" style="margin-top: 20px;">
     {es
-      ? 'Las cabeceras las sirve Cloudflare desde public/_headers, así que en el servidor de desarrollo no aparecen. Eso es esperado, no un fallo.'
+      ? 'Las cabeceras las sirve Cloudflare desde public/_headers, así que en local no aparecen. Es lo esperado, no un fallo.'
       : 'Response headers are served by Cloudflare from public/_headers, so they are absent on the dev server. That is expected, not a failure.'}
   </p>
 </section>
 
 <section class="wide">
-  <h2 class="sect">{es ? 'Escaneo de Prowler' : 'Prowler scan'}</h2>
+  <h2 class="sect">{es ? 'Scan de Prowler' : 'Prowler scan'}</h2>
 
   {
     !scan ? (
       <p class="note">
         {es
-          ? 'Todavía no hay ningún escaneo. Se genera en CI antes de cada despliegue.'
+          ? 'Todavía no hay ningún scan. Se genera en CI antes de cada deploy.'
           : 'No scan has been generated yet. CI produces one before every deploy.'}
       </p>
     ) : (
       <>
         <p class="prose" style="margin-bottom: 26px;">
           {es
-            ? 'Prowler audita la configuración de este repositorio en GitHub. Los resultados de abajo son reales, sin editar, del último escaneo.'
+            ? 'Prowler audita la configuración de este mismo repo en GitHub. Los resultados de abajo son reales y sin tocar, del último scan.'
             : 'Prowler audits this repository’s own GitHub configuration. The results below are real and unedited, from the most recent scan.'}
         </p>
 
         <div class="scan-head">
           <div class="scan-score" data-rate={scan.passRate}>
             <span class="scan-rate">{scan.passRate}%</span>
-            <span class="scan-rate-k">{es ? 'controles superados' : 'controls passing'}</span>
+            <span class="scan-rate-k">{es ? 'controles en verde' : 'controls passing'}</span>
           </div>
           <ul class="scan-meta">
-            <li><span class="row-k">{es ? 'Superados' : 'Passing'}</span> <span class="val mono" data-good>{scan.pass}</span></li>
-            <li><span class="row-k">{es ? 'Fallidos' : 'Failing'}</span> <span class="val mono">{scan.fail}</span></li>
-            <li><span class="row-k">{es ? 'Objetivo' : 'Target'}</span> <span class="val mono">{scan.target}</span></li>
+            <li><span class="row-k">{es ? 'En verde' : 'Passing'}</span> <span class="val mono" data-good>{scan.pass}</span></li>
+            <li><span class="row-k">{es ? 'En rojo' : 'Failing'}</span> <span class="val mono">{scan.fail}</span></li>
+            <li><span class="row-k">{es ? 'Repo' : 'Target'}</span> <span class="val mono">{scan.target}</span></li>
             <li><span class="row-k">Prowler</span> <span class="val mono">v{scan.prowlerVersion}</span></li>
             <li><span class="row-k">{es ? 'Fecha' : 'Scanned'}</span> <span class="val mono">{scanDate}</span></li>
           </ul>
         </div>
 
         <h3 class="scan-sub">
-          {es ? 'Fallos, y por qué siguen ahí' : 'Failing, and why they are still failing'}
+          {es ? 'Lo que falla, y por qué sigue fallando' : 'Failing, and why they are still failing'}
         </h3>
         <ul class="checks">
           {fails.map((f) => (
@@ -175,7 +175,7 @@ const facts = [
           ))}
         </ul>
 
-        <h3 class="scan-sub">{es ? 'Superados' : 'Passing'}</h3>
+        <h3 class="scan-sub">{es ? 'En verde' : 'Passing'}</h3>
         <ul class="checks checks-pass">
           {passes.map((f) => (
             <li class="check">
@@ -187,7 +187,7 @@ const facts = [
 
         <p class="note" style="margin-top: 26px;">
           {es
-            ? 'Nada de esto está escrito a mano: el JSON-OCSF de Prowler se normaliza en tiempo de compilación. Los fallos se muestran tal cual, con su motivo; ocultarlos haría inútil la página.'
+            ? 'Nada de esto está escrito a mano: el JSON-OCSF de Prowler se normaliza en el build. Los fallos se muestran tal cual, con su motivo; esconderlos dejaría la página sin sentido.'
             : 'None of this is written by hand: Prowler’s JSON-OCSF is normalized at build time. Failures are shown as they are, with a stated reason, because hiding them would make the page pointless.'}
         </p>
       </>
@@ -196,7 +196,7 @@ const facts = [
 </section>
 
 <section class="wide">
-  <h2 class="sect">{es ? 'Encuentra el fallo' : 'Spot the misconfiguration'}</h2>
+  <h2 class="sect">{es ? 'Encuentra la mala configuración' : 'Spot the misconfiguration'}</h2>
   <p class="prose" style="margin-bottom: 28px;">
     {es
       ? 'Tres configuraciones reales. Haz clic en la línea peligrosa de cada una.'

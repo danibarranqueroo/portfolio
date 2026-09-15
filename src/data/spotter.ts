@@ -76,7 +76,7 @@ export const rounds: Record<Lang, Round[]> = {
         '}',
       ],
       answer: 2,
-      why: 'Un Principal con comodín da acceso de lectura al bucket a cualquier usuario anónimo de internet. Es la causa más común de exposición pública de datos en AWS.',
+      why: 'Un Principal con comodín deja el bucket abierto a cualquier usuario anónimo de internet. Es la causa más común de fuga pública de datos en AWS.',
       fix: 'Indica la cuenta o el rol que realmente lo necesita: "Principal": { "AWS": "arn:aws:iam::111122223333:role/invoice-reader" }',
     },
     {
@@ -90,7 +90,7 @@ export const rounds: Record<Lang, Round[]> = {
         '}',
       ],
       answer: 3,
-      why: 'iam:PassRole sobre * es una vía de escalada de privilegios. Quien la tenga puede lanzar una instancia con cualquier rol de la cuenta, incluido uno de administrador, y heredar sus permisos. La política parece modesta; el alcance es total.',
+      why: 'iam:PassRole sobre * es una vía de escalada de privilegios. Quien lo tenga puede levantar una instancia con cualquier rol de la cuenta, incluido uno de administrador, y heredar sus permisos. La policy parece inofensiva; el alcance es total.',
       fix: 'Limita Resource a los roles concretos que se pueden pasar y añade una condición sobre iam:PassedToService.',
     },
     {
@@ -105,8 +105,8 @@ export const rounds: Record<Lang, Round[]> = {
         '    CidrIp: 0.0.0.0/0',
       ],
       answer: 5,
-      why: 'SSH queda accesible desde todo internet. Incluso con autenticación por clave, expone el demonio a cualquier escáner y a cualquier CVE futura.',
-      fix: 'Limita el CIDR al rango de tu VPN, o elimina el puerto 22 y usa SSM Session Manager, que no necesita ninguna regla de entrada.',
+      why: 'SSH queda expuesto a todo internet. Aunque solo se entre por clave, deja el servicio a la vista de cualquier escáner y de cualquier CVE que salga mañana.',
+      fix: 'Limita el CIDR al rango de tu VPN, o quita el puerto 22 y tira de SSM Session Manager, que no necesita ninguna regla de entrada.',
     },
   ],
 };
