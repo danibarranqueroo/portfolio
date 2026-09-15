@@ -146,15 +146,15 @@ export const content: Record<Lang, SiteContent> = {
       oss: [
         {
           k: 'Prowler',
-          v: 'The open-source cloud security platform. Sixth by commit count of 398 contributors, with 528 commits across 15 providers.',
+          v: 'The open-source cloud security platform. Sixth by commit count of 398 contributors, with 528 commits across 15 providers, from the core SDK through the checks, the API, the web UI and the documentation.',
         },
         {
-          k: 'Attack Paths',
-          v: 'Contributed to and extended Prowler’s Attack Paths: the graph showing how an attacker could chain misconfigurations to reach critical resources. Worked on the graph UI, the query layer, the API and the docs.',
+          k: 'pathfinding.cloud',
+          v: 'Brought pathfinding.cloud’s AWS privilege-escalation research into Prowler as Attack Paths coverage, and linked every query back to its Prowler Hub page so a finding leads to an explanation.',
         },
         {
-          k: 'Provider coverage',
-          v: 'Brought OpenStack and Okta into Prowler end to end, and MongoDB Atlas through the API and UI, so teams on those platforms can scan them like any other cloud.',
+          k: 'okta-sdk-python',
+          v: 'Two bugs found and reported upstream in Okta’s own Python SDK while building Prowler’s Okta provider: a validation error on lowercase policy constraint types, and a regex missing a quantifier that broke log stream listing. One is fixed.',
         },
       ],
       speaking: [
@@ -174,10 +174,6 @@ export const content: Record<Lang, SiteContent> = {
           k: 'RootedCON',
           v: 'Attended, Madrid.',
         },
-        {
-          k: 'Commentary',
-          v: 'Wrote publicly on the Vercel breach as it unfolded.',
-        },
       ],
       note: 'Every number here comes from the public repository and can be checked. Some of the work is not public, including features that came from enterprise customer requests and the internal support side, so these figures are a floor rather than a total.',
     },
@@ -189,14 +185,6 @@ export const content: Record<Lang, SiteContent> = {
         {
           k: 'Nubify',
           v: 'My final degree project: a Python CLI that lets someone start on AWS without the two fears that stop people, the fear of breaking something and the fear of the bill. It estimates real cost through the AWS Pricing API before anything is created. I wrote it because I had exactly that fear in my first months at Prowler.',
-        },
-        {
-          k: 'okta-sdk-python',
-          v: 'Two bugs found and reported upstream in Okta’s own Python SDK while building Prowler’s Okta provider: a validation error on lowercase policy constraint types, and a regex missing a quantifier that broke log stream listing. One is fixed.',
-        },
-        {
-          k: 'pathfinding.cloud',
-          v: 'Brought pathfinding.cloud’s AWS privilege-escalation research into Prowler as Attack Paths coverage, and linked every Attack Paths query back to its Prowler Hub page so a finding leads to an explanation.',
         },
         {
           k: 'Detection proposals',
@@ -343,15 +331,15 @@ export const content: Record<Lang, SiteContent> = {
       oss: [
         {
           k: 'Prowler',
-          v: 'La plataforma open source de seguridad cloud. Sexto por número de commits de 398 contribuidores, con 528 commits en 15 proveedores.',
+          v: 'La plataforma open source de seguridad cloud. Sexto por número de commits de 398 contribuidores, con 528 commits en 15 proveedores, desde el SDK hasta los checks, la API, la interfaz web y la documentación.',
         },
         {
-          k: 'Attack Paths',
-          v: 'He contribuido y ampliado los Attack Paths de Prowler: el grafo que muestra cómo un atacante podría encadenar malas configuraciones hasta llegar a recursos críticos. He trabajado en la interfaz del grafo, la capa de consultas, la API y la documentación.',
+          k: 'pathfinding.cloud',
+          v: 'Llevé la investigación de escalada de privilegios en AWS de pathfinding.cloud a Prowler como cobertura de Attack Paths, y enlacé cada consulta con su página en Prowler Hub para que un hallazgo lleve a una explicación.',
         },
         {
-          k: 'Cobertura de proveedores',
-          v: 'He traído OpenStack y Okta a Prowler de principio a fin, y MongoDB Atlas a través de la API y la interfaz, para que quien trabaje sobre esas plataformas pueda escanearlas como cualquier otra nube.',
+          k: 'okta-sdk-python',
+          v: 'Dos bugs encontrados y reportados en el SDK oficial de Python de Okta mientras construía el proveedor de Okta en Prowler: un error de validación con tipos de constraint en minúscula y una regex a la que le faltaba el cuantificador y rompía el listado de log streams. Uno ya está corregido.',
         },
       ],
       speaking: [
@@ -371,10 +359,6 @@ export const content: Record<Lang, SiteContent> = {
           k: 'RootedCON',
           v: 'Asistente, Madrid.',
         },
-        {
-          k: 'Divulgación',
-          v: 'Escribí públicamente sobre la brecha de Vercel mientras ocurría.',
-        },
       ],
       note: 'Todos los números salen del repositorio público y se pueden comprobar. Parte del trabajo no es público, incluidas features que vinieron de peticiones de clientes enterprise y el soporte interno, así que estas cifras son un suelo y no un total.',
     },
@@ -386,14 +370,6 @@ export const content: Record<Lang, SiteContent> = {
         {
           k: 'Nubify',
           v: 'Mi Trabajo de Fin de Grado: una CLI en Python para empezar en AWS sin los dos miedos que frenan a la gente, el de romper algo y el de la factura. Estima el coste real con la AWS Pricing API antes de crear nada. Lo escribí porque yo tenía justo ese miedo en mis primeros meses en Prowler.',
-        },
-        {
-          k: 'okta-sdk-python',
-          v: 'Dos bugs encontrados y reportados en el SDK oficial de Python de Okta mientras construía el proveedor de Okta en Prowler: un error de validación con tipos de constraint en minúscula y una regex a la que le faltaba el cuantificador y rompía el listado de log streams. Uno ya está corregido.',
-        },
-        {
-          k: 'pathfinding.cloud',
-          v: 'Llevé la investigación de escalada de privilegios en AWS de pathfinding.cloud a Prowler como cobertura de Attack Paths, y enlacé cada consulta de Attack Paths con su página en Prowler Hub para que un hallazgo lleve a una explicación.',
         },
         {
           k: 'Propuestas de detección',
