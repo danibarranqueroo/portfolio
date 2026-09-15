@@ -62,6 +62,12 @@ jobs:
       - name: Build
         run: pnpm run build
 
+      - name: Verify no class is missing its CSS rule
+        # A deleted CSS rule breaks nothing that build, typecheck or lint can
+        # see. It only shows up as a page that looks wrong, so it needs its own
+        # check. See scripts/check-orphan-classes.mjs.
+        run: node scripts/check-orphan-classes.mjs
+
       - name: Audit dependencies
         run: pnpm audit --audit-level=moderate
 

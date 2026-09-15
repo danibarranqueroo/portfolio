@@ -413,6 +413,33 @@ reliable; measuring the PNG is not, because the preview renderer always emits
 square images. The real PDF comes from the browser's own print engine, so
 pagination can still differ by a line.
 
+## A deleted CSS rule is invisible to every other check
+
+Condensing the CV replaced a span of `global.css` delimited by two section
+comments. The span was much larger than intended: it took the avatar, the hero
+name and statement, the experience timeline animation and the entire security
+page with it. 66 selectors, 404 lines.
+
+Everything still passed. The build succeeded, `astro check` was clean, Biome
+was clean, CI was green. The only symptom was the landing page showing three
+copies of the avatar, because the eye-tracking windows lost the
+`overflow: hidden` that clips them, and Dani noticed it on screen.
+
+So `scripts/check-orphan-classes.mjs` now runs in CI: every class in the built
+HTML must have a matching rule in the built CSS. It found one genuine orphan
+immediately (`.spotter`, which styled nothing and hooked nothing) and it
+catches the exact failure above.
+
+Two things about writing it that are worth keeping:
+
+- **Substring matching is wrong here.** `.avatar` occurs inside `.avatar-img`,
+  so a deleted `.avatar` rule still looked present. The class name must not be
+  followed by a character that could continue it.
+- **A guard is worth nothing until it has failed on purpose.** The first
+  version passed its own negative test, which is how the substring flaw
+  surfaced. Every rule it now protects was checked by deleting that rule and
+  watching the check fail.
+
 ## Open
 
 - **Domain** not registered. `site` in `astro.config.mjs` is a placeholder and

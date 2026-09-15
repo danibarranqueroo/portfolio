@@ -207,7 +207,7 @@ const facts = [
   <div class="spotters">
     {
       set.map((r) => (
-        <article class="spotter" data-round data-answer={r.answer}>
+        <article data-round data-answer={r.answer}>
           <h3 class="spotter-h">{r.title}</h3>
           <ol class="code" role="group" aria-label={r.title}>
             {r.lines.map((line, i) => (

@@ -768,6 +768,408 @@ main > .wide {
   }
 }
 
+/* The name is a label above the statement, not the headline. */
+/* Medium: reads as a name, not a label — but still clearly below the
+   statement, which is the thing the page is actually about. */
+.hero-name {
+  font-size: 24px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--color-muted);
+  margin: 0 0 16px;
+}
+.statement {
+  max-width: 26ch;
+  text-wrap: balance;
+}
+.hero-role {
+  margin-top: 20px;
+  color: var(--color-accent-text);
+}
+
+/* --- avatar -------------------------------------------------------------- */
+/* A cutout, not a framed photo: no circle, no border, no crop.
+   The eyes are circular windows onto a second copy of the same image; nudging
+   that copy moves the iris. Percentages throughout so it scales with the
+   rendered size. Source is 375x666, irises at (134,290) and (252,290) r~17. */
+.avatar {
+  position: relative;
+  width: 240px;
+  flex: none;
+}
+.avatar-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  /* The render carries enough rim light that the hair reads against black
+     unaided, so dark mode only needs a faint purple lift, not a halo. */
+  filter: drop-shadow(0 14px 22px light-dark(rgba(15, 27, 97, 0.24), rgba(179, 87, 255, 0.2)));
+}
+
+.eye {
+  position: absolute;
+  width: 9.07%;
+  aspect-ratio: 1;
+  top: 40.99%;
+  border-radius: 50%;
+  overflow: hidden;
+  pointer-events: none;
+}
+.eye-l {
+  left: 31.2%;
+}
+.eye-r {
+  left: 62.67%;
+}
+.eye img {
+  position: absolute;
+  width: 1102.9%;
+  height: auto;
+  max-width: none;
+  display: block;
+  top: -803%;
+  transform: translate(var(--ex, 0px), var(--ey, 0px));
+  transition: transform 0.22s ease-out;
+}
+.eye-l img {
+  left: -344.1%;
+}
+.eye-r img {
+  left: -691.1%;
+}
+
+@media (max-width: 520px) {
+  .avatar {
+    width: 150px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eye img {
+    transform: none;
+    transition: none;
+  }
+}
+
+/* --- experience timeline draw-in ----------------------------------------- */
+.spine {
+  transform-origin: top;
+}
+.roles[data-animate] .spine {
+  transform: scaleY(0);
+  transition: transform 0.7s ease-out;
+}
+.roles[data-animate] .spine::before {
+  opacity: 0;
+  transform: scale(0.4);
+  transition:
+    opacity 0.3s ease 0.45s,
+    transform 0.3s ease 0.45s;
+}
+.roles[data-animate].is-visible .spine {
+  transform: scaleY(1);
+}
+.roles[data-animate].is-visible .spine::before {
+  opacity: 1;
+  transform: scale(1);
+}
+.roles[data-animate] .role:nth-child(2) .spine {
+  transition-delay: 0.18s;
+}
+.roles[data-animate] .role:nth-child(2) .spine::before {
+  transition-delay: 0.63s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .roles[data-animate] .spine,
+  .roles[data-animate] .spine::before {
+    transform: none;
+    opacity: 1;
+    transition: none;
+  }
+}
+
+/* --- security page: audit values ----------------------------------------- */
+.val {
+  font-size: 15px;
+}
+.val.mono {
+  font-family: var(--font-mono);
+  font-size: 13.5px;
+}
+.val[data-good] {
+  color: var(--color-alt);
+}
+.val[data-good]::after {
+  content: " ✓";
+}
+
+/* --- security page: prowler scan ----------------------------------------- */
+.scan-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  align-items: center;
+  padding: 22px 24px;
+  border: 1px solid var(--color-rule);
+  border-radius: 5px;
+  background: var(--color-surface);
+  margin-bottom: 34px;
+}
+.scan-score {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-right: 32px;
+  border-right: 1px solid var(--color-rule);
+}
+.scan-rate {
+  font-family: var(--font-display);
+  font-size: 46px;
+  line-height: 1;
+  font-weight: 500;
+  color: var(--color-accent-text);
+}
+.scan-rate-k {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+.scan-meta {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px 26px;
+  flex: 1 1 260px;
+}
+.scan-meta li {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.scan-sub {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  margin: 30px 0 14px;
+}
+
+.checks {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.check {
+  padding: 14px 16px;
+  border: 1px solid var(--color-rule);
+  border-radius: 4px;
+}
+.check-fail {
+  border-left: 3px solid var(--color-accent-text);
+}
+.check-top {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.check-title {
+  font-size: 15px;
+  line-height: 1.45;
+}
+.check-id {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: var(--color-muted);
+  display: block;
+  margin-top: 5px;
+}
+.check-note {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--color-muted);
+  margin: 12px 0 0;
+  text-wrap: pretty;
+}
+
+/* Severity and disposition are the only place colour carries meaning here, so
+   both also carry a text label — never colour alone. */
+.sev,
+.disp {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 7px;
+  border-radius: 3px;
+  border: 1px solid currentColor;
+  white-space: nowrap;
+}
+.sev-critical,
+.sev-high {
+  color: light-dark(#b3261e, #ff8a80);
+}
+.sev-medium {
+  color: light-dark(#8a5a00, #ffcc80);
+}
+.sev-low {
+  color: var(--color-muted);
+}
+.disp {
+  margin-right: 9px;
+}
+.disp-blocked {
+  color: light-dark(#8a5a00, #ffcc80);
+}
+.disp-accepted {
+  color: var(--color-alt);
+}
+.disp-todo {
+  color: var(--color-accent-text);
+}
+
+.checks-pass .check {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 10px 16px;
+}
+.check-tick {
+  color: var(--color-alt);
+  font-size: 14px;
+}
+
+@media (max-width: 640px) {
+  .scan-score {
+    padding-right: 0;
+    border-right: none;
+  }
+}
+
+/* --- security page: spotter ---------------------------------------------- */
+.score {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--color-muted);
+  border: 1px solid var(--color-rule);
+  border-radius: 3px;
+  padding: 2px 7px;
+  margin-left: 10px;
+}
+.spotters {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+.spotter-h {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  margin: 0 0 12px;
+}
+.code {
+  list-style: none;
+  margin: 0;
+  padding: 12px 0;
+  background: var(--color-surface);
+  border: 1px solid var(--color-rule);
+  border-radius: 4px;
+  overflow-x: auto;
+}
+.code-line {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  width: 100%;
+  background: none;
+  border: 0;
+  border-left: 2px solid transparent;
+  padding: 3px 14px;
+  text-align: left;
+  cursor: pointer;
+  color: inherit;
+  font-family: var(--font-mono);
+  font-size: 13.5px;
+  line-height: 1.7;
+  transition:
+    background 0.12s ease,
+    border-color 0.12s ease;
+}
+.code-line:hover {
+  background: color-mix(in oklab, var(--color-accent-text) 10%, transparent);
+}
+.ln {
+  color: var(--color-muted);
+  font-size: 11.5px;
+  min-width: 14px;
+  user-select: none;
+}
+.code-line code {
+  white-space: pre;
+}
+
+.code[data-done] .code-line {
+  cursor: default;
+}
+.code[data-done] .code-line:hover {
+  background: none;
+}
+.code-line[data-state="right"] {
+  border-left-color: var(--color-alt);
+  background: color-mix(in oklab, var(--color-alt) 14%, transparent);
+}
+.code-line[data-state="wrong"] {
+  border-left-color: var(--color-accent-text);
+  background: color-mix(in oklab, var(--color-accent-text) 12%, transparent);
+  text-decoration: line-through;
+  text-decoration-color: var(--color-muted);
+}
+
+.reveal {
+  margin-top: 16px;
+  padding-left: 15px;
+  border-left: 2px solid var(--color-accent-text);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.reveal p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.55;
+  text-wrap: pretty;
+}
+.reveal-verdict {
+  font-weight: 600;
+}
+.reveal-why {
+  color: var(--color-text);
+}
+.reveal-fix {
+  color: var(--color-muted);
+  font-size: 14px;
+}
+.fix-k {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-accent-text);
+  margin-right: 6px;
+}
+
 /* --- placeholder marker -------------------------------------------------- */
 .note {
   font-size: 13px;
