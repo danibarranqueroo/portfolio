@@ -218,7 +218,7 @@ const other = (Object.keys(languages) as Array<keyof typeof languages>).find((l)
               'headers',
               present.length
                 ? `${present.length}/${wanted.length} present`
-                : 'none (dev server — set by Cloudflare in production)',
+                : 'none (dev server, set by Cloudflare in production)',
             );
           })
           .catch(() => set('headers', 'could not be read'));
@@ -254,8 +254,8 @@ const other = (Object.keys(languages) as Array<keyof typeof languages>).find((l)
                     ? 'Correcto.'
                     : 'Correct.'
                   : document.documentElement.lang === 'es'
-                    ? 'No exactamente — la línea marcada es la peligrosa.'
-                    : 'Not quite — the highlighted line is the dangerous one.';
+                    ? 'No exactamente, la línea marcada es la peligrosa.'
+                    : 'Not quite, the highlighted line is the dangerous one.';
               }
               reveal?.removeAttribute('hidden');
               if (scoreEl) scoreEl.textContent = `${score}/${rounds.length}`;

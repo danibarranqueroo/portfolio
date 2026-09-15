@@ -79,19 +79,19 @@ export const content: Record<Lang, SiteContent> = {
       title: 'Who I am',
       lede: 'I came to the cloud almost by accident, and stayed because every new provider is a whole system to take apart.',
       body: [
-        'Hey there — I’m Dani. Cloud security engineer at Prowler, and a graduate of the Universidad de Granada in Computer Engineering and Business Administration. Away from the screen: sport, coffee, watching football, video games, and the geekier end of film and television — Marvel, Game of Thrones, that whole world.',
+        'Hey there, I’m Dani. Cloud security engineer at Prowler, and a graduate of the Universidad de Granada in Computer Engineering and Business Administration. Away from the screen: sport, coffee, watching football, video games, and the geekier end of film and television, from Marvel to Game of Thrones.',
         'Security interested me long before the cloud did. I took a Google Cloud course mostly out of curiosity, and it pulled me in. The offer from Prowler arrived just as I was finishing my degree, and that was when I found out this work genuinely excites me.',
-        'I started by going deep on AWS, then opened out. Today I write new checks for AWS, Azure and GCP, and I have added whole providers — MongoDB Atlas, Microsoft 365, Vercel, Linode, OpenStack — so that anyone running on them can scan and secure them. 528 commits into Prowler so far.',
-        'The degree gave me the foundations I still use every day: Docker, cloud computing, web development, networking, and enough of the underlying systems to reason about what a service is really doing. The business half gave me something different — understanding what a client actually needs, weighing a feature against a SWOT analysis, reading a project as a business decision rather than only a technical one, and being able to synthesise an argument and explain it. It means I am not only the person who writes the code, and I can be useful in rooms where that matters.',
-        'I have also lived and studied in Annecy, in France, and Shrewsbury, in England. Being dropped somewhere you do not speak the language fluently teaches you to work things out and to get on with people quickly — which turns out to be most of what remote work in an international team asks of you.',
-        'What I want next is to go deeper into cloud architecture. It is where I have the most room to grow, compared with the programming and the security — and naming that is more useful than pretending otherwise.',
+        'I started by going deep on AWS, then opened out. Today I write new checks for AWS, Azure and GCP, and I have added whole providers like MongoDB Atlas, Microsoft 365, Vercel, Linode and OpenStack, so that anyone running on them can scan and secure them. 528 commits into Prowler so far.',
+        'The degree gave me the foundations I still use every day: Docker, cloud computing, web development, networking, and enough of the underlying systems to reason about what a service is really doing. The business half gave me something else entirely. It taught me to understand what a client actually needs, to weigh a feature against a SWOT analysis, to read a project as a business decision and not only a technical one, and to synthesise an argument and explain it. It means I am not only the person who writes the code, and I can be useful in rooms where that matters.',
+        'I have also lived and studied in Annecy, in France, and Shrewsbury, in England. Being dropped somewhere you do not speak the language fluently teaches you to work things out and to get on with people quickly, which turns out to be most of what remote work in an international team asks of you.',
+        'What I want next is to go deeper into cloud architecture. It is where I have the most room to grow, more than in the programming or the security, and saying so is more useful than pretending otherwise.',
       ],
       education: [
         {
           k: '2019–2025',
-          v: 'Dual degree, Computer Engineering and Business Administration — Universidad de Granada',
+          v: 'Dual degree in Computer Engineering and Business Administration, Universidad de Granada',
         },
-        { k: '2023', v: 'Google Cloud — Digital Leader learning path, four badges' },
+        { k: '2023', v: 'Google Cloud Digital Leader learning path, four badges' },
       ],
       note: '',
     },
@@ -106,7 +106,7 @@ export const content: Record<Lang, SiteContent> = {
           impacts: [
             {
               metric: '528',
-              text: 'Commits merged into Prowler — the sixth-highest of 398 contributors on a project with 14.8k stars, and 294,573 lines added.',
+              text: 'Commits merged into Prowler, the sixth-highest of 398 contributors on a project with 14.8k stars, and 294,573 lines added.',
             },
             {
               metric: '15',
@@ -114,7 +114,7 @@ export const content: Record<Lang, SiteContent> = {
             },
             {
               metric: '2',
-              text: 'Providers built end to end — OpenStack and Okta — from the core SDK through the checks, the API, the web UI and the documentation.',
+              text: 'OpenStack and Okta, both taken end to end from the core SDK through the checks, the API, the web UI and the documentation.',
             },
             {
               metric: '144',
@@ -146,7 +146,7 @@ export const content: Record<Lang, SiteContent> = {
       oss: [
         {
           k: 'Prowler',
-          v: 'The open-source cloud security platform. Sixth by commit count of 398 contributors — 528 commits across 15 providers.',
+          v: 'The open-source cloud security platform. Sixth by commit count of 398 contributors, with 528 commits across 15 providers.',
         },
         {
           k: 'Attack Paths',
@@ -154,7 +154,7 @@ export const content: Record<Lang, SiteContent> = {
         },
         {
           k: 'Provider coverage',
-          v: 'Brought OpenStack and Okta into Prowler end to end, and MongoDB Atlas through the API and UI — so teams on those platforms can scan them like any other cloud.',
+          v: 'Brought OpenStack and Okta into Prowler end to end, and MongoDB Atlas through the API and UI, so teams on those platforms can scan them like any other cloud.',
         },
       ],
       speaking: [
@@ -164,22 +164,22 @@ export const content: Record<Lang, SiteContent> = {
         },
         {
           k: 'fwd:cloudsec',
-          v: 'Attended — Berlin.',
+          v: 'Attended, Berlin.',
         },
         {
           k: 'AWS re:Invent',
-          v: 'Attended — Las Vegas.',
+          v: 'Attended, Las Vegas.',
         },
         {
           k: 'RootedCON',
-          v: 'Attended — Madrid.',
+          v: 'Attended, Madrid.',
         },
         {
           k: 'Commentary',
           v: 'Wrote publicly on the Vercel breach as it unfolded.',
         },
       ],
-      note: 'Every number here comes from the public repository and can be checked. Some of the work is not public — features that came from enterprise customer requests, plus internal support — so these figures are a floor, not a total.',
+      note: 'Every number here comes from the public repository and can be checked. Some of the work is not public, including features that came from enterprise customer requests and the internal support side, so these figures are a floor rather than a total.',
     },
     projects: {
       eyebrow: 'Projects',
@@ -188,7 +188,7 @@ export const content: Record<Lang, SiteContent> = {
       items: [
         {
           k: 'Nubify',
-          v: 'My final degree project: a Python CLI that lets someone start on AWS without the two fears that stop people — breaking something, and the bill. It estimates real cost through the AWS Pricing API before anything is created. I wrote it because I had exactly that fear in my first months at Prowler.',
+          v: 'My final degree project: a Python CLI that lets someone start on AWS without the two fears that stop people, the fear of breaking something and the fear of the bill. It estimates real cost through the AWS Pricing API before anything is created. I wrote it because I had exactly that fear in my first months at Prowler.',
         },
         {
           k: 'okta-sdk-python',
@@ -200,7 +200,7 @@ export const content: Record<Lang, SiteContent> = {
         },
         {
           k: 'Detection proposals',
-          v: '28 new-check proposals opened against Prowler — secrets left in Lambda layers, ECR images, Glue connections, CodePipeline definitions and SageMaker notebooks, plus Kubernetes hardening. Deciding what is worth detecting, not only implementing it.',
+          v: '28 new-check proposals opened against Prowler, covering secrets left in Lambda layers, ECR images, Glue connections, CodePipeline definitions and SageMaker notebooks, plus Kubernetes hardening. Deciding what is worth detecting, not only implementing it.',
         },
         {
           k: 'This site',
@@ -212,20 +212,20 @@ export const content: Record<Lang, SiteContent> = {
     recommendations: {
       eyebrow: 'Recommendations',
       title: 'In other\npeople’s words',
-      lede: '[ONE LINE OF FRAMING — who these people are to you, and over what period.]',
+      lede: '[ONE LINE OF FRAMING: who these people are to you, and over what period.]',
       quotes: [
         {
-          text: '[QUOTE ONE — the strongest thing a senior engineer said about working with you. Two or three sentences; longer reads as padding.]',
+          text: '[QUOTE ONE: the strongest thing a senior engineer said about working with you. Two or three sentences; longer reads as padding.]',
           name: '[NAME]',
           role: '[ROLE] · [COMPANY]',
         },
         {
-          text: '[QUOTE TWO — ideally about a different quality than the first, so the two do not overlap.]',
+          text: '[QUOTE TWO: ideally about a different quality than the first, so the two do not overlap.]',
           name: '[NAME]',
           role: '[ROLE] · [COMPANY]',
         },
         {
-          text: '[QUOTE THREE — optional. Three is plenty; more starts to read defensive.]',
+          text: '[QUOTE THREE: optional. Three is plenty; more starts to read defensive.]',
           name: '[NAME]',
           role: '[ROLE] · [COMPANY]',
         },
@@ -276,19 +276,19 @@ export const content: Record<Lang, SiteContent> = {
       title: 'Quién soy',
       lede: 'Llegué a la nube casi por casualidad y me quedé porque cada proveedor nuevo es un sistema entero que desmontar.',
       body: [
-        '¡Hola! Soy Dani. Ingeniero de seguridad cloud en Prowler y graduado en la Universidad de Granada en Ingeniería Informática y Administración de Empresas. Fuera de la pantalla: deporte, café, ver fútbol, videojuegos y la parte más friki del cine y las series — Marvel, Juego de Tronos y todo ese mundo.',
+        '¡Hola! Soy Dani. Ingeniero de seguridad cloud en Prowler y graduado en la Universidad de Granada en Ingeniería Informática y Administración de Empresas. Fuera de la pantalla: deporte, café, ver fútbol, videojuegos y la parte más friki del cine y las series, desde Marvel hasta Juego de Tronos.',
         'La seguridad me interesaba mucho antes que la nube. Hice un curso de Google Cloud casi por curiosidad y me fue enganchando. Justo al terminar la carrera me llegó la oportunidad de entrar en Prowler, y ahí descubrí que esto me entusiasma de verdad.',
-        'Empecé profundizando en AWS y poco a poco me fui abriendo. Hoy escribo checks nuevos para AWS, Azure y GCP, y he añadido proveedores completos — MongoDB Atlas, Microsoft 365, Vercel, Linode, OpenStack — para que cualquiera que trabaje sobre ellos pueda escanearlos y securizarlos. 528 commits en Prowler hasta ahora.',
+        'Empecé profundizando en AWS y poco a poco me fui abriendo. Hoy escribo checks nuevos para AWS, Azure y GCP, y he añadido proveedores completos como MongoDB Atlas, Microsoft 365, Vercel, Linode y OpenStack, para que cualquiera que trabaje sobre ellos pueda escanearlos y securizarlos. 528 commits en Prowler hasta ahora.',
         'La carrera me dio las bases que sigo usando a diario: Docker, cloud computing, desarrollo web, redes y suficiente de los sistemas que hay debajo como para razonar qué está haciendo de verdad un servicio. La parte de empresa me dio otra cosa distinta: entender qué necesita de verdad un cliente, valorar una feature con un análisis DAFO, leer un proyecto como una decisión de negocio y no solo técnica, y saber sintetizar un argumento y explicarlo. Hace que no sea solo el que programa, y que pueda aportar en salas donde eso importa.',
-        'También he vivido y estudiado en Annecy, en Francia, y en Shrewsbury, en Inglaterra. Que te suelten en un sitio donde no dominas el idioma te enseña a buscarte la vida y a entenderte rápido con la gente — que resulta ser buena parte de lo que pide trabajar en remoto con un equipo internacional.',
-        'Lo siguiente que quiero es profundizar en arquitectura cloud. Es donde más recorrido me queda, comparado con la parte de programación y de seguridad, y decirlo es más útil que disimularlo.',
+        'También he vivido y estudiado en Annecy, en Francia, y en Shrewsbury, en Inglaterra. Que te suelten en un sitio donde no dominas el idioma te enseña a buscarte la vida y a entenderte rápido con la gente, que resulta ser buena parte de lo que pide trabajar en remoto con un equipo internacional.',
+        'Lo siguiente que quiero es profundizar en arquitectura cloud. Es donde más recorrido me queda, más que en la parte de programación o de seguridad, y decirlo es más útil que disimularlo.',
       ],
       education: [
         {
           k: '2019–2025',
-          v: 'Doble Grado en Ingeniería Informática y Administración de Empresas — Universidad de Granada',
+          v: 'Doble Grado en Ingeniería Informática y Administración de Empresas, Universidad de Granada',
         },
-        { k: '2023', v: 'Google Cloud — ruta de formación Digital Leader, cuatro insignias' },
+        { k: '2023', v: 'Ruta de formación Google Cloud Digital Leader, cuatro insignias' },
       ],
       note: '',
     },
@@ -303,7 +303,7 @@ export const content: Record<Lang, SiteContent> = {
           impacts: [
             {
               metric: '528',
-              text: 'Commits mergeados en Prowler — el sexto de 398 contribuidores en un proyecto con 14.800 estrellas, y 294.573 líneas añadidas.',
+              text: 'Commits mergeados en Prowler, el sexto de 398 contribuidores en un proyecto con 14.800 estrellas, y 294.573 líneas añadidas.',
             },
             {
               metric: '15',
@@ -311,7 +311,7 @@ export const content: Record<Lang, SiteContent> = {
             },
             {
               metric: '2',
-              text: 'Proveedores construidos de principio a fin — OpenStack y Okta — desde el SDK hasta los checks, la API, la interfaz web y la documentación.',
+              text: 'OpenStack y Okta, ambos construidos de principio a fin, desde el SDK hasta los checks, la API, la interfaz web y la documentación.',
             },
             {
               metric: '144',
@@ -343,7 +343,7 @@ export const content: Record<Lang, SiteContent> = {
       oss: [
         {
           k: 'Prowler',
-          v: 'La plataforma open source de seguridad cloud. Sexto por número de commits de 398 contribuidores — 528 commits en 15 proveedores.',
+          v: 'La plataforma open source de seguridad cloud. Sexto por número de commits de 398 contribuidores, con 528 commits en 15 proveedores.',
         },
         {
           k: 'Attack Paths',
@@ -351,7 +351,7 @@ export const content: Record<Lang, SiteContent> = {
         },
         {
           k: 'Cobertura de proveedores',
-          v: 'He traído OpenStack y Okta a Prowler de principio a fin, y MongoDB Atlas a través de la API y la interfaz — para que quien trabaje sobre esas plataformas pueda escanearlas como cualquier otra nube.',
+          v: 'He traído OpenStack y Okta a Prowler de principio a fin, y MongoDB Atlas a través de la API y la interfaz, para que quien trabaje sobre esas plataformas pueda escanearlas como cualquier otra nube.',
         },
       ],
       speaking: [
@@ -361,22 +361,22 @@ export const content: Record<Lang, SiteContent> = {
         },
         {
           k: 'fwd:cloudsec',
-          v: 'Asistente — Berlín.',
+          v: 'Asistente, Berlín.',
         },
         {
           k: 'AWS re:Invent',
-          v: 'Asistente — Las Vegas.',
+          v: 'Asistente, Las Vegas.',
         },
         {
           k: 'RootedCON',
-          v: 'Asistente — Madrid.',
+          v: 'Asistente, Madrid.',
         },
         {
           k: 'Divulgación',
           v: 'Escribí públicamente sobre la brecha de Vercel mientras ocurría.',
         },
       ],
-      note: 'Todos los números salen del repositorio público y se pueden comprobar. Parte del trabajo no es público — features que vinieron de peticiones de clientes enterprise, además del soporte interno — así que estas cifras son un suelo, no un total.',
+      note: 'Todos los números salen del repositorio público y se pueden comprobar. Parte del trabajo no es público, incluidas features que vinieron de peticiones de clientes enterprise y el soporte interno, así que estas cifras son un suelo y no un total.',
     },
     projects: {
       eyebrow: 'Proyectos',
@@ -385,7 +385,7 @@ export const content: Record<Lang, SiteContent> = {
       items: [
         {
           k: 'Nubify',
-          v: 'Mi Trabajo de Fin de Grado: una CLI en Python para empezar en AWS sin los dos miedos que frenan a la gente — romper algo y la factura. Estima el coste real con la AWS Pricing API antes de crear nada. Lo escribí porque yo tenía justo ese miedo en mis primeros meses en Prowler.',
+          v: 'Mi Trabajo de Fin de Grado: una CLI en Python para empezar en AWS sin los dos miedos que frenan a la gente, el de romper algo y el de la factura. Estima el coste real con la AWS Pricing API antes de crear nada. Lo escribí porque yo tenía justo ese miedo en mis primeros meses en Prowler.',
         },
         {
           k: 'okta-sdk-python',
@@ -397,7 +397,7 @@ export const content: Record<Lang, SiteContent> = {
         },
         {
           k: 'Propuestas de detección',
-          v: '28 propuestas de checks nuevos abiertas en Prowler — secretos olvidados en capas de Lambda, imágenes de ECR, conexiones de Glue, definiciones de CodePipeline y notebooks de SageMaker, además de endurecimiento de Kubernetes. Decidir qué merece la pena detectar, no solo implementarlo.',
+          v: '28 propuestas de checks nuevos abiertas en Prowler, sobre secretos olvidados en capas de Lambda, imágenes de ECR, conexiones de Glue, definiciones de CodePipeline y notebooks de SageMaker, además de endurecimiento de Kubernetes. Decidir qué merece la pena detectar, no solo implementarlo.',
         },
         {
           k: 'Esta web',
@@ -409,20 +409,20 @@ export const content: Record<Lang, SiteContent> = {
     recommendations: {
       eyebrow: 'Recomendaciones',
       title: 'En palabras\nde otros',
-      lede: '[UNA LÍNEA DE CONTEXTO — quiénes son estas personas para ti y en qué periodo.]',
+      lede: '[UNA LÍNEA DE CONTEXTO: quiénes son estas personas para ti y en qué periodo.]',
       quotes: [
         {
-          text: '[CITA UNO — lo más fuerte que un ingeniero sénior dijo sobre trabajar contigo. Dos o tres frases; más largo suena a relleno.]',
+          text: '[CITA UNO: lo más fuerte que un ingeniero sénior dijo sobre trabajar contigo. Dos o tres frases; más largo suena a relleno.]',
           name: '[NOMBRE]',
           role: '[PUESTO] · [EMPRESA]',
         },
         {
-          text: '[CITA DOS — a ser posible sobre una cualidad distinta de la primera, para que no se solapen.]',
+          text: '[CITA DOS: a ser posible sobre una cualidad distinta de la primera, para que no se solapen.]',
           name: '[NOMBRE]',
           role: '[PUESTO] · [EMPRESA]',
         },
         {
-          text: '[CITA TRES — opcional. Con tres basta; más empieza a sonar defensivo.]',
+          text: '[CITA TRES: opcional. Con tres basta; más empieza a sonar defensivo.]',
           name: '[NOMBRE]',
           role: '[PUESTO] · [EMPRESA]',
         },

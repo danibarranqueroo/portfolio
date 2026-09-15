@@ -43,7 +43,7 @@ export const rounds: Record<Lang, Round[]> = {
         '}',
       ],
       answer: 3,
-      why: 'iam:PassRole on * is a privilege-escalation path. The holder can launch an instance carrying any role in the account — including an administrator one — and inherit its permissions. The policy looks modest; the blast radius is total.',
+      why: 'iam:PassRole on * is a privilege-escalation path. The holder can launch an instance carrying any role in the account, including an administrator one, and inherit its permissions. The policy looks modest; the blast radius is total.',
       fix: 'Scope Resource to the exact roles that may be passed, and add a condition on iam:PassedToService.',
     },
     {
@@ -59,7 +59,7 @@ export const rounds: Record<Lang, Round[]> = {
       ],
       answer: 5,
       why: 'SSH is reachable from the entire internet. Even with key-only auth this exposes the daemon to every scanner and every future CVE in it.',
-      fix: 'Restrict the CIDR to your VPN range — or drop port 22 entirely and use SSM Session Manager, which needs no inbound rule at all.',
+      fix: 'Restrict the CIDR to your VPN range, or drop port 22 entirely and use SSM Session Manager, which needs no inbound rule at all.',
     },
   ],
 
@@ -90,7 +90,7 @@ export const rounds: Record<Lang, Round[]> = {
         '}',
       ],
       answer: 3,
-      why: 'iam:PassRole sobre * es una vía de escalada de privilegios. Quien la tenga puede lanzar una instancia con cualquier rol de la cuenta —incluido uno de administrador— y heredar sus permisos. La política parece modesta; el alcance es total.',
+      why: 'iam:PassRole sobre * es una vía de escalada de privilegios. Quien la tenga puede lanzar una instancia con cualquier rol de la cuenta, incluido uno de administrador, y heredar sus permisos. La política parece modesta; el alcance es total.',
       fix: 'Limita Resource a los roles concretos que se pueden pasar y añade una condición sobre iam:PassedToService.',
     },
     {
