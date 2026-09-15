@@ -56,12 +56,6 @@ const other = (Object.keys(languages) as Array<keyof typeof languages>).find((l)
          Its CSP hash is derived from the same constant in astro.config.mjs. -->
     <script is:inline set:html={THEME_INIT} />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
-    />
   </head>
 
   <body>
@@ -268,13 +262,6 @@ const other = (Object.keys(languages) as Array<keyof typeof languages>).find((l)
         }
       }
 
-      // --- CV: print to PDF ---------------------------------------------------
-      // The print stylesheet turns the CV into an A4 document, so "save as PDF"
-      // in the print dialog produces the same file the pipeline will generate
-      // once Playwright renders it in CI.
-      document.querySelector('[data-print]')?.addEventListener('click', () => {
-        window.print();
-      });
 
       // --- theme toggle -------------------------------------------------------
       const toggle = document.querySelector('[data-theme-toggle]');

@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./fonts.css";
 
 /* ---------------------------------------------------------------------------
    Design tokens — cool direction.
@@ -695,6 +696,11 @@ main > .wide {
   }
   :root {
     color-scheme: light;
+  }
+  /* The page tint is fine on screen and wastes ink on paper. */
+  html,
+  body {
+    background: #fff;
   }
   .site-header,
   .site-footer,

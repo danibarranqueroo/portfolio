@@ -9,13 +9,14 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && node scripts/render-cv-pdf.mjs",
     "preview": "astro preview",
     "astro": "astro",
     "typecheck": "astro check",
     "lint": "biome check .",
     "lint:fix": "biome check --write .",
-    "check": "pnpm lint && pnpm typecheck"
+    "check": "pnpm lint && pnpm typecheck",
+    "pdf": "node scripts/render-cv-pdf.mjs"
   },
   "dependencies": {
     "astro": "7.2.10"
@@ -26,6 +27,7 @@
     "@biomejs/biome": "2.5.11",
     "@tailwindcss/vite": "4.3.3",
     "lefthook": "2.1.12",
+    "playwright": "1.63.0",
     "sharp": "0.35.4",
     "tailwindcss": "4.3.3",
     "typescript": "6.0.3"

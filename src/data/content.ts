@@ -290,10 +290,9 @@ export const content: Record<Lang, SiteContent> = {
           meta: 'Cloud Security Engineer · Remote',
           dates: 'Jan 2025 – Present',
           bullets: [
-            '528 commits merged, sixth of 398 contributors on a 14.8k-star project.',
+            '528 commits merged since January 2025.',
             'Built the OpenStack and Okta providers end to end: SDK, checks, API, web UI, docs.',
             'Security checks across 15 cloud providers, from AWS and Azure to Okta and OpenStack.',
-            'Lead the detection and remediation team: community triage, PR review, Slack support.',
             'Extended Attack Paths, the graph chaining misconfigurations to critical resources.',
           ],
         },
@@ -316,13 +315,6 @@ export const content: Record<Lang, SiteContent> = {
           ],
         },
         {
-          title: 'Detection proposals',
-          meta: 'Prowler',
-          bullets: [
-            '28 new-check proposals: secrets in Lambda layers, ECR images and Glue connections, plus Kubernetes hardening.',
-          ],
-        },
-        {
           title: 'Personal site',
           meta: 'Astro, TypeScript, Cloudflare',
           bullets: [
@@ -340,8 +332,10 @@ export const content: Record<Lang, SiteContent> = {
         { k: 'Tools', v: 'Git, Docker, GitHub Actions, pytest' },
       ],
       achievements: [
+        'Sixth of 398 contributors to Prowler by commit count, on a project with 14.8k stars.',
+        'Lead the detection and remediation team.',
+        'Maintain the open-source community: issue triage, pull request review and Slack support.',
         'Speaker at Hackén, Jaén, two consecutive years. Attended AWS re:Invent, fwd:cloudsec and RootedCON.',
-        'Reported two bugs in Okta’s official Python SDK while building Prowler’s Okta provider.',
       ],
     },
   },
@@ -551,10 +545,9 @@ export const content: Record<Lang, SiteContent> = {
           meta: 'Cloud Security Engineer · En remoto',
           dates: 'ene. 2025 – Actualidad',
           bullets: [
-            '528 commits mergeados, el sexto de 398 contribuidores en un proyecto de 14.800 estrellas.',
+            '528 commits mergeados desde enero de 2025.',
             'Construí los proveedores de OpenStack y Okta de principio a fin: SDK, checks, API, interfaz web y documentación.',
             'Checks de seguridad en 15 proveedores cloud, de AWS y Azure a Okta y OpenStack.',
-            'Lidero el equipo de detección y remediación: issues de la comunidad, revisión de PRs y soporte en Slack.',
             'Amplié Attack Paths, el grafo que encadena malas configuraciones hasta recursos críticos.',
           ],
         },
@@ -574,13 +567,6 @@ export const content: Record<Lang, SiteContent> = {
           meta: 'Python, AWS Pricing API',
           bullets: [
             'Trabajo de Fin de Grado. Una CLI para empezar en AWS con estimación de coste real antes de crear nada.',
-          ],
-        },
-        {
-          title: 'Propuestas de detección',
-          meta: 'Prowler',
-          bullets: [
-            '28 propuestas de checks nuevos: secretos en capas de Lambda, imágenes de ECR y conexiones de Glue, además de endurecimiento de Kubernetes.',
           ],
         },
         {
@@ -604,8 +590,10 @@ export const content: Record<Lang, SiteContent> = {
         { k: 'Herramientas', v: 'Git, Docker, GitHub Actions, pytest' },
       ],
       achievements: [
+        'Sexto de 398 contribuidores de Prowler por número de commits, en un proyecto con 14.800 estrellas.',
+        'Lidero el equipo de detección y remediación.',
+        'Mantengo la comunidad open source: issues, revisión de pull requests y soporte en Slack.',
         'Ponente en Hackén, Jaén, dos años consecutivos. Asistente a AWS re:Invent, fwd:cloudsec y RootedCON.',
-        'Reporté dos bugs en el SDK oficial de Python de Okta mientras construía su proveedor en Prowler.',
       ],
     },
   },

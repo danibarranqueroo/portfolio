@@ -440,6 +440,51 @@ Two things about writing it that are worth keeping:
   surfaced. Every rule it now protects was checked by deleting that rule and
   watching the check fail.
 
+## The CV is a generated PDF, not a print dialog
+
+`window.print()` does produce a genuine vector PDF, not a screenshot, but it
+made the visitor walk through a dialog and the result depended on their own
+margin and background settings. `pnpm build` now renders both locales with
+Playwright into `dist/cv/daniel-barranquero-cv.pdf`, so the button is a plain
+download link to a real file. One page, vector, selectable text, no images.
+
+CI installs Chromium (`playwright install --with-deps chromium`) before
+building, because the build no longer completes without it.
+
+## Fonts are self-hosted, and the PDF is why
+
+Self-hosting had been on the list for a while as a privacy and control point.
+What forced it was determinism: faces fetched from Google load lazily, so
+`document.fonts.ready` can resolve before they start, and the rendered PDF came
+out in Times and Arial on roughly half the runs. Local files removed the
+variance; three consecutive renders now produce identical fonts.
+
+`scripts/fetch-fonts.mjs` downloads them and writes `src/styles/fonts.css`.
+Two things keep the payload sane: Newsreader is requested as a weight RANGE so
+Google serves one variable file rather than three statics (129 KB once instead
+of per weight), and only the `latin` subset is kept. Google's latin subset
+spans U+0000-00FF, which covers every accent the Spanish copy uses; `latin-ext`
+is for Central and Eastern European and would have roughly doubled the payload
+for characters this site never renders. 296 KB across seven files.
+
+## The CSP was blocking the site's own stylesheet
+
+Found while debugging the PDF fonts, and it would have shipped.
+
+`security.csp.styleDirective.resources` **replaces** Astro's default sources
+rather than extending them. Listing only `https://fonts.googleapis.com` there
+silently dropped `'self'`, so the built pages carried a `style-src` with no
+`'self'` and the browser refused to load `/_astro/*.css`.
+
+It never appeared in the browser because **the dev server emits no CSP meta at
+all**. Every page Dani had looked at was unstyled-proof only by accident of
+being served by Vite. The first deploy would have been an unstyled site.
+
+Self-hosting the fonts removed the need for the override entirely, so the
+directive is gone and Astro's default stands. The general lesson: a config key
+named `resources` was additive in my head and replacing in fact, and only
+rendering the built output caught it.
+
 ## Open
 
 - **Domain** not registered. `site` in `astro.config.mjs` is a placeholder and

@@ -48,14 +48,6 @@ export default defineConfig({
         // a bug that only appears in a real build, never in dev.
         hashes: [THEME_INIT_HASH],
       },
-      styleDirective: {
-        // TODO(fonts): self-host the three faces and delete this allowance.
-        // Google Fonts means a third-party request on every page load, which
-        // is a poor look on a security engineer's site and costs a DNS +
-        // TLS round trip. Kept for now so the design can be reviewed; the
-        // matching font-src lives in public/_headers.
-        resources: ['https://fonts.googleapis.com'],
-      },
     },
   },
 

@@ -19,6 +19,7 @@ const es = lang === 'es';
 const c = content[lang];
 const cv = c.cv;
 const links = c.links;
+const pdfHref = `${es ? '/es' : ''}/cv/daniel-barranquero-cv.pdf`;
 
 const t = {
   education: es ? 'Formación' : 'Education',
@@ -26,10 +27,8 @@ const t = {
   projects: es ? 'Proyectos' : 'Projects',
   skills: es ? 'Competencias técnicas' : 'Technical skills',
   achievements: es ? 'Otros' : 'Achievements',
-  print: es ? 'Descargar en PDF' : 'Download as PDF',
-  hint: es
-    ? 'Se abre el diálogo de impresión, elige «Guardar como PDF».'
-    : 'Opens the print dialog, then choose “Save as PDF”.',
+  print: es ? 'Descargar el CV en PDF' : 'Download CV as PDF',
+  hint: es ? 'Una página, generada en cada build.' : 'One page, generated on every build.',
 };
 ---
 
@@ -49,7 +48,7 @@ const t = {
   </header>
 
   <div class="cv-actions no-print">
-    <button type="button" class="btn" data-print>{t.print}</button>
+    <a class="btn" href={pdfHref} download>{t.print}</a>
     <span class="lnk">{t.hint}</span>
   </div>
 

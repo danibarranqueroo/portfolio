@@ -59,6 +59,12 @@ jobs:
       - name: Typecheck
         run: pnpm run typecheck
 
+      - name: Install Chromium for the CV PDF
+        # `pnpm build` renders the CV to a real PDF with Playwright, so the
+        # browser has to be present. --with-deps pulls the system libraries
+        # headless Chromium needs on a clean runner.
+        run: pnpm exec playwright install --with-deps chromium
+
       - name: Build
         run: pnpm run build
 
