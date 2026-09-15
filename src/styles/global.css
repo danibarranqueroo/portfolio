@@ -268,19 +268,28 @@ main > .wide {
 }
 
 /* --- key/value rows ------------------------------------------------------ */
+/* The key column sizes to the widest key IN ITS OWN TABLE, not to the widest
+   on the site. A fixed column meant About's 9-character years sat in a slot cut
+   for "Build scripts allowed", leaving a corridor of dead space.
+   The parent owns the tracks; each row borrows them with subgrid, so every row
+   in one table still lines up with its siblings. */
 .rows {
   list-style: none;
   margin: 0;
   padding: 0;
+  display: grid;
+  grid-template-columns: minmax(max-content, 200px) 1fr;
+  column-gap: 32px;
 }
 .row {
   display: grid;
-  grid-template-columns: minmax(140px, 200px) 1fr;
-  gap: 28px;
+  grid-template-columns: subgrid;
+  grid-column: 1 / -1;
   padding: 13px 0;
   border-bottom: 1px solid var(--color-rule);
   align-items: baseline;
 }
+
 .row:last-child {
   border-bottom: none;
 }
@@ -293,6 +302,20 @@ main > .wide {
 }
 .row-v {
   font-size: 15px;
+}
+/* Below the breakpoint the key stacks above its value, so the shared column
+   would only squeeze the text. */
+@media (max-width: 560px) {
+  .rows {
+    display: block;
+  }
+  .row {
+    display: block;
+  }
+  .row-k {
+    display: block;
+    margin-bottom: 4px;
+  }
 }
 
 /* --- experience ---------------------------------------------------------- */
