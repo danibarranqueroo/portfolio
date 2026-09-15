@@ -61,10 +61,10 @@ const YEAR = new Date().getFullYear();
 export const content: Record<Lang, SiteContent> = {
   en: {
     landing: {
-      eyebrow: 'Cloud security engineer at Prowler',
+      eyebrow: 'Cloud Security Engineer',
       title: 'Daniel\nBarranquero',
       lede: 'I build the providers and checks that let anyone audit the cloud they actually run on.',
-      statement: 'From Granada, making every cloud you use auditable and secure.',
+      statement: 'Software engineering that secures the whole stack — SDK to UI, cloud to AI.',
       cta: 'Read the CV',
       now: [
         { k: 'Role', v: 'Cloud Security Engineer at Prowler' },
@@ -254,10 +254,11 @@ export const content: Record<Lang, SiteContent> = {
 
   es: {
     landing: {
-      eyebrow: 'Ingeniero de seguridad cloud en Prowler',
+      eyebrow: 'Ingeniero de Seguridad Cloud',
       title: 'Daniel\nBarranquero',
       lede: 'Construyo los proveedores y los checks con los que cualquiera puede auditar la nube en la que trabaja.',
-      statement: 'Desde Granada, haciendo que cualquier nube que uses sea auditable y segura.',
+      statement:
+        'Ingeniería de software que asegura todo el stack: del SDK a la UI, del cloud a la IA.',
       cta: 'Ver el CV',
       now: [
         { k: 'Puesto', v: 'Cloud Security Engineer en Prowler' },
