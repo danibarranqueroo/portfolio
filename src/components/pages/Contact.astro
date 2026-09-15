@@ -12,7 +12,6 @@ const hrefFor = (key: string): string | undefined => {
   if (k === 'email') return links.email;
   if (k === 'github') return links.github;
   if (k === 'linkedin') return links.linkedin;
-  if (k === 'security' || k === 'seguridad') return '/.well-known/security.txt';
   return undefined;
 };
 ---
