@@ -15,7 +15,7 @@ const THEME_INIT_HASH = `sha256-${createHash('sha256').update(THEME_INIT).digest
 // Absolute URL. Canonical tags, hreflang alternates, the sitemap and
 // robots.txt are all derived from this, so it must match the live host
 // exactly, including whether www is the canonical form.
-const SITE = 'https://danibarranquero.dev';
+const SITE = 'https://danibarranquero.com';
 
 export default defineConfig({
   site: SITE,
