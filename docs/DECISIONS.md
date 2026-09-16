@@ -232,8 +232,8 @@ before shipping.
 
 ## Prowler scans this repository, for real
 
-`/security` renders findings from an actual Prowler scan of this repository's
-GitHub configuration — not a mock-up.
+`/security` renders findings from actual Prowler scans of the two surfaces
+this site lives on — not a mock-up.
 
 **Which provider, and why.** Prowler supports 23 providers. Three were
 candidates:
@@ -241,26 +241,38 @@ candidates:
 - **`github` — 27 checks, used.** Branch protection, signed commits, workflow
   token permissions, secret scanning, Dependabot, CODEOWNERS. Directly
   applicable today.
-- **`cloudflare` — 29 checks, deferred.** HSTS, minimum TLS, DNSSEC, WAF, CAA,
-  SPF/DKIM/DMARC. Nearly all are zone-level and need a registered domain, so
-  this waits for Phase 7. When the domain lands, the same pipeline gains a
-  second provider and the page gets a second section.
+- **`cloudflare` — 29 checks, used since the domain landed.** HSTS, minimum
+  TLS, DNSSEC, WAF, CAA, SPF/DKIM/DMARC. Nearly all are zone-level, so this
+  waited for a registered domain. It audits the same edge configuration the
+  site is actually served from, which makes it the better half of the pair:
+  the GitHub scan checks how the site is built, this one checks how it is
+  served.
 - **`iac` — not applicable.** Scans Terraform, CloudFormation and Kubernetes
   manifests. This project has none; `wrangler.jsonc` is not IaC in that sense.
 
 **The pipeline.** `.github/workflows/security-scan.yml` runs weekly, installs
 Prowler pinned to 5.42.0, scans, and pipes the JSON-OCSF through
 `scripts/normalize-prowler.mjs`, which reduces 116 KB of OCSF envelope to a
-20 KB file holding only what renders. That file, `src/data/security-scan.json`,
-**is committed** — so the page has real data in local development, and its
-history is a record of how the posture changed over time.
+20 KB file holding only what renders. Those files live in `src/data/scans/`,
+one per provider, and **are committed** — so the page has real data in local
+development, and their history is a record of how the posture changed over
+time. One file per provider rather than one combined file, so each scan is
+refreshed and committed on its own instead of two jobs racing on one path.
+They are excluded from Biome in `biome.json`: the workflow commits them
+through the API without running the formatter, so linting them would have
+failed the next CI run on a file no human wrote.
 
 Three details that are easy to get wrong:
 
 - **The built-in `GITHUB_TOKEN` is not enough.** Reading branch protection and
   security settings needs Administration:Read, which it does not have. The
-  workflow needs a fine-grained PAT in `PROWLER_GITHUB_TOKEN`, and skips with a
-  warning rather than failing when the secret is absent.
+  workflow needs a fine-grained PAT in `PROWLER_GITHUB_TOKEN`. Cloudflare needs
+  a read-only user API token in `CLOUDFLARE_API_TOKEN`.
+- **A missing credential fails the job, and that is deliberate.** The first
+  version warned and exited green. The secret was never created, so the
+  workflow passed in seven seconds every week without scanning anything, and
+  the tick in the UI meant nobody looked. A green run that does nothing is
+  worse than a red one, because it actively reassures you.
 - **The result is committed through the REST API, not `git push`.** `main`
   requires signed commits; commits created via the API are signed by GitHub,
   while a push from Actions is unsigned and would be rejected by our own

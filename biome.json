@@ -13,7 +13,8 @@
       "!**/node_modules",
       "!**/pnpm-lock.yaml",
       "!**/public",
-      "!**/design"
+      "!**/design",
+      "!src/data/scans"
     ]
   },
   "formatter": {

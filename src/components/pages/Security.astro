@@ -2,13 +2,20 @@
 import { rounds } from '../../data/spotter';
 import type { Lang } from '../../i18n/ui';
 import { audit } from '../../lib/audit.mjs';
-import { type Finding, loadScan, type Severity } from '../../lib/security-scan';
+import {
+  combinedTotals,
+  type Finding,
+  loadScans,
+  type SecurityScan,
+  type Severity,
+} from '../../lib/security-scan';
 
 const { lang } = Astro.props as { lang: Lang };
 const es = lang === 'es';
 const set = rounds[lang];
 
-const scan = loadScan();
+const scans = loadScans();
+const totals = combinedTotals(scans);
 
 const dispositionLabel = {
   blocked: es ? 'bloqueado' : 'blocked',
@@ -22,9 +29,30 @@ const severityLabel: Record<Severity, string> = {
   Low: es ? 'baja' : 'low',
   Informational: es ? 'informativa' : 'info',
 };
-const scanDate = scan ? scan.generatedAt.slice(0, 10) : null;
-const fails: Finding[] = scan ? scan.findings.filter((f) => f.status === 'FAIL') : [];
-const passes: Finding[] = scan ? scan.findings.filter((f) => f.status === 'PASS') : [];
+
+/** Proper nouns, so the same in both locales. */
+const providerLabel: Record<string, string> = {
+  github: 'GitHub',
+  cloudflare: 'Cloudflare',
+};
+
+/** What each provider's scan actually looks at, said once per block. */
+const providerBlurb: Record<string, string> = es
+  ? {
+      github:
+        'Audita la configuración de este mismo repositorio: protección de rama, permisos de los workflows, escaneo de secretos y avisos de dependencias.',
+      cloudflare:
+        'Audita la cuenta y la zona DNS desde la que se sirve esta página: TLS, HSTS, DNSSEC, registros de correo y reglas del WAF.',
+    }
+  : {
+      github:
+        'Audits this repository’s own configuration: branch protection, workflow permissions, secret scanning and dependency alerts.',
+      cloudflare:
+        'Audits the account and DNS zone this page is served from: TLS, HSTS, DNSSEC, mail records and WAF rules.',
+    };
+
+const byStatus = (scan: SecurityScan, status: string): Finding[] =>
+  scan.findings.filter((f) => f.status === status);
 
 const sig =
   audit.signature === 'G'
@@ -121,69 +149,95 @@ const facts = [
 </section>
 
 <section class="wide">
-  <h2 class="sect">{es ? 'Scan de Prowler' : 'Prowler scan'}</h2>
+  <h2 class="sect">{es ? 'Scans de Prowler' : 'Prowler scans'}</h2>
 
   {
-    !scan ? (
+    scans.length === 0 ? (
       <p class="note">
         {es
-          ? 'Todavía no hay ningún scan. Se genera en CI antes de cada deploy.'
-          : 'No scan has been generated yet. CI produces one before every deploy.'}
+          ? 'Todavía no hay ningún scan. Se generan en CI antes de cada deploy.'
+          : 'No scan has been generated yet. CI produces them before every deploy.'}
       </p>
     ) : (
       <>
         <p class="prose prose-before-checks">
           {es
-            ? 'Prowler audita la configuración de este mismo repo en GitHub. Los resultados de abajo son reales y sin tocar, del último scan.'
-            : 'Prowler audits this repository’s own GitHub configuration. The results below are real and unedited, from the most recent scan.'}
+            ? 'Prowler audita las dos superficies desde las que vive esta página. Los resultados de abajo son reales y sin tocar, del último scan de cada una.'
+            : 'Prowler audits the two surfaces this page lives on. The results below are real and unedited, from the most recent scan of each.'}
         </p>
 
-        <div class="scan-head">
-          <div class="scan-score" data-rate={scan.passRate}>
-            <span class="scan-rate">{scan.passRate}%</span>
-            <span class="scan-rate-k">{es ? 'controles en verde' : 'controls passing'}</span>
+        {scans.length > 1 && (
+          <div class="scan-head">
+            <div class="scan-score" data-rate={totals.passRate}>
+              <span class="scan-rate">{totals.passRate}%</span>
+              <span class="scan-rate-k">{es ? 'en verde, en total' : 'passing, overall'}</span>
+            </div>
+            <ul class="scan-meta">
+              <li><span class="row-k">{es ? 'Controles' : 'Controls'}</span> <span class="val mono">{totals.total}</span></li>
+              <li><span class="row-k">{es ? 'En verde' : 'Passing'}</span> <span class="val mono" data-good>{totals.pass}</span></li>
+              <li><span class="row-k">{es ? 'En rojo' : 'Failing'}</span> <span class="val mono">{totals.fail}</span></li>
+              <li><span class="row-k">{es ? 'Superficies' : 'Surfaces'}</span> <span class="val mono">{scans.length}</span></li>
+            </ul>
           </div>
-          <ul class="scan-meta">
-            <li><span class="row-k">{es ? 'En verde' : 'Passing'}</span> <span class="val mono" data-good>{scan.pass}</span></li>
-            <li><span class="row-k">{es ? 'En rojo' : 'Failing'}</span> <span class="val mono">{scan.fail}</span></li>
-            <li><span class="row-k">{es ? 'Repo' : 'Target'}</span> <span class="val mono">{scan.target}</span></li>
-            <li><span class="row-k">Prowler</span> <span class="val mono">v{scan.prowlerVersion}</span></li>
-            <li><span class="row-k">{es ? 'Fecha' : 'Scanned'}</span> <span class="val mono">{scanDate}</span></li>
-          </ul>
-        </div>
+        )}
 
-        <h3 class="scan-sub">
-          {es ? 'Lo que falla, y por qué sigue fallando' : 'Failing, and why they are still failing'}
-        </h3>
-        <ul class="checks">
-          {fails.map((f) => (
-            <li class="check check-fail">
-              <div class="check-top">
-                <span class={`sev sev-${f.severity.toLowerCase()}`}>{severityLabel[f.severity]}</span>
-                <span class="check-title">{f.title}</span>
+        {scans.map((scan) => (
+          <div class="scan-block">
+            <h3 class="scan-provider">{providerLabel[scan.provider] ?? scan.provider}</h3>
+            <p class="prose prose-before-checks">{providerBlurb[scan.provider] ?? ''}</p>
+
+            <div class="scan-head">
+              <div class="scan-score" data-rate={scan.passRate}>
+                <span class="scan-rate">{scan.passRate}%</span>
+                <span class="scan-rate-k">{es ? 'controles en verde' : 'controls passing'}</span>
               </div>
-              <code class="check-id">{f.id}</code>
-              {f.disposition && (
-                <p class="check-note">
-                  <span class={`disp disp-${f.disposition.state}`}>
-                    {dispositionLabel[f.disposition.state]}
-                  </span>
-                  {f.disposition.note}
-                </p>
-              )}
-            </li>
-          ))}
-        </ul>
+              <ul class="scan-meta">
+                <li><span class="row-k">{es ? 'En verde' : 'Passing'}</span> <span class="val mono" data-good>{scan.pass}</span></li>
+                <li><span class="row-k">{es ? 'En rojo' : 'Failing'}</span> <span class="val mono">{scan.fail}</span></li>
+                <li><span class="row-k">{es ? 'Objetivo' : 'Target'}</span> <span class="val mono">{scan.target}</span></li>
+                <li><span class="row-k">Prowler</span> <span class="val mono">v{scan.prowlerVersion}</span></li>
+                <li><span class="row-k">{es ? 'Fecha' : 'Scanned'}</span> <span class="val mono">{scan.generatedAt.slice(0, 10)}</span></li>
+              </ul>
+            </div>
 
-        <h3 class="scan-sub">{es ? 'En verde' : 'Passing'}</h3>
-        <ul class="checks checks-pass">
-          {passes.map((f) => (
-            <li class="check">
-              <span class="check-tick" aria-hidden="true">✓</span>
-              <span class="check-title">{f.title}</span>
-            </li>
-          ))}
-        </ul>
+            {byStatus(scan, 'FAIL').length > 0 && (
+              <>
+                <h4 class="scan-sub">
+                  {es ? 'Lo que falla, y por qué sigue fallando' : 'Failing, and why they are still failing'}
+                </h4>
+                <ul class="checks">
+                  {byStatus(scan, 'FAIL').map((f) => (
+                    <li class="check check-fail">
+                      <div class="check-top">
+                        <span class={`sev sev-${f.severity.toLowerCase()}`}>{severityLabel[f.severity]}</span>
+                        <span class="check-title">{f.title}</span>
+                      </div>
+                      <code class="check-id">{f.id}</code>
+                      {f.disposition && (
+                        <p class="check-note">
+                          <span class={`disp disp-${f.disposition.state}`}>
+                            {dispositionLabel[f.disposition.state]}
+                          </span>
+                          {f.disposition.note}
+                        </p>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
+
+            <h4 class="scan-sub">{es ? 'En verde' : 'Passing'}</h4>
+            <ul class="checks checks-pass">
+              {byStatus(scan, 'PASS').map((f) => (
+                <li class="check">
+                  <span class="check-tick" aria-hidden="true">✓</span>
+                  <span class="check-title">{f.title}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
 
         <p class="note note-after-checks">
           {es

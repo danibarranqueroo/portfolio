@@ -1,12 +1,22 @@
 name: Prowler scan
 
-# Audits this repository's own GitHub configuration and commits the normalized
-# result, which the site renders on /security.
+# Audits the two surfaces this site lives on and commits the normalized
+# results, which the site renders on /security.
 #
-# Needs a fine-grained PAT in the PROWLER_GITHUB_TOKEN secret with repository
-# permissions Administration:Read, Contents:Read, Metadata:Read and Dependabot
-# alerts:Read. The built-in GITHUB_TOKEN cannot read branch protection or
-# security settings, so it is not sufficient.
+# Required secrets, one per provider. A missing one FAILS the job rather than
+# skipping quietly: the first version of this workflow warned and exited green,
+# so it sat there passing in 7 seconds without scanning anything for days, and
+# nobody noticed because the run was a tick. A scan that cannot run is a
+# problem to fix, not a normal state.
+#
+#   PROWLER_GITHUB_TOKEN  fine-grained PAT, repository permissions
+#                         Administration:Read, Contents:Read, Metadata:Read,
+#                         Dependabot alerts:Read. The built-in GITHUB_TOKEN
+#                         cannot read branch protection, so it is not enough.
+#
+#   CLOUDFLARE_API_TOKEN  user API token, read-only:
+#                         Account Settings:Read, Zone:Read, Zone Settings:Read,
+#                         DNS:Read.
 
 on:
   schedule:
@@ -23,79 +33,99 @@ concurrency:
 
 jobs:
   scan:
-    name: scan and publish findings
+    name: scan ${{ matrix.provider }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
     # Elevated only here, and only for the commit step. The workflow default
     # above stays read-only.
     permissions:
       contents: write
+    strategy:
+      fail-fast: false
+      # One at a time. Both jobs commit to main through the contents API, and
+      # concurrent writes race on the branch head.
+      max-parallel: 1
+      matrix:
+        provider: [github, cloudflare]
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
 
-      - name: Check the scan token exists
-        id: token
+      - name: Check the scan credential exists
         env:
           PROWLER_GITHUB_TOKEN: ${{ secrets.PROWLER_GITHUB_TOKEN }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
         run: |
-          if [ -z "$PROWLER_GITHUB_TOKEN" ]; then
-            echo "::warning::PROWLER_GITHUB_TOKEN is not set — skipping the scan."
-            echo "present=false" >> "$GITHUB_OUTPUT"
-          else
-            echo "present=true" >> "$GITHUB_OUTPUT"
+          case "${{ matrix.provider }}" in
+            github)     value="$PROWLER_GITHUB_TOKEN"; name="PROWLER_GITHUB_TOKEN" ;;
+            cloudflare) value="$CLOUDFLARE_API_TOKEN"; name="CLOUDFLARE_API_TOKEN" ;;
+          esac
+          if [ -z "$value" ]; then
+            echo "::error::$name is not set, so the ${{ matrix.provider }} scan cannot run."
+            echo "Add it under Settings > Secrets and variables > Actions."
+            exit 1
           fi
 
       - name: Install uv
-        if: steps.token.outputs.present == 'true'
         uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7
 
       - name: Run Prowler
-        if: steps.token.outputs.present == 'true'
         env:
-          # Prowler talks only to api.github.com. The token is never written to
-          # disk or into the committed output.
+          # Prowler talks only to the provider's own API. Neither token is
+          # written to disk or into the committed output.
           GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.PROWLER_GITHUB_TOKEN }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
         run: |
           # Pinned exactly, like every other dependency here.
           uv tool install --python 3.12 prowler@5.42.0
-          uv tool run --from prowler@5.42.0 prowler github \
-            --repository "${{ github.repository }}" \
+
+          case "${{ matrix.provider }}" in
+            github)     args=(github --repository "${{ github.repository }}") ;;
+            cloudflare) args=(cloudflare) ;;
+          esac
+
+          uv tool run --from prowler@5.42.0 prowler "${args[@]}" \
             --output-formats json-ocsf \
             --output-directory ./prowler-output \
             --output-filename scan \
             || true   # Prowler exits 3 when it finds anything; that is expected.
 
+          # `|| true` above swallows a genuine failure too, so prove the report
+          # actually exists before anything downstream trusts it.
+          if [ ! -s ./prowler-output/scan.ocsf.json ]; then
+            echo "::error::Prowler produced no report for ${{ matrix.provider }}."
+            exit 1
+          fi
+
       - name: Install Node
-        if: steps.token.outputs.present == 'true'
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version-file: .nvmrc
 
       - name: Normalize the report
-        if: steps.token.outputs.present == 'true'
         run: node scripts/normalize-prowler.mjs ./prowler-output/scan.ocsf.json
 
       - name: Commit the result if it changed
-        if: steps.token.outputs.present == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          if git diff --quiet -- src/data/security-scan.json; then
-            echo "Posture unchanged; nothing to commit."
+          file="src/data/scans/${{ matrix.provider }}.json"
+
+          if git diff --quiet -- "$file"; then
+            echo "Posture unchanged for ${{ matrix.provider }}; nothing to commit."
             exit 0
           fi
 
           # Committed through the REST API rather than `git push`: main requires
           # signed commits, and commits created via the API are signed by
           # GitHub. A plain push from Actions is unsigned and would be rejected.
-          sha=$(gh api "repos/${{ github.repository }}/contents/src/data/security-scan.json" \
+          sha=$(gh api "repos/${{ github.repository }}/contents/$file" \
                   --jq '.sha' 2>/dev/null || echo "")
-          gh api "repos/${{ github.repository }}/contents/src/data/security-scan.json" \
+          gh api "repos/${{ github.repository }}/contents/$file" \
             -X PUT \
-            -f message="chore: refresh Prowler scan results" \
-            -f content="$(base64 -w0 src/data/security-scan.json)" \
+            -f message="chore: refresh ${{ matrix.provider }} Prowler scan" \
+            -f content="$(base64 -w0 "$file")" \
             ${sha:+-f sha="$sha"} \
             --jq '.commit.html_url'
