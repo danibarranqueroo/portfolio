@@ -1,18 +1,32 @@
 {
-  "generatedAt": "2026-09-16T06:43:19.608591",
+  "generatedAt": "2026-09-16T10:15:46.250964",
   "prowlerVersion": "5.42.0",
   "provider": "cloudflare",
   "target": "danibarranquero.com, www.danibarranquero.com",
-  "total": 31,
-  "pass": 17,
-  "fail": 14,
-  "passRate": 55,
+  "total": 33,
+  "pass": 22,
+  "fail": 11,
+  "passRate": 67,
   "failBySeverity": {
     "High": 7,
-    "Medium": 5,
-    "Low": 2
+    "Medium": 3,
+    "Low": 1
   },
   "findings": [
+    {
+      "id": "dns_record_cname_target_valid",
+      "title": "DNS records pointing to hostnames have valid targets without takeover risk",
+      "status": "FAIL",
+      "severity": "High",
+      "detail": "MX record danibarranquero.com points to potentially dangling target . - potential mail interception risk.",
+      "risk": "Dangling **DNS records** pointing to non-existent targets create multiple vulnerabilities. Dangling CNAME/NS allows **subdomain takeover**; dangling MX allows **mail interception**. Attackers can impersonate your organization, hijack services, or redirect legitimate traffic to attacker-controlled infrastructure.",
+      "remediation": "Remove or update **dangling DNS records** to prevent takeover and interception attacks.\n- Regularly audit DNS records when decommissioning services\n- Remove CNAME, MX, NS, and SRV records pointing to deprovisioned resources\n- Monitor for unauthorized changes to DNS records\n- Consider using DNS monitoring tools to detect dangling records",
+      "service": "dns",
+      "categories": [
+        "internet-exposed"
+      ],
+      "disposition": null
+    },
     {
       "id": "dns_record_no_internal_ip",
       "title": "DNS records do not expose internal IP addresses",
@@ -25,7 +39,10 @@
       "categories": [
         "internet-exposed"
       ],
-      "disposition": null
+      "disposition": {
+        "state": "accepted",
+        "note": "A false positive, and worth stating plainly. The address is 100::, the IPv6 discard prefix from RFC 6666, which is what Cloudflare writes for a record that exists only to be proxied. It is not an internal address and it never leaves the account: externally the zone answers with Cloudflare anycast addresses, and a public AAAA lookup returns 2606:4700 addresses, never this one."
+      }
     },
     {
       "id": "dns_record_no_internal_ip",
@@ -39,21 +56,10 @@
       "categories": [
         "internet-exposed"
       ],
-      "disposition": null
-    },
-    {
-      "id": "zone_dnssec_enabled",
-      "title": "DNSSEC is enabled",
-      "status": "FAIL",
-      "severity": "High",
-      "detail": "DNSSEC is not enabled for zone danibarranquero.com.",
-      "risk": "Without **DNSSEC**, DNS responses can be spoofed or modified by attackers.\n- **Confidentiality**: users can be redirected to malicious sites that harvest credentials\n- **Integrity**: DNS hijacking enables man-in-the-middle attacks and content modification\n- **Availability**: cache poisoning can cause denial of service by directing traffic to non-existent servers",
-      "remediation": "Enable **DNSSEC** and ensure **DS records** are properly configured at your domain registrar.\n- DNSSEC provides cryptographic authenticity for DNS responses\n- After enabling in Cloudflare, you must add the DS record at your registrar\n- Use online DNSSEC validators to verify correct configuration",
-      "service": "zone",
-      "categories": [
-        "encryption"
-      ],
-      "disposition": null
+      "disposition": {
+        "state": "accepted",
+        "note": "A false positive, and worth stating plainly. The address is 100::, the IPv6 discard prefix from RFC 6666, which is what Cloudflare writes for a record that exists only to be proxied. It is not an internal address and it never leaves the account: externally the zone answers with Cloudflare anycast addresses, and a public AAAA lookup returns 2606:4700 addresses, never this one."
+      }
     },
     {
       "id": "zone_rate_limiting_enabled",
@@ -67,7 +73,10 @@
       "categories": [
         "internet-exposed"
       ],
-      "disposition": null
+      "disposition": {
+        "state": "accepted",
+        "note": "Available on the free plan, which allows one rule, so this is a choice rather than a limit. Rate limiting protects an origin from being overwhelmed, and there is no origin: every response is a static asset served from Cloudflare edge cache on unmetered bandwidth. The only free action is a challenge, which would put an interstitial in front of real readers to defend against nothing."
+      }
     },
     {
       "id": "zone_universal_ssl_enabled",
@@ -95,7 +104,10 @@
       "categories": [
         "vulnerabilities"
       ],
-      "disposition": null
+      "disposition": {
+        "state": "blocked",
+        "note": "The Web Application Firewall is not available on the Cloudflare free plan. Prowler says so itself in the finding. The site is static files with no origin server, no database and no user input, so the attack classes a WAF blocks have nothing here to reach."
+      }
     },
     {
       "id": "zone_waf_owasp_ruleset_enabled",
@@ -109,7 +121,10 @@
       "categories": [
         "vulnerabilities"
       ],
-      "disposition": null
+      "disposition": {
+        "state": "blocked",
+        "note": "The OWASP Core Ruleset cannot be deployed on the free plan; only paid plans can. Same reasoning as the WAF check above."
+      }
     },
     {
       "id": "zone_bot_fight_mode_enabled",
@@ -123,7 +138,10 @@
       "categories": [
         "internet-exposed"
       ],
-      "disposition": null
+      "disposition": {
+        "state": "accepted",
+        "note": "Mutually exclusive with the Content-Security-Policy on this site. Bot Fight Mode injects an inline challenge script whose r and t parameters change on every request, so no hash and no nonce can ever match it. Turning it on would mean adding unsafe-inline to script-src. Trading a real CSP for bot noise on a static site with no login and no forms is the wrong way round."
+      }
     },
     {
       "id": "zone_firewall_blocking_rules_configured",
@@ -137,44 +155,19 @@
       "categories": [
         "internet-exposed"
       ],
-      "disposition": null
+      "disposition": {
+        "state": "accepted",
+        "note": "Custom firewall rules are available on the free plan. Nothing here is worth blocking: the entire site is public static content meant to be read, there is no authenticated surface, and no path that changes state. A blocking rule written only to satisfy a check would be configuration theatre."
+      }
     },
     {
       "id": "zone_record_dkim_exists",
       "title": "DKIM record exists with valid public key",
       "status": "FAIL",
       "severity": "Medium",
-      "detail": "No DKIM record found for zone danibarranquero.com.",
+      "detail": "DKIM record exists for zone danibarranquero.com but has invalid or missing public key: *._domainkey.danibarranquero.com.",
       "risk": "Without **DKIM** or with a revoked/empty public key, recipients cannot verify messages were sent by authorized servers. Attackers can forge emails from your domain, and content integrity cannot be proven. DMARC policies relying on DKIM will fail, affecting deliverability. A DKIM record with empty `p=` indicates a revoked key.",
       "remediation": "Configure **DKIM records** with valid public keys from your email provider.\n- Each email service requires its own DKIM selector (e.g., google._domainkey for Google Workspace)\n- The `p=` parameter must contain the actual public key, not be empty\n- An empty `p=` value indicates a revoked key and will fail this check\n- DKIM works alongside SPF and DMARC for comprehensive email authentication\n- Rotate DKIM keys periodically for enhanced security\n- Use 2048-bit keys for stronger cryptographic protection",
-      "service": "zone",
-      "categories": [
-        "email-security"
-      ],
-      "disposition": null
-    },
-    {
-      "id": "zone_record_dmarc_exists",
-      "title": "DMARC record exists with enforcement policy (p=reject or p=quarantine)",
-      "status": "FAIL",
-      "severity": "Medium",
-      "detail": "No DMARC record found for zone danibarranquero.com.",
-      "risk": "Without **DMARC** or with `p=none`, there is no active protection against email spoofing. Attackers can spoof emails for **phishing campaigns** to steal credentials. Domain reputation is damaged by spoofed emails. The `p=none` policy only generates reports but does not block or quarantine spoofed emails.",
-      "remediation": "Implement **DMARC** with an enforcement policy (`p=reject` or `p=quarantine`).\n- `p=reject`: receiving servers should reject emails that fail authentication\n- `p=quarantine`: receiving servers should send suspicious emails to spam folder\n- `p=none`: only monitoring, provides no protection (will fail this check)\n- Ensure SPF and DKIM are properly configured before enabling enforcement\n- Configure `rua` to receive aggregate reports on authentication results\n- Use `pct` parameter to gradually roll out enforcement (e.g., `pct=10` for 10% of emails)",
-      "service": "zone",
-      "categories": [
-        "email-security"
-      ],
-      "disposition": null
-    },
-    {
-      "id": "zone_record_spf_exists",
-      "title": "SPF record exists with strict policy (-all)",
-      "status": "FAIL",
-      "severity": "Medium",
-      "detail": "No SPF record found for zone danibarranquero.com.",
-      "risk": "Without **SPF** or with a permissive policy (`~all`, `?all`, `+all`), attackers can forge emails from your domain. Phishing attacks can harvest sensitive information from recipients who trust spoofed emails. Brand reputation is damaged by fraudulent emails. `~all` only marks emails as suspicious without rejecting them.",
-      "remediation": "Configure **SPF records** with strict policy (`-all`) listing authorized mail servers.\n- SPF records start with `v=spf1` and define authorized senders\n- Use `-all` (hardfail) to reject emails from unauthorized servers\n- Avoid `~all` (softfail) in production as it only marks suspicious emails but does not reject them\n- Use `include:` to authorize third-party mail services\n- Combine with **DKIM** and **DMARC** for comprehensive email authentication\n- Test SPF records using online validators before deployment",
       "service": "zone",
       "categories": [
         "email-security"
@@ -193,21 +186,10 @@
       "categories": [
         "internet-exposed"
       ],
-      "disposition": null
-    },
-    {
-      "id": "zone_record_caa_exists",
-      "title": "CAA record exists with issue or issuewild tag",
-      "status": "FAIL",
-      "severity": "Low",
-      "detail": "No CAA record found for zone danibarranquero.com.",
-      "risk": "Without **CAA** records or `issue`/`issuewild` tags, any certificate authority can issue certificates for your domain. Unauthorized certificates enable **man-in-the-middle attacks** and domain impersonation. CAA records with only `iodef` tags do not restrict certificate issuance.",
-      "remediation": "Add **CAA records** with `issue` or `issuewild` tags specifying authorized certificate authorities.\n- `issue` tag: authorizes CAs for regular (non-wildcard) certificates\n- `issuewild` tag: authorizes CAs for wildcard certificates specifically\n- Use `issue \";\"` to block all certificate issuance (for domains that should never have certificates)\n- Use `iodef` tag to receive reports of policy violations (optional, for monitoring)\n- All CAs are required to check CAA records before issuing certificates",
-      "service": "zone",
-      "categories": [
-        "encryption"
-      ],
-      "disposition": null
+      "disposition": {
+        "state": "accepted",
+        "note": "A bandwidth control rather than a security control, and static bandwidth on Workers is unmetered, so it protects nothing here. It also blocks other sites from loading images by referer, which is how link previews on social platforms fetch the portrait. Real cost, no benefit."
+      }
     },
     {
       "id": "zone_always_online_disabled",
@@ -220,6 +202,20 @@
       "service": "zone",
       "categories": [
         "resilience"
+      ],
+      "disposition": null
+    },
+    {
+      "id": "zone_dnssec_enabled",
+      "title": "DNSSEC is enabled",
+      "status": "PASS",
+      "severity": "High",
+      "detail": "DNSSEC is enabled for zone danibarranquero.com.",
+      "risk": "Without **DNSSEC**, DNS responses can be spoofed or modified by attackers.\n- **Confidentiality**: users can be redirected to malicious sites that harvest credentials\n- **Integrity**: DNS hijacking enables man-in-the-middle attacks and content modification\n- **Availability**: cache poisoning can cause denial of service by directing traffic to non-existent servers",
+      "remediation": "Enable **DNSSEC** and ensure **DS records** are properly configured at your domain registrar.\n- DNSSEC provides cryptographic authenticity for DNS responses\n- After enabling in Cloudflare, you must add the DS record at your registrar\n- Use online DNSSEC validators to verify correct configuration",
+      "service": "zone",
+      "categories": [
+        "encryption"
       ],
       "disposition": null
     },
@@ -263,6 +259,20 @@
       "service": "zone",
       "categories": [
         "encryption"
+      ],
+      "disposition": null
+    },
+    {
+      "id": "dns_record_no_wildcard",
+      "title": "DNS records do not use wildcard entries",
+      "status": "PASS",
+      "severity": "Medium",
+      "detail": "DNS record danibarranquero.com (MX) is not a wildcard record.",
+      "risk": "**Wildcard DNS records** can expose unintended services and increase attack surface.\n- **Confidentiality**: any subdomain resolves, potentially exposing internal naming conventions; wildcard MX allows mail interception\n- **Integrity**: attackers can access unintended services via arbitrary subdomains\n- **Availability**: wildcard records may route traffic or services not designed for public access",
+      "remediation": "Avoid using **wildcard DNS records** unless absolutely necessary.\n- Use specific subdomain records instead of wildcards\n- If wildcards are required, ensure the target service handles unknown subdomains securely\n- Document the business justification for any wildcard records\n- Combine with proper web server configuration to reject unknown hosts",
+      "service": "dns",
+      "categories": [
+        "internet-exposed"
       ],
       "disposition": null
     },
@@ -351,6 +361,34 @@
       "disposition": null
     },
     {
+      "id": "zone_record_dmarc_exists",
+      "title": "DMARC record exists with enforcement policy (p=reject or p=quarantine)",
+      "status": "PASS",
+      "severity": "Medium",
+      "detail": "DMARC record with enforcement policy p=reject exists for zone danibarranquero.com: _dmarc.danibarranquero.com.",
+      "risk": "Without **DMARC** or with `p=none`, there is no active protection against email spoofing. Attackers can spoof emails for **phishing campaigns** to steal credentials. Domain reputation is damaged by spoofed emails. The `p=none` policy only generates reports but does not block or quarantine spoofed emails.",
+      "remediation": "Implement **DMARC** with an enforcement policy (`p=reject` or `p=quarantine`).\n- `p=reject`: receiving servers should reject emails that fail authentication\n- `p=quarantine`: receiving servers should send suspicious emails to spam folder\n- `p=none`: only monitoring, provides no protection (will fail this check)\n- Ensure SPF and DKIM are properly configured before enabling enforcement\n- Configure `rua` to receive aggregate reports on authentication results\n- Use `pct` parameter to gradually roll out enforcement (e.g., `pct=10` for 10% of emails)",
+      "service": "zone",
+      "categories": [
+        "email-security"
+      ],
+      "disposition": null
+    },
+    {
+      "id": "zone_record_spf_exists",
+      "title": "SPF record exists with strict policy (-all)",
+      "status": "PASS",
+      "severity": "Medium",
+      "detail": "SPF record with strict policy -all exists for zone danibarranquero.com: danibarranquero.com.",
+      "risk": "Without **SPF** or with a permissive policy (`~all`, `?all`, `+all`), attackers can forge emails from your domain. Phishing attacks can harvest sensitive information from recipients who trust spoofed emails. Brand reputation is damaged by fraudulent emails. `~all` only marks emails as suspicious without rejecting them.",
+      "remediation": "Configure **SPF records** with strict policy (`-all`) listing authorized mail servers.\n- SPF records start with `v=spf1` and define authorized senders\n- Use `-all` (hardfail) to reject emails from unauthorized servers\n- Avoid `~all` (softfail) in production as it only marks suspicious emails but does not reject them\n- Use `include:` to authorize third-party mail services\n- Combine with **DKIM** and **DMARC** for comprehensive email authentication\n- Test SPF records using online validators before deployment",
+      "service": "zone",
+      "categories": [
+        "email-security"
+      ],
+      "disposition": null
+    },
+    {
       "id": "zone_tls_1_3_enabled",
       "title": "TLS 1.3 is enabled",
       "status": "PASS",
@@ -431,6 +469,20 @@
       "service": "zone",
       "categories": [
         "internet-exposed"
+      ],
+      "disposition": null
+    },
+    {
+      "id": "zone_record_caa_exists",
+      "title": "CAA record exists with issue or issuewild tag",
+      "status": "PASS",
+      "severity": "Low",
+      "detail": "CAA record with certificate issuance restrictions exists for zone danibarranquero.com: danibarranquero.com, danibarranquero.com, danibarranquero.com.",
+      "risk": "Without **CAA** records or `issue`/`issuewild` tags, any certificate authority can issue certificates for your domain. Unauthorized certificates enable **man-in-the-middle attacks** and domain impersonation. CAA records with only `iodef` tags do not restrict certificate issuance.",
+      "remediation": "Add **CAA records** with `issue` or `issuewild` tags specifying authorized certificate authorities.\n- `issue` tag: authorizes CAs for regular (non-wildcard) certificates\n- `issuewild` tag: authorizes CAs for wildcard certificates specifically\n- Use `issue \";\"` to block all certificate issuance (for domains that should never have certificates)\n- Use `iodef` tag to receive reports of policy violations (optional, for monitoring)\n- All CAs are required to check CAA records before issuing certificates",
+      "service": "zone",
+      "categories": [
+        "encryption"
       ],
       "disposition": null
     },
