@@ -16,21 +16,23 @@ const c = content[lang].projects;
     {
       c.items.map((r) => (
         <li class="row">
-          <span class="row-k">{r.k}</span>
-          <span class="row-v">
-            {r.v}
-            {/*
-              `rel="noopener"` without `me`: the `me` token claims the target is
-              another profile of the same person, which is true of the GitHub
-              and LinkedIn links elsewhere on this site and is not true of a
-              repository.
-            */}
-            {r.repo && (
-              <a class="row-repo" href={r.repo} rel="noopener">
-                {r.repo.replace('https://', '')}
+          {/*
+            The title carries the link when there is a repository, rather than
+            a visible URL under the description. `rel="noopener"` without `me`:
+            the `me` token claims the target is another profile of the same
+            person, which is true of the GitHub and LinkedIn links elsewhere on
+            this site and is not true of a repository.
+          */}
+          <span class="row-k">
+            {r.repo ? (
+              <a class="row-k-link" href={r.repo} rel="noopener">
+                {r.k}
               </a>
+            ) : (
+              r.k
             )}
           </span>
+          <span class="row-v">{r.v}</span>
         </li>
       ))
     }

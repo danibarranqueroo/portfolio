@@ -300,17 +300,19 @@ main > .wide {
   }
 }
 
-/* The source link under a project. Its own line and mono, so it reads as an
-   address rather than as part of the sentence above it. */
-.row-repo {
-  display: inline-block;
-  margin-top: 9px;
-  font-family: var(--font-mono);
-  font-size: 12.5px;
-  color: var(--color-muted);
+/* A project title that links to its source. It inherits the label colour so
+   the row reads exactly as it did before, and only announces itself on hover
+   and on focus. Discoverability comes from the cursor and the hover, not from
+   a coloured word sitting in a column of labels. */
+.row-k-link {
+  color: inherit;
+  text-decoration: none;
 }
-.row-repo:hover {
+.row-k-link:hover,
+.row-k-link:focus-visible {
   color: var(--color-accent-text);
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .site-footer {
