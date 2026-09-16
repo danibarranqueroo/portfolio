@@ -967,6 +967,19 @@ main > .wide {
   margin: 30px 0 14px;
 }
 
+/* Checks Prowler could not determine. Rendered rather than dropped: a check in
+   neither the pass list nor the fail list is a check being hidden, which is
+   the one thing this page must not do. */
+.check-manual {
+  opacity: 0.85;
+}
+.sev-manual {
+  color: var(--color-muted);
+}
+.check-note-manual {
+  margin-top: 14px;
+}
+
 /* One block per scanned provider. The rule is a divider between them, so the
    GitHub results and the Cloudflare results never read as one long list. */
 .scan-block {

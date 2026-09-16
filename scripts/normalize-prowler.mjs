@@ -85,7 +85,36 @@ const DISPOSITION = {
       note: 'CI already runs lint, typecheck, build, audit, gitleaks and a SHA-pin check on every push. Making them a merge gate requires moving to a pull-request workflow.',
     },
   },
-  cloudflare: {},
+  cloudflare: {
+    dns_record_no_internal_ip: {
+      state: 'accepted',
+      note: 'A false positive, and worth stating plainly. The address is 100::, the IPv6 discard prefix from RFC 6666, which is what Cloudflare writes for a record that exists only to be proxied. It is not an internal address and it never leaves the account: externally the zone answers with Cloudflare anycast addresses, and a public AAAA lookup returns 2606:4700 addresses, never this one.',
+    },
+    zone_bot_fight_mode_enabled: {
+      state: 'accepted',
+      note: 'Mutually exclusive with the Content-Security-Policy on this site. Bot Fight Mode injects an inline challenge script whose r and t parameters change on every request, so no hash and no nonce can ever match it. Turning it on would mean adding unsafe-inline to script-src. Trading a real CSP for bot noise on a static site with no login and no forms is the wrong way round.',
+    },
+    zone_waf_enabled: {
+      state: 'blocked',
+      note: 'The Web Application Firewall is not available on the Cloudflare free plan. Prowler says so itself in the finding. The site is static files with no origin server, no database and no user input, so the attack classes a WAF blocks have nothing here to reach.',
+    },
+    zone_waf_owasp_ruleset_enabled: {
+      state: 'blocked',
+      note: 'The OWASP Core Ruleset cannot be deployed on the free plan; only paid plans can. Same reasoning as the WAF check above.',
+    },
+    zone_rate_limiting_enabled: {
+      state: 'accepted',
+      note: 'Available on the free plan, which allows one rule, so this is a choice rather than a limit. Rate limiting protects an origin from being overwhelmed, and there is no origin: every response is a static asset served from Cloudflare edge cache on unmetered bandwidth. The only free action is a challenge, which would put an interstitial in front of real readers to defend against nothing.',
+    },
+    zone_firewall_blocking_rules_configured: {
+      state: 'accepted',
+      note: 'Custom firewall rules are available on the free plan. Nothing here is worth blocking: the entire site is public static content meant to be read, there is no authenticated surface, and no path that changes state. A blocking rule written only to satisfy a check would be configuration theatre.',
+    },
+    zone_hotlink_protection_enabled: {
+      state: 'accepted',
+      note: 'A bandwidth control rather than a security control, and static bandwidth on Workers is unmetered, so it protects nothing here. It also blocks other sites from loading images by referer, which is how link previews on social platforms fetch the portrait. Real cost, no benefit.',
+    },
+  },
 };
 
 const severityRank = { Critical: 0, High: 1, Medium: 2, Low: 3, Informational: 4 };
