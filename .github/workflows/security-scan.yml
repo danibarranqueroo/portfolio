@@ -113,7 +113,11 @@ jobs:
         run: |
           file="src/data/scans/${{ matrix.provider }}.json"
 
-          if git diff --quiet -- "$file"; then
+          # `git status --porcelain`, not `git diff`: diff does not report
+          # untracked files, so the first ever scan for a provider looked
+          # unchanged and was silently skipped. That is exactly how the
+          # cloudflare.json from the first green run went missing.
+          if [ -z "$(git status --porcelain -- "$file")" ]; then
             echo "Posture unchanged for ${{ matrix.provider }}; nothing to commit."
             exit 0
           fi
