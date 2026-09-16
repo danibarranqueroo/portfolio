@@ -33,11 +33,6 @@ export default defineConfig({
   integrations: [
     sitemap({
       i18n: { defaultLocale: 'en', locales: { en: 'en', es: 'es' } },
-      // Recommendations is still placeholder. Leaving it in the sitemap would
-      // invite Google to index a page that reads "[QUOTE ONE]". It is also
-      // absent from the nav, and carries a noindex tag, so nothing points at
-      // it until the real quotes land. Remove this filter then.
-      filter: (page) => !page.includes('/recommendations'),
     }),
   ],
 

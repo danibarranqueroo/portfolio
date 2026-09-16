@@ -169,6 +169,150 @@ main > .wide {
   color: var(--color-text);
 }
 
+/* --- mobile menu ---------------------------------------------------------
+   Six nav items do not fit one line on a phone. They used to wrap to three,
+   pushing the header to 110px and leaving the theme button floating between
+   rows. Below the breakpoint the header becomes a bar (menu, mark, theme) and
+   the links move into a panel.
+
+   There is only one copy of the links in the DOM. .header-right is set to
+   display:contents so the nav and the theme button become grid items of the
+   header itself, which is what makes that possible.
+   ------------------------------------------------------------------------ */
+.menu-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  background: none;
+  border: 1px solid var(--color-rule);
+  border-radius: 3px;
+  color: var(--color-muted);
+  cursor: pointer;
+  transition:
+    color 0.15s ease,
+    border-color 0.15s ease;
+}
+.menu-toggle:hover {
+  color: var(--color-accent-text);
+  border-color: var(--color-accent-text);
+}
+/* Size only. `display` deliberately does NOT live here: `.menu-toggle svg` is
+   (0,1,1) and silently outranks a bare `.icon-close` at (0,1,0), so the closed
+   button drew the bars and the cross stacked on top of each other. Which icon
+   shows is decided on the icon classes below, where the state rules can win. */
+.menu-toggle svg {
+  width: 19px;
+  height: 19px;
+}
+
+/* The icon shows what the button will do, so it flips with the open state. */
+.icon-bars {
+  display: block;
+}
+.icon-close {
+  display: none;
+}
+[data-header][data-open] .icon-bars {
+  display: none;
+}
+[data-header][data-open] .icon-close {
+  display: block;
+}
+
+@media (max-width: 760px) {
+  .site-header {
+    position: relative;
+    display: grid;
+    grid-template-columns: 38px 1fr 38px;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .header-right {
+    display: contents;
+  }
+
+  .menu-toggle {
+    display: inline-flex;
+    grid-column: 1;
+    justify-self: start;
+  }
+
+  /* Bigger and centred, because on a phone it is the only thing in the bar
+     that says whose site this is, and it is the way back to the home page. */
+  .mark {
+    grid-column: 2;
+    justify-self: center;
+    font-size: 16px;
+    letter-spacing: 0.18em;
+    padding: 8px 13px;
+  }
+
+  .theme-toggle {
+    grid-column: 3;
+    justify-self: end;
+  }
+
+  .nav {
+    position: absolute;
+    top: calc(100% + 12px);
+    left: 0;
+    right: 0;
+    z-index: 40;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 2px;
+    padding: 7px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-rule);
+    border-radius: 12px;
+    /* visibility, not display, so the closed panel is out of the tab order
+       and off the accessibility tree while still being animatable. */
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-6px);
+    transition:
+      opacity 0.16s ease,
+      transform 0.16s ease,
+      visibility 0s linear 0.16s;
+  }
+
+  [data-header][data-open] .nav {
+    visibility: visible;
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity 0.16s ease,
+      transform 0.16s ease;
+  }
+
+  .nav a {
+    display: block;
+    padding: 12px 14px;
+    border-radius: 8px;
+    font-size: 15px;
+  }
+  .nav a[aria-current="page"] {
+    background: color-mix(in srgb, var(--color-accent) 12%, transparent);
+  }
+}
+
+/* The source link under a project. Its own line and mono, so it reads as an
+   address rather than as part of the sentence above it. */
+.row-repo {
+  display: inline-block;
+  margin-top: 9px;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--color-muted);
+}
+.row-repo:hover {
+  color: var(--color-accent-text);
+}
+
 .site-footer {
   display: flex;
   flex-wrap: wrap;
@@ -459,68 +603,147 @@ main > .wide {
 }
 
 /* --- recommendations ----------------------------------------------------- */
-.quotes {
+/* --- recommendations: quotes drift in as clouds --------------------------
+   Each card is revealed on its own as it is scrolled to, and stays revealed,
+   so the set accumulates into a stack by the bottom of the page.
+
+   The alternating offsets and the varied corner radii are what stop six
+   rounded rectangles reading as a table of cards. They drift across the
+   column rather than sitting in one stripe down the middle.
+   ------------------------------------------------------------------------ */
+.clouds {
   display: flex;
   flex-direction: column;
-  gap: 48px;
+  /* Generous, and deliberately so: the gap is what gives each quote its own
+     moment on the way down instead of three landing at once. Tuned by
+     measuring how many cards were revealed per scroll step. */
+  gap: clamp(46px, 8vh, 86px);
+  padding: 10px 0 6px;
 }
-.quote {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
+
+.cloud {
+  position: relative;
   margin: 0;
+  max-width: min(560px, 100%);
+  padding: 26px 30px 22px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-rule);
+  border-radius: 38px 38px 38px 38px;
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s cubic-bezier(0.22, 0.8, 0.3, 1);
 }
-.qmark {
+
+/* Drift left and right down the column, like something airborne rather than
+   a list. Odd cards hug the start, even cards the end. */
+.cloud:nth-child(odd) {
+  margin-right: auto;
+}
+.cloud:nth-child(even) {
+  margin-left: auto;
+}
+
+/* Three radius variants, cycled, so no two neighbours share a silhouette. */
+.cloud:nth-child(3n + 2) {
+  border-radius: 30px 46px 32px 44px;
+}
+.cloud:nth-child(3n + 3) {
+  border-radius: 46px 30px 44px 32px;
+}
+
+.cloud::before {
+  content: "\201C";
+  position: absolute;
+  top: 8px;
+  left: 18px;
   font-family: var(--font-display);
-  font-size: 82px;
+  font-size: 54px;
   line-height: 1;
   color: var(--color-accent-text);
-  opacity: 0.3;
-  height: 34px;
-  margin: 0;
+  opacity: 0.22;
   user-select: none;
+  pointer-events: none;
 }
-.qtext {
+
+.cloud.is-visible {
+  opacity: 1;
+  transform: none;
+  /* `translate` rather than `transform`, so the resting bob does not fight
+     the transform the reveal transition just finished animating. */
+  animation: cloud-bob 9s ease-in-out infinite;
+}
+
+/* Neighbours breathe out of phase; in sync they read as one moving block. */
+.cloud:nth-child(even).is-visible {
+  animation-delay: -4.5s;
+}
+
+@keyframes cloud-bob {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -6px;
+  }
+}
+
+.cloud-text {
   font-family: var(--font-display);
-  font-size: clamp(22px, 2.2vw, 28px);
-  line-height: 1.42;
-  margin: 0;
+  font-size: clamp(18px, 1.7vw, 21px);
+  line-height: 1.5;
+  margin: 0 0 16px;
   text-wrap: pretty;
 }
-.qattr {
+
+.cloud-attr {
   display: flex;
   flex-direction: column;
   gap: 2px;
-  padding-left: 15px;
+  padding-left: 13px;
   border-left: 2px solid var(--color-accent-text);
 }
-/* At width the attribution sits alongside the quote instead of under it —
-   what stops a wide quote block reading as a stranded paragraph. */
-@media (min-width: 820px) {
-  .quote {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 230px;
-    column-gap: 44px;
-    align-items: start;
-  }
-  .qmark,
-  .qtext {
-    grid-column: 1;
-  }
-  .qattr {
-    grid-column: 2;
-    grid-row: 2;
-    margin-top: 8px;
-  }
-}
-.qname {
-  font-size: 14.5px;
+
+.cloud-name {
+  font-size: 14px;
   font-weight: 600;
 }
-.qrole {
+
+.cloud-role {
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: 11.5px;
   color: var(--color-muted);
+}
+
+.cloud-close {
+  margin-top: 34px;
+}
+
+/* Below the drift width the offsets have nowhere to go, so the cards go full
+   width and the stack reads straight down. */
+@media (max-width: 700px) {
+  .cloud {
+    max-width: 100%;
+    padding: 22px 22px 20px;
+  }
+  .cloud:nth-child(odd),
+  .cloud:nth-child(even) {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cloud {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .cloud.is-visible {
+    animation: none;
+  }
 }
 
 /* --- hero ---------------------------------------------------------------- */
@@ -1278,10 +1501,14 @@ main > .wide {
   color: var(--color-accent-text);
   border-color: var(--color-accent-text);
 }
+/* Same trap as `.menu-toggle svg` above, and this one was live: at (0,1,1)
+   this rule beat `.icon-sun { display: none }` at (0,1,0), so in light mode
+   the button rendered the sun and the moon side by side inside 36px. Dark mode
+   hid the moon only because that rule sits behind a `:root:not(...)` prefix
+   with enough specificity to win. Size here, display on the icons. */
 .theme-toggle svg {
   width: 17px;
   height: 17px;
-  display: block;
 }
 
 /* Which icon shows is decided entirely in CSS, so it is correct on first

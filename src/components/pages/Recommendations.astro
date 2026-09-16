@@ -5,6 +5,7 @@ import type { Lang } from '../../i18n/ui';
 const { lang } = Astro.props as { lang: Lang };
 const c = content[lang].recommendations;
 ---
+
 <section>
   <p class="eyebrow">{c.eyebrow}</p>
   <h1 class="display display-sm" set:html={c.title.replace('\n', '<br />')} />
@@ -12,18 +13,34 @@ const c = content[lang].recommendations;
 </section>
 
 <section class="wide">
-  <div class="quotes">
-    {c.quotes.map((q) => (
-      <figure class="quote">
-        <p class="qmark" aria-hidden="true">&ldquo;</p>
-        <blockquote class="qtext">{q.text}</blockquote>
-        <figcaption class="qattr">
-          <span class="qname">{q.name}</span>
-          <span class="qrole">{q.role}</span>
-        </figcaption>
-      </figure>
-    ))}
+  {/*
+    Each quote drifts in on its own as it is scrolled to, and stays. By the
+    bottom of the page the whole set is stacked and readable at once, which is
+    the point: one line lands at a time, then they accumulate into the picture.
+
+    No style attributes anywhere. Offsets, shapes and timing are all nth-child
+    rules in global.css, because a hash-based style-src blocks style attributes
+    in production and the dev server would never have shown it.
+  */}
+  <div class="clouds">
+    {
+      c.quotes.map((q) => (
+        <figure class="cloud" data-cloud>
+          <blockquote class="cloud-text">{q.text}</blockquote>
+          <figcaption class="cloud-attr">
+            <span class="cloud-name">{q.name}</span>
+            <span class="cloud-role">{q.role}</span>
+          </figcaption>
+        </figure>
+      ))
+    }
   </div>
 </section>
 
-{c.note && <p class="note">{c.note}</p>}
+{
+  c.note && (
+    <section>
+      <p class="note cloud-close">{c.note}</p>
+    </section>
+  )
+}

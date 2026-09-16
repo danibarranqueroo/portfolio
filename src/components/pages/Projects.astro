@@ -13,9 +13,27 @@ const c = content[lang].projects;
 
 <section class="wide">
   <ul class="rows">
-    {c.items.map((r) => (
-      <li class="row"><span class="row-k">{r.k}</span><span class="row-v">{r.v}</span></li>
-    ))}
+    {
+      c.items.map((r) => (
+        <li class="row">
+          <span class="row-k">{r.k}</span>
+          <span class="row-v">
+            {r.v}
+            {/*
+              `rel="noopener"` without `me`: the `me` token claims the target is
+              another profile of the same person, which is true of the GitHub
+              and LinkedIn links elsewhere on this site and is not true of a
+              repository.
+            */}
+            {r.repo && (
+              <a class="row-repo" href={r.repo} rel="noopener">
+                {r.repo.replace('https://', '')}
+              </a>
+            )}
+          </span>
+        </li>
+      ))
+    }
   </ul>
 </section>
 

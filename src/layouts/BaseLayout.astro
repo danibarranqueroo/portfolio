@@ -2,7 +2,7 @@
 import '../styles/global.css';
 import { content } from '../data/content';
 import { languages } from '../i18n/ui';
-import { getLangFromUrl, localizePath, useTranslations } from '../i18n/utils';
+import { getLangFromUrl, localizePath, useTranslations, withSlash } from '../i18n/utils';
 import { THEME_INIT } from '../lib/theme-init.mjs';
 
 interface Props {
@@ -28,21 +28,17 @@ const normalized = bare.endsWith('/') && bare !== '/' ? bare.slice(0, -1) : bare
  * Astro builds. The hreflang alternates were built from a slash-stripped path,
  * so they disagreed, and a search engine reads /about and /about/ as two URLs.
  */
-const withSlash = (path: string) => (path === '/' || path.endsWith('/') ? path : `${path}/`);
-
 const alternates = (Object.keys(languages) as Array<keyof typeof languages>).map((l) => ({
   lang: l,
-  href: new URL(withSlash(localizePath(normalized, l)), Astro.site).toString(),
+  href: new URL(localizePath(normalized, l), Astro.site).toString(),
 }));
 
 const nav = [
   { key: 'nav.about', path: '/about' },
   { key: 'nav.experience', path: '/experience' },
   { key: 'nav.projects', path: '/projects' },
+  { key: 'nav.recommendations', path: '/recommendations' },
   { key: 'nav.contact', path: '/contact' },
-  // Recommendations is deliberately absent until it has real quotes, for the
-  // same reason the blog is: a nav link to an empty page is worse than no link.
-  //
   // Security is here for review. It may end up as a footer link instead.
   { key: 'nav.security', path: '/security' },
 ] as const;
@@ -75,10 +71,35 @@ const other = (Object.keys(languages) as Array<keyof typeof languages>).find((l)
   <body>
     <a href="#main" class="skip">Skip to content</a>
     <div class="wrap">
-      <header class="site-header">
+      <header class="site-header" data-header>
+        {/*
+          One set of markup for both layouts. Below the breakpoint the header
+          becomes a three-column grid (menu, mark, theme) and .header-right is
+          set to display:contents so its two children join that grid directly,
+          which is what lets the nav become a panel without a second copy of
+          the links in the DOM.
+        */}
+        <button
+          type="button"
+          class="menu-toggle"
+          data-menu-toggle
+          aria-controls="primary-nav"
+          aria-expanded="false"
+          aria-label={t('nav.menu')}
+        >
+          <svg class="icon-bars" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+            <path d="M4 7h16M4 12h16M4 17h16" />
+          </svg>
+          <svg class="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+            <path d="M6 6l12 12M18 6L6 18" />
+          </svg>
+        </button>
+
         <a class="mark" href={localizePath('/', lang)} aria-label="Home">DB</a>
         <div class="header-right">
-          <nav class="nav" aria-label="Primary">
+          <nav class="nav" id="primary-nav" aria-label="Primary">
             {
               nav.map((item) => {
                 const href = localizePath(item.path, lang);
@@ -172,6 +193,46 @@ const other = (Object.keys(languages) as Array<keyof typeof languages>).find((l)
         );
       }
 
+      // --- mobile menu --------------------------------------------------------
+      // The panel exists in the markup at every width; CSS decides whether it
+      // is a row of links or a dropdown. This only manages the open state, so
+      // resizing to desktop while open leaves nothing stranded: the desktop
+      // rules never look at [data-open].
+      const header = document.querySelector('[data-header]');
+      const menuBtn = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+      if (header && menuBtn) {
+        const setOpen = (open: boolean) => {
+          header.toggleAttribute('data-open', open);
+          menuBtn.setAttribute('aria-expanded', String(open));
+        };
+
+        menuBtn.addEventListener('click', () => {
+          setOpen(!header.hasAttribute('data-open'));
+        });
+
+        // Escape closes and hands focus back, otherwise a keyboard user is
+        // left pointing at a panel that is no longer there.
+        document.addEventListener('keydown', (event) => {
+          if (event.key === 'Escape' && header.hasAttribute('data-open')) {
+            setOpen(false);
+            menuBtn.focus();
+          }
+        });
+
+        // A tap anywhere outside closes it. Clicks on a link inside navigate
+        // away anyway, but closing first avoids the panel flashing on pages
+        // served from the back/forward cache.
+        document.addEventListener('click', (event) => {
+          if (!header.hasAttribute('data-open')) return;
+          const target = event.target as Node;
+          if (!header.contains(target)) setOpen(false);
+        });
+
+        for (const link of document.querySelectorAll('#primary-nav a')) {
+          link.addEventListener('click', () => setOpen(false));
+        }
+      }
+
       // --- experience timeline: draw in when scrolled to ----------------------
       const roles = document.querySelector('.roles[data-animate]');
       if (roles) {
@@ -190,6 +251,34 @@ const other = (Object.keys(languages) as Array<keyof typeof languages>).find((l)
             { threshold: 0.15 },
           );
           io.observe(roles);
+        }
+      }
+
+      // --- recommendations: each quote drifts in as it is reached -------------
+      // Observed one by one rather than as a group, so the reveal follows the
+      // reader down the page instead of firing the whole set at the first
+      // card. Each one is unobserved after it lands: they stay visible, and
+      // by the bottom the full stack is readable at once.
+      const clouds = document.querySelectorAll('[data-cloud]');
+      if (clouds.length) {
+        if (reduced.matches || !('IntersectionObserver' in window)) {
+          for (const cloud of clouds) cloud.classList.add('is-visible');
+        } else {
+          const io = new IntersectionObserver(
+            (entries) => {
+              for (const entry of entries) {
+                if (entry.isIntersecting) {
+                  entry.target.classList.add('is-visible');
+                  io.unobserve(entry.target);
+                }
+              }
+            },
+            // A low threshold with a bottom margin, so a card is already in
+            // place by the time it is comfortably on screen rather than
+            // animating under the reader's eyes.
+            { threshold: 0.1, rootMargin: '0px 0px -28% 0px' },
+          );
+          for (const cloud of clouds) io.observe(cloud);
         }
       }
 

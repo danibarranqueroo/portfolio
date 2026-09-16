@@ -31,6 +31,15 @@ export interface Row {
   k: string;
   v: string;
 }
+/**
+ * A project row, which may point at its source.
+ *
+ * Its own type rather than an optional field on Row: six other sections use
+ * Row, and none of them has anything to link to.
+ */
+export interface ProjectItem extends Row {
+  repo?: string;
+}
 
 interface PageCopy {
   eyebrow: string;
@@ -77,7 +86,7 @@ export interface SiteContent {
   landing: PageCopy & { statement: string; now: Row[]; cta: string; note: string };
   about: PageCopy & { body: string[]; education: Row[]; note: string };
   experience: PageCopy & { roles: Role[]; oss: Row[]; speaking: Row[]; note: string };
-  projects: PageCopy & { items: Row[]; note: string };
+  projects: PageCopy & { items: ProjectItem[]; note: string };
   recommendations: PageCopy & { quotes: Quote[]; note: string };
   contact: PageCopy & { channels: Row[]; note: string };
   footer: { rights: string; source: string };
@@ -215,6 +224,7 @@ export const content: Record<Lang, SiteContent> = {
         {
           k: 'Nubify',
           v: 'My final degree project: a Python CLI that lets someone start on AWS without the two fears that stop people, the fear of breaking something and the fear of the bill. It estimates real cost through the AWS Pricing API before anything is created. I wrote it because I had exactly that fear in my first months at Prowler.',
+          repo: 'https://github.com/danibarranqueroo/Nubify',
         },
         {
           k: 'Detection proposals',
@@ -223,6 +233,7 @@ export const content: Record<Lang, SiteContent> = {
         {
           k: 'This site',
           v: 'Built in the open: pinned dependencies with a seven-day release quarantine, a strict CSP, signed commits, and a security page that runs Prowler against its own repository and publishes what fails. More projects are coming; this page will grow.',
+          repo: 'https://github.com/danibarranqueroo/portfolio',
         },
       ],
       note: '',
@@ -230,25 +241,40 @@ export const content: Record<Lang, SiteContent> = {
     recommendations: {
       eyebrow: 'Recommendations',
       title: 'In other\npeople’s words',
-      lede: '[ONE LINE OF FRAMING: who these people are to you, and over what period.]',
+      lede: 'Two people I worked with day to day at Prowler: the founder, and a senior engineer on the backend team.',
       quotes: [
         {
-          text: '[QUOTE ONE: the strongest thing a senior engineer said about working with you. Two or three sentences; longer reads as padding.]',
-          name: '[NAME]',
-          role: '[ROLE] · [COMPANY]',
+          text: 'He is a serious and dependable engineer with excellent judgment when solving complex security problems.',
+          name: 'Toni de la Fuente',
+          role: 'Founder and CEO, Prowler',
         },
         {
-          text: '[QUOTE TWO: ideally about a different quality than the first, so the two do not overlap.]',
-          name: '[NAME]',
-          role: '[ROLE] · [COMPANY]',
+          text: 'He is someone you can trust to take ownership of a problem, understand what needs to be done, and find a solution without needing constant guidance.',
+          name: 'Adrián Peña',
+          role: 'Senior Software Engineer, Prowler',
         },
         {
-          text: '[QUOTE THREE: optional. Three is plenty; more starts to read defensive.]',
-          name: '[NAME]',
-          role: '[ROLE] · [COMPANY]',
+          text: 'He does more than make the code work. He reviews edge cases, considers the information users will see, and ensures that scan results do not expose sensitive data.',
+          name: 'Toni de la Fuente',
+          role: 'Founder and CEO, Prowler',
+        },
+        {
+          text: 'He caught issues in check metadata that could easily have gone unnoticed, which says a lot about how thorough he is in his work.',
+          name: 'Adrián Peña',
+          role: 'Senior Software Engineer, Prowler',
+        },
+        {
+          text: 'He doesn’t simply stop once a task is completed. He tends to look at the bigger picture, think about what could be improved, and bring his own ideas to the table.',
+          name: 'Adrián Peña',
+          role: 'Senior Software Engineer, Prowler',
+        },
+        {
+          text: 'He has earned our trust through the quality and consistency of his work. I would gladly work with him again.',
+          name: 'Toni de la Fuente',
+          role: 'Founder and CEO, Prowler',
         },
       ],
-      note: 'Every quote needs its author’s permission before it ships. Where the recommendation already exists publicly on LinkedIn, link it.',
+      note: 'These are excerpts. Both letters exist in full, signed and dated. Ask me and I will send you either one.',
     },
     contact: {
       eyebrow: 'Contact',
@@ -460,6 +486,7 @@ export const content: Record<Lang, SiteContent> = {
         {
           k: 'Nubify',
           v: 'Mi TFG: una CLI en Python para empezar en AWS sin los dos miedos que frenan a todo el mundo, romper algo y la factura. Estima el coste real con la AWS Pricing API antes de crear nada. Lo hice porque yo tenía justo ese miedo en mis primeros meses en Prowler.',
+          repo: 'https://github.com/danibarranqueroo/Nubify',
         },
         {
           k: 'Propuestas de detección',
@@ -468,6 +495,7 @@ export const content: Record<Lang, SiteContent> = {
         {
           k: 'Esta web',
           v: 'Hecha en abierto: dependencias fijadas con cuarentena de siete días, CSP estricta, commits firmados y una página de seguridad que ejecuta Prowler contra su propio repo y publica lo que falla. Irán cayendo más proyectos y esta página irá creciendo.',
+          repo: 'https://github.com/danibarranqueroo/portfolio',
         },
       ],
       note: '',
@@ -475,25 +503,40 @@ export const content: Record<Lang, SiteContent> = {
     recommendations: {
       eyebrow: 'Recomendaciones',
       title: 'En palabras\nde otros',
-      lede: '[UNA LÍNEA DE CONTEXTO: quiénes son estas personas para ti y en qué periodo.]',
+      lede: 'Dos personas con las que he trabajado a diario en Prowler: el fundador y un ingeniero senior del equipo de backend.',
       quotes: [
         {
-          text: '[CITA UNO: lo más fuerte que un ingeniero sénior dijo sobre trabajar contigo. Dos o tres frases; más largo suena a relleno.]',
-          name: '[NOMBRE]',
-          role: '[PUESTO] · [EMPRESA]',
+          text: 'Es un ingeniero serio, responsable y con muy buen criterio para resolver problemas de seguridad complejos.',
+          name: 'Toni de la Fuente',
+          role: 'Fundador y CEO, Prowler',
         },
         {
-          text: '[CITA DOS: a ser posible sobre una cualidad distinta de la primera, para que no se solapen.]',
-          name: '[NOMBRE]',
-          role: '[PUESTO] · [EMPRESA]',
+          text: 'Es de esas personas en las que confías para que coja un problema, entienda qué hay que hacer y encuentre una solución sin necesitar que le vayas guiando.',
+          name: 'Adrián Peña',
+          role: 'Senior Software Engineer, Prowler',
         },
         {
-          text: '[CITA TRES: opcional. Con tres basta; más empieza a sonar defensivo.]',
-          name: '[NOMBRE]',
-          role: '[PUESTO] · [EMPRESA]',
+          text: 'No se limita a hacer que el código funcione. Revisa los casos límite, piensa en la información que verá el usuario y evita que el propio resultado del análisis pueda exponer datos sensibles.',
+          name: 'Toni de la Fuente',
+          role: 'Fundador y CEO, Prowler',
+        },
+        {
+          text: 'Detectó problemas en la metadata de los checks que se habrían pasado por alto sin más, y eso dice mucho de lo minucioso que es.',
+          name: 'Adrián Peña',
+          role: 'Senior Software Engineer, Prowler',
+        },
+        {
+          text: 'No se queda en dar la tarea por terminada. Suele mirar el conjunto, pensar qué se podría mejorar y traer sus propias ideas.',
+          name: 'Adrián Peña',
+          role: 'Senior Software Engineer, Prowler',
+        },
+        {
+          text: 'Se ha ganado nuestra confianza por la calidad y la constancia de sus entregas. Volvería a contar con él sin dudarlo.',
+          name: 'Toni de la Fuente',
+          role: 'Fundador y CEO, Prowler',
         },
       ],
-      note: 'Cada cita necesita el permiso de su autor antes de publicarse. Si la recomendación ya es pública en LinkedIn, enlázala.',
+      note: 'Son fragmentos. Las dos cartas existen enteras, firmadas y fechadas. Pídemelas y te las mando.',
     },
     contact: {
       eyebrow: 'Contacto',

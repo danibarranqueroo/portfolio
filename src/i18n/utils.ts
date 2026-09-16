@@ -13,8 +13,23 @@ export function useTranslations(lang: Lang) {
   };
 }
 
-/** Prefix a path with the locale, leaving the default locale unprefixed. */
+/**
+ * Add the trailing slash Astro builds pages at.
+ *
+ * Canonical tags and the sitemap use `/about/`. Anything linking to `/about`
+ * is answered with a 307 to the slashed form, so every such link cost a round
+ * trip before the page even started loading.
+ */
+export const withSlash = (path: string): string =>
+  path === '/' || path.endsWith('/') ? path : `${path}/`;
+
+/**
+ * Prefix a path with the locale, leaving the default locale unprefixed.
+ *
+ * Slashed, so internal links land on the canonical URL directly rather than
+ * being redirected to it.
+ */
 export function localizePath(path: string, lang: Lang): string {
   const clean = path.startsWith('/') ? path : `/${path}`;
-  return lang === defaultLang ? clean : `/${lang}${clean}`;
+  return withSlash(lang === defaultLang ? clean : `/${lang}${clean}`);
 }
