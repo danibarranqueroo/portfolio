@@ -1,0 +1,452 @@
+{
+  "generatedAt": "2026-09-16T06:43:19.608591",
+  "prowlerVersion": "5.42.0",
+  "provider": "cloudflare",
+  "target": "danibarranquero.com, www.danibarranquero.com",
+  "total": 31,
+  "pass": 17,
+  "fail": 14,
+  "passRate": 55,
+  "failBySeverity": {
+    "High": 7,
+    "Medium": 5,
+    "Low": 2
+  },
+  "findings": [
+    {
+      "id": "dns_record_no_internal_ip",
+      "title": "DNS records do not expose internal IP addresses",
+      "status": "FAIL",
+      "severity": "High",
+      "detail": "DNS record danibarranquero.com (AAAA) exposes internal IP address 100:: - information disclosure risk.",
+      "risk": "DNS records exposing **internal IP addresses** leak sensitive network information.\n- **Confidentiality**: reveals internal network topology and addressing schemes to attackers\n- **Integrity**: provides reconnaissance data for targeted attacks on internal infrastructure\n- **Availability**: internal IPs in public DNS may indicate misconfiguration affecting service routing",
+      "remediation": "Remove **internal IP addresses** from public DNS records.\n- Use split-horizon DNS for internal service resolution\n- Ensure DNS records only contain publicly routable IP addresses\n- Review DNS records after network changes or migrations\n- Consider using Cloudflare Access for secure internal service access",
+      "service": "dns",
+      "categories": [
+        "internet-exposed"
+      ],
+      "disposition": null
+    },
+    {
+      "id": "dns_record_no_internal_ip",
+      "title": "DNS records do not expose internal IP addresses",
+      "status": "FAIL",
+      "severity": "High",
+      "detail": "DNS record www.danibarranquero.com (AAAA) exposes internal IP address 100:: - information disclosure risk.",
+      "risk": "DNS records exposing **internal IP addresses** leak sensitive network information.\n- **Confidentiality**: reveals internal network topology and addressing schemes to attackers\n- **Integrity**: provides reconnaissance data for targeted attacks on internal infrastructure\n- **Availability**: internal IPs in public DNS may indicate misconfiguration affecting service routing",
+      "remediation": "Remove **internal IP addresses** from public DNS records.\n- Use split-horizon DNS for internal service resolution\n- Ensure DNS records only contain publicly routable IP addresses\n- Review DNS records after network changes or migrations\n- Consider using Cloudflare Access for secure internal service access",
+      "service": "dns",
+      "categories": [
+        "internet-exposed"
+      ],
+      "disposition": null
+    },
+    {
+      "id": "zone_dnssec_enabled",
+      "title": "DNSSEC is enabled",
+      "status": "FAIL",
+      "severity": "High",
+      "detail": "DNSSEC is not enabled for zone danibarranquero.com.",
+      "risk": "Without **DNSSEC**, DNS responses can be spoofed or modified by attackers.\n- **Confidentiality**: users can be redirected to malicious sites that harvest credentials\n- **Integrity**: DNS hijacking enables man-in-the-middle attacks and content modification\n- **Availability**: cache poisoning can cause denial of service by directing traffic to non-existent servers",
+      "remediation": "Enable **DNSSEC** and ensure **DS records** are properly configured at your domain registrar.\n- DNSSEC provides cryptographic authenticity for DNS responses\n- After enabling in Cloudflare, you must add the DS record at your registrar\n- Use online DNSSEC validators to verify correct configuration",
+      "service": "zone",
+      "categories": [
+        "encryption"
+      ],
+      "disposition": null
+    },
+    {
+      "id": "zone_rate_limiting_enabled",
+      "title": "Rate limiting is configured for the zone",
+      "status": "FAIL",
+      "severity": "High",
+      "detail": "No rate limiting rules configured for zone danibarranquero.com.",
+      "risk": "Without **Rate Limiting**, applications are vulnerable to volumetric attacks.\n- **Confidentiality**: credential brute forcing can compromise user accounts\n- **Integrity**: API abuse can manipulate data through excessive requests\n- **Availability**: volumetric attacks can exhaust resources causing service degradation",
+      "remediation": "Implement **Rate Limiting** as part of defense in depth.\n- Configure thresholds based on expected traffic patterns\n- Apply stricter limits to sensitive endpoints like authentication and APIs\n- Use different rate limits for different paths or endpoints\n- Monitor rate limiting analytics to fine-tune thresholds",
+      "service": "zone",
+      "categories": [
+        "internet-exposed"
+      ],
+      "disposition": null
+    },
+    {
+      "id": "zone_universal_ssl_enabled",
+      "title": "Universal SSL is enabled",
+      "status": "FAIL",
+      "severity": "High",
+      "detail": "Universal SSL is not enabled for zone danibarranquero.com.",
+      "risk": "Without **Universal SSL**, visitors cannot establish HTTPS connections to your site.\n- **Confidentiality**: all traffic is unencrypted and vulnerable to interception and eavesdropping\n- **Integrity**: HTTP responses can be modified in transit by attackers (content injection, malware)\n- **Trust**: browsers display security warnings degrading user trust and experience",
+      "remediation": "Enable **Universal SSL** to provide HTTPS capability for your domain.\n- Universal SSL is the foundation for transport security\n- Required before implementing HSTS or other HTTPS-dependent features\n- Cloudflare automatically renews certificates before expiration\n- Consider upgrading to Advanced Certificate Manager for additional control",
+      "service": "zone",
+      "categories": [
+        "encryption"
+      ],
+      "disposition": null
+    },
+    {
+      "id": "zone_waf_enabled",
+      "title": "WAF is enabled",
+      "status": "FAIL",
+      "severity": "High",
+      "detail": "WAF is not enabled for zone danibarranquero.com. This may be expected because the Web Application Firewall is not available on the Cloudflare Free plan.",
+      "risk": "Without **WAF**, web applications are exposed to common attack vectors.\n- **Confidentiality**: SQL injection attacks can exfiltrate sensitive database contents\n- **Integrity**: XSS attacks can modify page content and steal session tokens\n- **Availability**: application-layer attacks can cause service disruption",
+      "remediation": "Enable **WAF** as a critical layer of defense for web applications.\n- Deploy managed rulesets for protection against OWASP Top 10 vulnerabilities\n- Create custom rules based on your application's specific threat model\n- Monitor WAF analytics to tune rules and reduce false positives\n- Combine with rate limiting and bot protection for comprehensive security",
+      "service": "zone",
+      "categories": [
+        "vulnerabilities"
+      ],
+      "disposition": null
+    },
+    {
+      "id": "zone_waf_owasp_ruleset_enabled",
+      "title": "Cloudflare Zone OWASP Managed WAF Rulesets Are Enabled",
+      "status": "FAIL",
+      "severity": "High",
+      "detail": "Zone danibarranquero.com does not have OWASP managed WAF ruleset enabled.",
+      "risk": "Without **OWASP managed rulesets**, web applications are exposed to well-known attack vectors.\n- **Confidentiality**: SQL injection attacks can exfiltrate sensitive database contents\n- **Integrity**: XSS attacks can modify page content and steal session tokens\n- **Availability**: remote code execution can compromise server availability",
+      "remediation": "Enable **OWASP Core Ruleset** managed rules as part of a defense in depth strategy.\n- Protects against OWASP Top 10 vulnerabilities including SQLi and XSS\n- Regularly review and tune rule sensitivity based on application requirements\n- Monitor WAF analytics to identify and address false positives\n- Combine with custom rules for application-specific protection",
+      "service": "zone",
+      "categories": [
+        "vulnerabilities"
+      ],
+      "disposition": null
+    },
+    {
+      "id": "zone_bot_fight_mode_enabled",
+      "title": "Bot Fight Mode is enabled",
+      "status": "FAIL",
+      "severity": "Medium",
+      "detail": "Bot Fight Mode is not enabled for zone danibarranquero.com.",
+      "risk": "Without **Bot Fight Mode**, zones are vulnerable to automated attacks.\n- **Confidentiality**: web scraping bots can harvest sensitive data from your site\n- **Integrity**: credential stuffing attacks can compromise user accounts\n- **Availability**: bot traffic can overwhelm resources causing service degradation",
+      "remediation": "Enable **Bot Fight Mode** as part of a layered bot management strategy.\n- Detects and challenges automated bot traffic\n- Protects against web scraping and credential stuffing\n- Combine with rate limiting and WAF rules for comprehensive protection\n- Monitor bot analytics to understand traffic patterns",
+      "service": "zone",
+      "categories": [
+        "internet-exposed"
+      ],
+      "disposition": null
+    },
+    {
+      "id": "zone_firewall_blocking_rules_configured",
+      "title": "Cloudflare Zone Firewall Rules Use Blocking Actions to Protect Against Threats",
+      "status": "FAIL",
+      "severity": "Medium",
+      "detail": "Zone danibarranquero.com has no firewall rules with blocking actions.",
+      "risk": "Firewall rules configured only for **logging** provide visibility but no protection.\n- **Confidentiality**: malicious traffic can access and exfiltrate sensitive data\n- **Integrity**: application exploits can modify data without being blocked\n- **Availability**: credential stuffing and abuse attacks reach the origin unimpeded",
+      "remediation": "Configure **firewall rules** with blocking actions to enforce security policies.\n- Use challenge actions for suspicious traffic to verify human visitors\n- Use block actions for known malicious patterns and high-risk sources\n- Test rules in log mode before enabling blocking to avoid false positives\n- Follow the principle of least privilege in rule configuration",
+      "service": "zone",
+      "categories": [
+        "internet-exposed"
+      ],
+      "disposition": null
+    },
+    {
+      "id": "zone_record_dkim_exists",
+      "title": "DKIM record exists with valid public key",
+      "status": "FAIL",
+      "severity": "Medium",
+      "detail": "No DKIM record found for zone danibarranquero.com.",
+      "risk": "Without **DKIM** or with a revoked/empty public key, recipients cannot verify messages were sent by authorized servers. Attackers can forge emails from your domain, and content integrity cannot be proven. DMARC policies relying on DKIM will fail, affecting deliverability. A DKIM record with empty `p=` indicates a revoked key.",
+      "remediation": "Configure **DKIM records** with valid public keys from your email provider.\n- Each email service requires its own DKIM selector (e.g., google._domainkey for Google Workspace)\n- The `p=` parameter must contain the actual public key, not be empty\n- An empty `p=` value indicates a revoked key and will fail this check\n- DKIM works alongside SPF and DMARC for comprehensive email authentication\n- Rotate DKIM keys periodically for enhanced security\n- Use 2048-bit keys for stronger cryptographic protection",
+      "service": "zone",
+      "categories": [
+        "email-security"
+      ],
+      "disposition": null
+    },
+    {
+      "id": "zone_record_dmarc_exists",
+      "title": "DMARC record exists with enforcement policy (p=reject or p=quarantine)",
+      "status": "FAIL",
+      "severity": "Medium",
+      "detail": "No DMARC record found for zone danibarranquero.com.",
+      "risk": "Without **DMARC** or with `p=none`, there is no active protection against email spoofing. Attackers can spoof emails for **phishing campaigns** to steal credentials. Domain reputation is damaged by spoofed emails. The `p=none` policy only generates reports but does not block or quarantine spoofed emails.",
+      "remediation": "Implement **DMARC** with an enforcement policy (`p=reject` or `p=quarantine`).\n- `p=reject`: receiving servers should reject emails that fail authentication\n- `p=quarantine`: receiving servers should send suspicious emails to spam folder\n- `p=none`: only monitoring, provides no protection (will fail this check)\n- Ensure SPF and DKIM are properly configured before enabling enforcement\n- Configure `rua` to receive aggregate reports on authentication results\n- Use `pct` parameter to gradually roll out enforcement (e.g., `pct=10` for 10% of emails)",
+      "service": "zone",
+      "categories": [
+        "email-security"
+      ],
+      "disposition": null
+    },
+    {
+      "id": "zone_record_spf_exists",
+      "title": "SPF record exists with strict policy (-all)",
+      "status": "FAIL",
+      "severity": "Medium",
+      "detail": "No SPF record found for zone danibarranquero.com.",
+      "risk": "Without **SPF** or with a permissive policy (`~all`, `?all`, `+all`), attackers can forge emails from your domain. Phishing attacks can harvest sensitive information from recipients who trust spoofed emails. Brand reputation is damaged by fraudulent emails. `~all` only marks emails as suspicious without rejecting them.",
+      "remediation": "Configure **SPF records** with strict policy (`-all`) listing authorized mail servers.\n- SPF records start with `v=spf1` and define authorized senders\n- Use `-all` (hardfail) to reject emails from unauthorized servers\n- Avoid `~all` (softfail) in production as it only marks suspicious emails but does not reject them\n- Use `include:` to authorize third-party mail services\n- Combine with **DKIM** and **DMARC** for comprehensive email authentication\n- Test SPF records using online validators before deployment",
+      "service": "zone",
+      "categories": [
+        "email-security"
+      ],
+      "disposition": null
+    },
+    {
+      "id": "zone_hotlink_protection_enabled",
+      "title": "Hotlink Protection is enabled",
+      "status": "FAIL",
+      "severity": "Low",
+      "detail": "Hotlink Protection is not enabled for zone danibarranquero.com.",
+      "risk": "Without **Hotlink Protection**, external websites can embed your media directly.\n- **Confidentiality**: content may be used without proper attribution or permission\n- **Integrity**: unauthorized use of media may misrepresent your brand\n- **Availability**: bandwidth theft increases costs and may degrade performance",
+      "remediation": "Enable **Hotlink Protection** to prevent unauthorized embedding of your media.\n- Blocks requests to images when HTTP referer does not match your domain\n- Reduces bandwidth costs from unauthorized embedding\n- Review allowed referrers for legitimate integrations\n- Part of the Scrape Shield feature set for comprehensive protection",
+      "service": "zone",
+      "categories": [
+        "internet-exposed"
+      ],
+      "disposition": null
+    },
+    {
+      "id": "zone_record_caa_exists",
+      "title": "CAA record exists with issue or issuewild tag",
+      "status": "FAIL",
+      "severity": "Low",
+      "detail": "No CAA record found for zone danibarranquero.com.",
+      "risk": "Without **CAA** records or `issue`/`issuewild` tags, any certificate authority can issue certificates for your domain. Unauthorized certificates enable **man-in-the-middle attacks** and domain impersonation. CAA records with only `iodef` tags do not restrict certificate issuance.",
+      "remediation": "Add **CAA records** with `issue` or `issuewild` tags specifying authorized certificate authorities.\n- `issue` tag: authorizes CAs for regular (non-wildcard) certificates\n- `issuewild` tag: authorizes CAs for wildcard certificates specifically\n- Use `issue \";\"` to block all certificate issuance (for domains that should never have certificates)\n- Use `iodef` tag to receive reports of policy violations (optional, for monitoring)\n- All CAs are required to check CAA records before issuing certificates",
+      "service": "zone",
+      "categories": [
+        "encryption"
+      ],
+      "disposition": null
+    },
+    {
+      "id": "zone_always_online_disabled",
+      "title": "Always Online is disabled",
+      "status": "PASS",
+      "severity": "High",
+      "detail": "Always Online is disabled for zone danibarranquero.com.",
+      "risk": "With **Always Online** enabled, Cloudflare serves cached pages when the origin is unavailable.\n- **Confidentiality**: stale cache may expose sensitive information that was subsequently removed\n- **Integrity**: outdated content may contain incorrect or superseded information\n- **Availability**: reliance on cached content masks origin failures requiring attention",
+      "remediation": "Disable **Always Online** and implement proper high availability solutions.\n- Use redundant origins or load balancing for genuine high availability\n- Stale cached content may contain outdated security information\n- Origin failures should be detected and addressed, not masked\n- Consider Cloudflare Workers for custom failover logic if needed",
+      "service": "zone",
+      "categories": [
+        "resilience"
+      ],
+      "disposition": null
+    },
+    {
+      "id": "zone_hsts_enabled",
+      "title": "HSTS is enabled with recommended max-age and includes subdomains",
+      "status": "PASS",
+      "severity": "High",
+      "detail": "HSTS is enabled for zone danibarranquero.com with max-age of 31536000 seconds and includes subdomains.",
+      "risk": "Without **HSTS**, browsers may initially connect over HTTP before redirecting to HTTPS.\n- **Confidentiality**: creates a window for SSL stripping attacks where attackers downgrade connections to unencrypted HTTP\n- **Integrity**: first request can be intercepted and modified before HTTPS redirect\n- **Session hijacking**: cookies and credentials may be captured during initial HTTP request",
+      "remediation": "Enable **HSTS** with at least a **6-month max-age** (12 months recommended).\n- Verify all resources work over HTTPS before enabling\n- Enable **include_subdomains** to protect all subdomains\n- Consider **HSTS preloading** for maximum protection against SSL stripping attacks\n- Test thoroughly as HSTS cannot be easily disabled once deployed",
+      "service": "zone",
+      "categories": [
+        "encryption",
+        "internet-exposed"
+      ],
+      "disposition": null
+    },
+    {
+      "id": "zone_min_tls_version_secure",
+      "title": "Minimum TLS version is set to 1.2 or higher",
+      "status": "PASS",
+      "severity": "High",
+      "detail": "Minimum TLS version for zone danibarranquero.com is set to 1.2.",
+      "risk": "Allowing **legacy TLS versions** (1.0, 1.1) exposes connections to known protocol vulnerabilities.\n- **Confidentiality**: BEAST, POODLE, and weak cipher suites can be exploited for traffic decryption\n- **Compliance**: TLS 1.0/1.1 are deprecated by PCI-DSS, NIST, and major browsers\n- **Integrity**: downgrade attacks can force weaker encryption that is susceptible to tampering",
+      "remediation": "Set **minimum TLS version** to `1.2` or higher.\n- **TLS 1.0 and 1.1** are deprecated by all major browsers and contain known vulnerabilities\n- Consider setting to `TLS 1.3` for environments with modern client requirements\n- Test client compatibility before upgrading minimum version",
+      "service": "zone",
+      "categories": [
+        "encryption"
+      ],
+      "disposition": null
+    },
+    {
+      "id": "zone_ssl_strict",
+      "title": "SSL/TLS encryption mode is set to Full (Strict)",
+      "status": "PASS",
+      "severity": "High",
+      "detail": "SSL/TLS encryption mode is set to Full (Strict) for zone danibarranquero.com.",
+      "risk": "Without **strict SSL mode**, traffic between Cloudflare and origin may use unvalidated or unencrypted connections. Sensitive data can be intercepted via **man-in-the-middle attacks**, responses can be modified without detection, and this may violate PCI-DSS, HIPAA, and other regulatory requirements.",
+      "remediation": "Configure **SSL/TLS mode** to `Full (Strict)` and install a valid certificate on your origin server.\n- Use **Cloudflare Origin CA certificates** for seamless integration\n- Ensure origin server presents a valid certificate matching your domain\n- Enable **Authenticated Origin Pulls** for additional security",
+      "service": "zone",
+      "categories": [
+        "encryption"
+      ],
+      "disposition": null
+    },
+    {
+      "id": "dns_record_no_wildcard",
+      "title": "DNS records do not use wildcard entries",
+      "status": "PASS",
+      "severity": "Medium",
+      "detail": "DNS record danibarranquero.com (AAAA) is not a wildcard record.",
+      "risk": "**Wildcard DNS records** can expose unintended services and increase attack surface.\n- **Confidentiality**: any subdomain resolves, potentially exposing internal naming conventions; wildcard MX allows mail interception\n- **Integrity**: attackers can access unintended services via arbitrary subdomains\n- **Availability**: wildcard records may route traffic or services not designed for public access",
+      "remediation": "Avoid using **wildcard DNS records** unless absolutely necessary.\n- Use specific subdomain records instead of wildcards\n- If wildcards are required, ensure the target service handles unknown subdomains securely\n- Document the business justification for any wildcard records\n- Combine with proper web server configuration to reject unknown hosts",
+      "service": "dns",
+      "categories": [
+        "internet-exposed"
+      ],
+      "disposition": null
+    },
+    {
+      "id": "dns_record_no_wildcard",
+      "title": "DNS records do not use wildcard entries",
+      "status": "PASS",
+      "severity": "Medium",
+      "detail": "DNS record www.danibarranquero.com (AAAA) is not a wildcard record.",
+      "risk": "**Wildcard DNS records** can expose unintended services and increase attack surface.\n- **Confidentiality**: any subdomain resolves, potentially exposing internal naming conventions; wildcard MX allows mail interception\n- **Integrity**: attackers can access unintended services via arbitrary subdomains\n- **Availability**: wildcard records may route traffic or services not designed for public access",
+      "remediation": "Avoid using **wildcard DNS records** unless absolutely necessary.\n- Use specific subdomain records instead of wildcards\n- If wildcards are required, ensure the target service handles unknown subdomains securely\n- Document the business justification for any wildcard records\n- Combine with proper web server configuration to reject unknown hosts",
+      "service": "dns",
+      "categories": [
+        "internet-exposed"
+      ],
+      "disposition": null
+    },
+    {
+      "id": "dns_record_proxied",
+      "title": "Cloudflare proxy is enabled for applicable DNS records",
+      "status": "PASS",
+      "severity": "Medium",
+      "detail": "DNS record danibarranquero.com (AAAA) is proxied through Cloudflare.",
+      "risk": "Unproxied **DNS records** expose origin server IP addresses directly to the internet.\n- **Confidentiality**: origin IP exposure enables targeted reconnaissance and attacks\n- **Integrity**: direct access to origin bypasses WAF and security controls\n- **Availability**: origin is exposed to DDoS attacks without Cloudflare protection",
+      "remediation": "Enable the **Cloudflare proxy** (orange cloud) for DNS records that should be protected.\n- Proxied records benefit from DDoS protection, WAF, and caching\n- Origin server IP addresses are hidden from public DNS queries\n- Apply defense in depth by combining proxy protection with origin hardening\n- Some record types (MX, TXT) cannot be proxied by design",
+      "service": "dns",
+      "categories": [
+        "internet-exposed"
+      ],
+      "disposition": null
+    },
+    {
+      "id": "dns_record_proxied",
+      "title": "Cloudflare proxy is enabled for applicable DNS records",
+      "status": "PASS",
+      "severity": "Medium",
+      "detail": "DNS record www.danibarranquero.com (AAAA) is proxied through Cloudflare.",
+      "risk": "Unproxied **DNS records** expose origin server IP addresses directly to the internet.\n- **Confidentiality**: origin IP exposure enables targeted reconnaissance and attacks\n- **Integrity**: direct access to origin bypasses WAF and security controls\n- **Availability**: origin is exposed to DDoS attacks without Cloudflare protection",
+      "remediation": "Enable the **Cloudflare proxy** (orange cloud) for DNS records that should be protected.\n- Proxied records benefit from DDoS protection, WAF, and caching\n- Origin server IP addresses are hidden from public DNS queries\n- Apply defense in depth by combining proxy protection with origin hardening\n- Some record types (MX, TXT) cannot be proxied by design",
+      "service": "dns",
+      "categories": [
+        "internet-exposed"
+      ],
+      "disposition": null
+    },
+    {
+      "id": "zone_automatic_https_rewrites_enabled",
+      "title": "Automatic HTTPS Rewrites is enabled",
+      "status": "PASS",
+      "severity": "Medium",
+      "detail": "Automatic HTTPS Rewrites is enabled for zone danibarranquero.com.",
+      "risk": "Without **Automatic HTTPS Rewrites**, pages may contain mixed content where HTTP resources load over HTTPS pages.\n- **Confidentiality**: insecure resources can be intercepted and modified by attackers\n- **Integrity**: browsers block or warn about mixed content, indicating potential tampering\n- **User Experience**: security warnings degrade trust and some browsers block mixed content entirely",
+      "remediation": "Enable **Automatic HTTPS Rewrites** as part of a comprehensive HTTPS strategy.\n- Automatically fixes mixed content by rewriting HTTP URLs to HTTPS\n- Combine with **Always Use HTTPS** and **HSTS** for defense in depth\n- Works best when all resources are available over HTTPS\n- Monitor for resources that cannot be rewritten and fix them at the source",
+      "service": "zone",
+      "categories": [
+        "encryption"
+      ],
+      "disposition": null
+    },
+    {
+      "id": "zone_https_redirect_enabled",
+      "title": "Always Use HTTPS is enabled",
+      "status": "PASS",
+      "severity": "Medium",
+      "detail": "Always Use HTTPS is enabled for zone danibarranquero.com.",
+      "risk": "Without **automatic HTTPS redirects**, users may access resources over unencrypted HTTP.\n- **Confidentiality**: traffic can be intercepted and read by attackers on the network path\n- **Integrity**: HTTP responses can be modified in transit (content injection, malware insertion)\n- **Authentication**: session cookies and credentials may be transmitted in plaintext",
+      "remediation": "Enable **Always Use HTTPS** to enforce encrypted connections for all visitors.\n- Combine with **HSTS** to prevent SSL stripping attacks\n- Ensure all resources (images, scripts, stylesheets) are served over HTTPS\n- Test for mixed content warnings before enabling",
+      "service": "zone",
+      "categories": [
+        "encryption"
+      ],
+      "disposition": null
+    },
+    {
+      "id": "zone_tls_1_3_enabled",
+      "title": "TLS 1.3 is enabled",
+      "status": "PASS",
+      "severity": "Medium",
+      "detail": "TLS 1.3 is enabled for zone danibarranquero.com.",
+      "risk": "Without **TLS 1.3**, connections use older TLS versions with less secure characteristics.\n- **Confidentiality**: legacy TLS versions have more complex cipher negotiations that may expose weaknesses\n- **Integrity**: older protocols lack protection against downgrade attacks that TLS 1.3 provides\n- **Performance**: slower handshakes impact user experience and increase latency",
+      "remediation": "Enable **TLS 1.3** to provide the most secure and efficient TLS connections.\n- All modern browsers support TLS 1.3 ensuring broad compatibility\n- TLS 1.3 removes obsolete cryptographic algorithms\n- Zero round-trip time (0-RTT) resumption improves performance\n- Combine with minimum TLS version set to 1.2 or higher",
+      "service": "zone",
+      "categories": [
+        "encryption"
+      ],
+      "disposition": null
+    },
+    {
+      "id": "zone_browser_integrity_check_enabled",
+      "title": "Cloudflare Zone Browser Integrity Check Is Enabled",
+      "status": "PASS",
+      "severity": "Low",
+      "detail": "Browser Integrity Check is enabled for zone danibarranquero.com.",
+      "risk": "Without **Browser Integrity Check**, malformed or suspicious requests reach the origin.\n- **Confidentiality**: basic bots can access and scrape content without challenge\n- **Integrity**: requests with invalid headers may exploit application vulnerabilities\n- **Availability**: automated traffic without browser signatures consumes resources",
+      "remediation": "Enable **Browser Integrity Check** to filter basic bot traffic.\n- Validates HTTP headers to identify non-browser requests\n- Challenges requests with missing or invalid browser signatures\n- Enabled by default on most Cloudflare plans\n- Low impact on legitimate users with standard browsers",
+      "service": "zone",
+      "categories": [
+        "internet-exposed"
+      ],
+      "disposition": null
+    },
+    {
+      "id": "zone_challenge_passage_configured",
+      "title": "Cloudflare Zone Challenge Passage Is Configured Between 15 and 45 Minutes",
+      "status": "PASS",
+      "severity": "Low",
+      "detail": "Challenge Passage is set to 30 minutes for zone danibarranquero.com.",
+      "risk": "Improperly configured **Challenge Passage** can impact security or user experience.\n- **Confidentiality**: TTL set too long may allow attackers extended access after passing initial challenge\n- **Integrity**: security controls become less effective with overly permissive TTL settings\n- **Availability**: TTL set too short causes excessive challenges degrading user experience",
+      "remediation": "Configure **Challenge Passage** between 15 and 45 minutes.\n- Values below 15 minutes may frustrate legitimate users with excessive challenges\n- Values above 45 minutes give attackers too much time after passing challenges\n- The default Cloudflare value of 30 minutes is recommended for most use cases\n- Adjust based on your specific threat model and user experience requirements",
+      "service": "zone",
+      "categories": [
+        "internet-exposed"
+      ],
+      "disposition": null
+    },
+    {
+      "id": "zone_development_mode_disabled",
+      "title": "Development mode is disabled for production zones",
+      "status": "PASS",
+      "severity": "Low",
+      "detail": "Development mode is disabled for zone danibarranquero.com.",
+      "risk": "With **Development Mode** enabled, Cloudflare bypasses caching and some optimizations.\n- **Confidentiality**: some security features may be affected or bypassed\n- **Integrity**: performance optimizations are disabled impacting site reliability\n- **Availability**: origin server is exposed to increased load without caching protection",
+      "remediation": "Disable **Development Mode** for production environments.\n- Use only temporarily during active development when cache bypassing is necessary\n- Development Mode auto-expires after 3 hours\n- Ensure it is manually disabled after development work completes\n- Consider using cache purge or page rules for targeted cache invalidation instead",
+      "service": "zone",
+      "categories": [
+        "resilience"
+      ],
+      "disposition": null
+    },
+    {
+      "id": "zone_email_obfuscation_enabled",
+      "title": "Email Obfuscation is enabled",
+      "status": "PASS",
+      "severity": "Low",
+      "detail": "Email Obfuscation is enabled for zone danibarranquero.com.",
+      "risk": "Without **Email Obfuscation**, email addresses displayed on your website can be harvested by bots.\n- **Confidentiality**: harvested emails become targets for spam and phishing campaigns\n- **Integrity**: employees may fall victim to targeted social engineering attacks\n- **Availability**: increased spam volume can overwhelm email systems",
+      "remediation": "Enable **Email Obfuscation** as part of anti-scraping protections.\n- Automatically encodes email addresses to prevent bot harvesting\n- Email addresses remain visible and clickable for human visitors\n- Works with mailto: links and plain text email addresses\n- Part of the Scrape Shield feature set for comprehensive protection",
+      "service": "zone",
+      "categories": [
+        "internet-exposed"
+      ],
+      "disposition": null
+    },
+    {
+      "id": "zone_ip_geolocation_enabled",
+      "title": "IP Geolocation is enabled",
+      "status": "PASS",
+      "severity": "Low",
+      "detail": "IP Geolocation is enabled for zone danibarranquero.com.",
+      "risk": "Without **IP Geolocation**, geographic-based security controls cannot be implemented.\n- **Confidentiality**: unable to restrict access from high-risk regions\n- **Integrity**: cannot enforce geographic data residency requirements\n- **Availability**: limited visibility into traffic origins for threat analysis",
+      "remediation": "Enable **IP Geolocation** to support geographic-based security policies.\n- Adds CF-IPCountry header to all requests\n- Enables geo-blocking rules in firewall configuration\n- Provides visibility into traffic origins for threat analysis\n- Essential for geographic data residency compliance",
+      "service": "zone",
+      "categories": [
+        "internet-exposed"
+      ],
+      "disposition": null
+    },
+    {
+      "id": "zone_security_under_attack_disabled",
+      "title": "Under Attack Mode is disabled during normal operations",
+      "status": "PASS",
+      "severity": "Low",
+      "detail": "Zone danibarranquero.com does not have Under Attack Mode enabled.",
+      "risk": "Keeping **Under Attack Mode** permanently enabled causes operational issues.\n- **Availability**: all visitors face a 5-second interstitial challenge page before accessing the site\n- **Accessibility**: visitors without JavaScript support cannot access the site at all\n- **User Experience**: legitimate users experience unnecessary delays and third-party analytics show degraded performance",
+      "remediation": "Disable **Under Attack Mode** when not actively under a DDoS attack.\n- Use it only as a **last resort** during active layer 7 DDoS attacks\n- For ongoing protection, use **Security Level** settings (Low, Medium, High)\n- Configure specific **WAF rules** for targeted protection without impacting all users",
+      "service": "zone",
+      "categories": [
+        "internet-exposed"
+      ],
+      "disposition": null
+    }
+  ]
+}
