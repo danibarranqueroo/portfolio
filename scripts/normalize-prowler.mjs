@@ -86,6 +86,14 @@ const DISPOSITION = {
     },
   },
   cloudflare: {
+    dns_record_cname_target_valid: {
+      state: 'accepted',
+      note: 'A false positive, and acting on it would make things worse. The flagged target is the null MX from RFC 7505: an MX record pointing at "." is the standard way to declare that a domain receives no mail at all. The check reads that "." as a dangling hostname and warns about mail interception, which is precisely what the null MX prevents. Removing the record to turn this green would reopen the risk it is warning about.',
+    },
+    zone_record_dkim_exists: {
+      state: 'accepted',
+      note: 'This domain sends no mail, so there is no key to publish. The record is *._domainkey with an empty p=, which RFC 6376 defines as a revoked key, and alongside SPF -all, DMARC p=reject and a null MX it is the recommended way to say "nothing here signs mail". The check looks for a valid public key and finds none, which is correct and also the point.',
+    },
     dns_record_no_internal_ip: {
       state: 'accepted',
       note: 'A false positive, and worth stating plainly. The address is 100::, the IPv6 discard prefix from RFC 6666, which is what Cloudflare writes for a record that exists only to be proxied. It is not an internal address and it never leaves the account: externally the zone answers with Cloudflare anycast addresses, and a public AAAA lookup returns 2606:4700 addresses, never this one.',
