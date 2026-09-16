@@ -9,5 +9,21 @@
   "assets": {
     "directory": "./dist",
     "not_found_handling": "404-page"
-  }
+  },
+
+  // Custom domains, declared here rather than clicked into the dashboard so
+  // the mapping lives in the repo. Cloudflare provisions the DNS record and
+  // the TLS certificate for each one.
+  //
+  // www is attached as well, but it is not meant to serve: a Redirect Rule in
+  // the dashboard 301s it to the apex, and that rule runs at the edge before
+  // the Worker is reached. Attaching it anyway means that if the rule is ever
+  // removed, www keeps working instead of going dark, and every page already
+  // carries a canonical pointing at the apex.
+  //
+  // The free plan allows 5 custom domains per Worker; this uses 2.
+  "routes": [
+    { "pattern": "danibarranquero.com", "custom_domain": true },
+    { "pattern": "www.danibarranquero.com", "custom_domain": true }
+  ]
 }
