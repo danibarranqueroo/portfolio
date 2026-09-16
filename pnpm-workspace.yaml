@@ -36,3 +36,17 @@ allowBuilds:
   # install time. Required to deploy at all, and it comes from Cloudflare
   # themselves rather than a transitive third party.
   workerd: true
+
+# ---------------------------------------------------------------------------
+# Version overrides. Like allowBuilds, every entry is a deliberate decision.
+# ---------------------------------------------------------------------------
+overrides:
+  # Dependabot GHSA-g89c-p67h-r497 / GHSA-2jg2-4ch7-h545: libheif flaws
+  # reachable through sharp below 0.35.4. Astro already resolved 0.35.4, but
+  # wrangler pulls miniflare, which pinned 0.35.2, so the vulnerable copy sat
+  # in the tree. It is a devDependency that only the local Workers simulator
+  # loads, and it never sees an image we did not put in the repo, so this was
+  # not exploitable here. Overriding anyway: it is a patch bump inside the
+  # same minor, and a high alert left open on this repo of all repos is worse
+  # than the change. Drop this once wrangler ships a miniflare that has moved.
+  sharp: 0.35.4
