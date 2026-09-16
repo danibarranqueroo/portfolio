@@ -1,14 +1,14 @@
 {
-  "generatedAt": "2026-09-16T10:15:46.250964",
+  "generatedAt": "2026-09-16T10:22:39.778826",
   "prowlerVersion": "5.42.0",
   "provider": "cloudflare",
   "target": "danibarranquero.com, www.danibarranquero.com",
   "total": 33,
-  "pass": 22,
-  "fail": 11,
-  "passRate": 67,
+  "pass": 23,
+  "fail": 10,
+  "passRate": 70,
   "failBySeverity": {
-    "High": 7,
+    "High": 6,
     "Medium": 3,
     "Low": 1
   },
@@ -25,7 +25,10 @@
       "categories": [
         "internet-exposed"
       ],
-      "disposition": null
+      "disposition": {
+        "state": "accepted",
+        "note": "A false positive, and acting on it would make things worse. The flagged target is the null MX from RFC 7505: an MX record pointing at \".\" is the standard way to declare that a domain receives no mail at all. The check reads that \".\" as a dangling hostname and warns about mail interception, which is precisely what the null MX prevents. Removing the record to turn this green would reopen the risk it is warning about."
+      }
     },
     {
       "id": "dns_record_no_internal_ip",
@@ -77,20 +80,6 @@
         "state": "accepted",
         "note": "Available on the free plan, which allows one rule, so this is a choice rather than a limit. Rate limiting protects an origin from being overwhelmed, and there is no origin: every response is a static asset served from Cloudflare edge cache on unmetered bandwidth. The only free action is a challenge, which would put an interstitial in front of real readers to defend against nothing."
       }
-    },
-    {
-      "id": "zone_universal_ssl_enabled",
-      "title": "Universal SSL is enabled",
-      "status": "FAIL",
-      "severity": "High",
-      "detail": "Universal SSL is not enabled for zone danibarranquero.com.",
-      "risk": "Without **Universal SSL**, visitors cannot establish HTTPS connections to your site.\n- **Confidentiality**: all traffic is unencrypted and vulnerable to interception and eavesdropping\n- **Integrity**: HTTP responses can be modified in transit by attackers (content injection, malware)\n- **Trust**: browsers display security warnings degrading user trust and experience",
-      "remediation": "Enable **Universal SSL** to provide HTTPS capability for your domain.\n- Universal SSL is the foundation for transport security\n- Required before implementing HSTS or other HTTPS-dependent features\n- Cloudflare automatically renews certificates before expiration\n- Consider upgrading to Advanced Certificate Manager for additional control",
-      "service": "zone",
-      "categories": [
-        "encryption"
-      ],
-      "disposition": null
     },
     {
       "id": "zone_waf_enabled",
@@ -172,7 +161,10 @@
       "categories": [
         "email-security"
       ],
-      "disposition": null
+      "disposition": {
+        "state": "accepted",
+        "note": "This domain sends no mail, so there is no key to publish. The record is *._domainkey with an empty p=, which RFC 6376 defines as a revoked key, and alongside SPF -all, DMARC p=reject and a null MX it is the recommended way to say \"nothing here signs mail\". The check looks for a valid public key and finds none, which is correct and also the point."
+      }
     },
     {
       "id": "zone_hotlink_protection_enabled",
@@ -256,6 +248,20 @@
       "detail": "SSL/TLS encryption mode is set to Full (Strict) for zone danibarranquero.com.",
       "risk": "Without **strict SSL mode**, traffic between Cloudflare and origin may use unvalidated or unencrypted connections. Sensitive data can be intercepted via **man-in-the-middle attacks**, responses can be modified without detection, and this may violate PCI-DSS, HIPAA, and other regulatory requirements.",
       "remediation": "Configure **SSL/TLS mode** to `Full (Strict)` and install a valid certificate on your origin server.\n- Use **Cloudflare Origin CA certificates** for seamless integration\n- Ensure origin server presents a valid certificate matching your domain\n- Enable **Authenticated Origin Pulls** for additional security",
+      "service": "zone",
+      "categories": [
+        "encryption"
+      ],
+      "disposition": null
+    },
+    {
+      "id": "zone_universal_ssl_enabled",
+      "title": "Universal SSL is enabled",
+      "status": "PASS",
+      "severity": "High",
+      "detail": "Universal SSL is enabled for zone danibarranquero.com.",
+      "risk": "Without **Universal SSL**, visitors cannot establish HTTPS connections to your site.\n- **Confidentiality**: all traffic is unencrypted and vulnerable to interception and eavesdropping\n- **Integrity**: HTTP responses can be modified in transit by attackers (content injection, malware)\n- **Trust**: browsers display security warnings degrading user trust and experience",
+      "remediation": "Enable **Universal SSL** to provide HTTPS capability for your domain.\n- Universal SSL is the foundation for transport security\n- Required before implementing HSTS or other HTTPS-dependent features\n- Cloudflare automatically renews certificates before expiration\n- Consider upgrading to Advanced Certificate Manager for additional control",
       "service": "zone",
       "categories": [
         "encryption"
