@@ -60,10 +60,6 @@ if (raw.length === 0) {
  */
 const DISPOSITION = {
   github: {
-    repository_secret_scanning_enabled: {
-      state: 'blocked',
-      note: 'GitHub only offers secret scanning for public repositories or paid plans. The GitHub API rejects it here with a 422. Gitleaks runs on every pull request instead, which covers the same ground from CI.',
-    },
     repository_default_branch_requires_multiple_approvals: {
       state: 'accepted',
       note: 'Requires two approving reviews. This is a one-person repository, so a second approver does not exist. Stated rather than hidden.',
