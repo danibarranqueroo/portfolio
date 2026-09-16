@@ -31,7 +31,14 @@
 
 /*
   Content-Security-Policy: frame-ancestors 'none'; base-uri 'none'; form-action 'self'; object-src 'none'; font-src 'self'; img-src 'self'; connect-src 'self'; media-src 'none'; frame-src 'none'; worker-src 'none'; manifest-src 'none'; upgrade-insecure-requests
-  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+  # max-age is 12 months, not the 24 we originally set. Cloudflare's own HSTS
+  # setting (SSL/TLS > Edge Certificates) REPLACES this header rather than
+  # deferring to it, and its dropdown tops out at 12 months, so 24 here was a
+  # number that never reached a browser. Kept anyway as the fallback if that
+  # dashboard setting is ever turned off, and 31536000 is exactly the minimum
+  # hstspreload.org requires, so it still qualifies. If you raise one, raise
+  # both, and verify against the deployed site rather than this file.
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()
