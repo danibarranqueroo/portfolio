@@ -1186,6 +1186,25 @@ main > .wide {
   line-height: 1.5;
 }
 
+/* Four spacing one-offs on the security page. These were style attributes
+   until a browser check caught them being refused in production: a CSP hash
+   covers an inline <style> block, never a style attribute, so a hash-based
+   style-src blocks every one of them. The dev server emits no CSP, so the
+   page looked right locally and shipped with the margins silently dropped.
+   Keep spacing in here, never in a style attribute. */
+.note-after-list {
+  margin-top: 20px;
+}
+.note-after-checks {
+  margin-top: 26px;
+}
+.prose-before-checks {
+  margin-bottom: 26px;
+}
+.prose-before-game {
+  margin-bottom: 28px;
+}
+
 /* --- a11y ---------------------------------------------------------------- */
 .skip {
   position: absolute;

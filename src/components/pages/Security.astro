@@ -113,7 +113,7 @@ const facts = [
       <span class="row-v"><span class="val mono" data-live="headers">…</span></span>
     </li>
   </ul>
-  <p class="note" style="margin-top: 20px;">
+  <p class="note note-after-list">
     {es
       ? 'Las cabeceras las sirve Cloudflare desde public/_headers, así que en local no aparecen. Es lo esperado, no un fallo.'
       : 'Response headers are served by Cloudflare from public/_headers, so they are absent on the dev server. That is expected, not a failure.'}
@@ -132,7 +132,7 @@ const facts = [
       </p>
     ) : (
       <>
-        <p class="prose" style="margin-bottom: 26px;">
+        <p class="prose prose-before-checks">
           {es
             ? 'Prowler audita la configuración de este mismo repo en GitHub. Los resultados de abajo son reales y sin tocar, del último scan.'
             : 'Prowler audits this repository’s own GitHub configuration. The results below are real and unedited, from the most recent scan.'}
@@ -185,7 +185,7 @@ const facts = [
           ))}
         </ul>
 
-        <p class="note" style="margin-top: 26px;">
+        <p class="note note-after-checks">
           {es
             ? 'Nada de esto está escrito a mano: el JSON-OCSF de Prowler se normaliza en el build. Los fallos se muestran tal cual, con su motivo; esconderlos dejaría la página sin sentido.'
             : 'None of this is written by hand: Prowler’s JSON-OCSF is normalized at build time. Failures are shown as they are, with a stated reason, because hiding them would make the page pointless.'}
@@ -197,7 +197,7 @@ const facts = [
 
 <section class="wide">
   <h2 class="sect">{es ? 'Encuentra la mala configuración' : 'Spot the misconfiguration'}</h2>
-  <p class="prose" style="margin-bottom: 28px;">
+  <p class="prose prose-before-game">
     {es
       ? 'Tres configuraciones reales. Haz clic en la línea peligrosa de cada una.'
       : 'Three real configurations. Click the dangerous line in each.'}

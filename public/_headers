@@ -8,12 +8,29 @@
 # style-src: doing so would block hash-allowed inline content that the meta
 # policy correctly permits, because the hashes only exist in the meta tag.
 #
-# This file therefore carries only the directives a <meta> CSP cannot express
-# (frame-ancestors, report-to, sandbox) plus directives that never interact
-# with hashes.
+# That constraint rules out default-src, which is the usual way to cover the
+# remaining fetch directives. So they are enumerated explicitly below instead.
+# None of them interact with hashes, so they are safe to set here. Verified
+# against the built output before adding: the site loads no data: URIs, no
+# audio or video, no iframes, no web workers and no manifest, and its only
+# fetch() is Astro's prefetch module, which checks location.origin before
+# firing. The links to GitHub and LinkedIn are anchors, not subresources, so
+# no fetch directive applies to them.
+#
+# These are deliberately strict. If a future page needs an external image, an
+# embedded video or a manifest, it will fail visibly in the console and the
+# directive should be widened by hand rather than loosened pre-emptively.
+#
+# Still uncovered, and unavoidable: <link rel="prefetch"> falls back to
+# default-src, and prefetch-src is deprecated and gone from current browsers.
+# It is same-origin only, per the origin check above.
+#
+# This file therefore carries the directives a <meta> CSP cannot express
+# (frame-ancestors, report-to, sandbox) plus every directive that never
+# interacts with hashes.
 
 /*
-  Content-Security-Policy: frame-ancestors 'none'; base-uri 'none'; form-action 'self'; object-src 'none'; font-src 'self'; upgrade-insecure-requests
+  Content-Security-Policy: frame-ancestors 'none'; base-uri 'none'; form-action 'self'; object-src 'none'; font-src 'self'; img-src 'self'; connect-src 'self'; media-src 'none'; frame-src 'none'; worker-src 'none'; manifest-src 'none'; upgrade-insecure-requests
   Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
