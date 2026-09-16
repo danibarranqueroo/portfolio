@@ -32,7 +32,7 @@ if (!src.includes('width=')) {
   throw new Error('favicon.svg declares no intrinsic width, so it cannot be rasterised');
 }
 
-const uri = 'data:image/svg+xml;base64,' + Buffer.from(src).toString('base64');
+const uri = `data:image/svg+xml;base64,${Buffer.from(src).toString('base64')}`;
 
 const browser = await chromium.launch();
 const page = await browser.newPage();
@@ -62,7 +62,7 @@ for (const size of SIZES) {
 
   const buf = Buffer.from(b64, 'base64');
   pngs.push({ size, buf });
-  console.log('  PNG ' + size + 'x' + size + ': ' + buf.length + ' bytes');
+  console.log(`  PNG ${size}x${size}: ${buf.length} bytes`);
 }
 await browser.close();
 
@@ -91,4 +91,4 @@ fs.writeFileSync(
   'public/favicon.ico',
   Buffer.concat([header, ...entries, ...pngs.map((p) => p.buf)]),
 );
-console.log('  favicon.ico: ' + fs.statSync('public/favicon.ico').size + ' bytes');
+console.log(`  favicon.ico: ${fs.statSync('public/favicon.ico').size} bytes`);
