@@ -1,16 +1,15 @@
 {
-  "generatedAt": "2026-09-16T12:28:19.518078",
+  "generatedAt": "2026-09-16T12:31:40.203130",
   "prowlerVersion": "5.42.0",
   "provider": "github",
   "target": "danibarranqueroo/portfolio",
   "total": 19,
-  "pass": 12,
-  "fail": 6,
-  "passRate": 67,
+  "pass": 13,
+  "fail": 5,
+  "passRate": 72,
   "failBySeverity": {
     "High": 3,
-    "Medium": 2,
-    "Low": 1
+    "Medium": 2
   },
   "findings": [
     {
@@ -98,20 +97,6 @@
         "state": "accepted",
         "note": "Requires two approving reviews. This is a one-person repository, so a second approver does not exist. Stated rather than hidden."
       }
-    },
-    {
-      "id": "repository_public_has_securitymd_file",
-      "title": "Public repository has a SECURITY.md file",
-      "status": "FAIL",
-      "severity": "Low",
-      "detail": "Repository portfolio does not have a SECURITY.md file.",
-      "risk": "Without **SECURITY.md**, reporters may use public issues or ad-hoc channels, causing premature disclosure or missed reports. This widens the exploit window and impacts **confidentiality** (leaked details), **integrity** (unauthorized changes), and **availability** (DoS from unpatched flaws).",
-      "remediation": "Publish a clear `SECURITY.md` for each public repo or an org default. Include private reporting channels, optional encryption keys, scope/supported versions, disclosure timelines, and safe-harbor terms. Link to any bounty program and review regularly. Align with **accountability** and **defense in depth** principles.",
-      "service": "repository",
-      "categories": [
-        "software-supply-chain"
-      ],
-      "disposition": null
     },
     {
       "id": "repository_branch_delete_on_merge_enabled",
@@ -292,6 +277,20 @@
       "detail": "Repository portfolio does require linear history on default branch (main).",
       "risk": "Without a **linear history**, commit provenance is harder to verify, weakening **integrity** and **accountability**.\n\nMerge commits can obscure diffs entering the default branch, hindering audits and rollbacks, enabling unnoticed **malicious or unreviewed code**, and delaying incident response.",
       "remediation": "Enable `Require linear history` on the default branch and allow only `squash` or `rebase` merges.\n\nReinforce with **branch protection**: require pull requests and reviews, **status checks**, and **signed commits**. Limit bypass to trusted roles (least privilege) to preserve **traceability** and **defense in depth**.",
+      "service": "repository",
+      "categories": [
+        "software-supply-chain"
+      ],
+      "disposition": null
+    },
+    {
+      "id": "repository_public_has_securitymd_file",
+      "title": "Public repository has a SECURITY.md file",
+      "status": "PASS",
+      "severity": "Low",
+      "detail": "Repository portfolio does have a SECURITY.md file.",
+      "risk": "Without **SECURITY.md**, reporters may use public issues or ad-hoc channels, causing premature disclosure or missed reports. This widens the exploit window and impacts **confidentiality** (leaked details), **integrity** (unauthorized changes), and **availability** (DoS from unpatched flaws).",
+      "remediation": "Publish a clear `SECURITY.md` for each public repo or an org default. Include private reporting channels, optional encryption keys, scope/supported versions, disclosure timelines, and safe-harbor terms. Link to any bounty program and review regularly. Align with **accountability** and **defense in depth** principles.",
       "service": "repository",
       "categories": [
         "software-supply-chain"
