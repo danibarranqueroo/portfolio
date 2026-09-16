@@ -1,15 +1,16 @@
 {
-  "generatedAt": "2026-09-16T10:21:42.334020",
+  "generatedAt": "2026-09-16T12:28:19.518078",
   "prowlerVersion": "5.42.0",
   "provider": "github",
   "target": "danibarranqueroo/portfolio",
-  "total": 18,
-  "pass": 11,
+  "total": 19,
+  "pass": 12,
   "fail": 6,
-  "passRate": 65,
+  "passRate": 67,
   "failBySeverity": {
-    "High": 4,
-    "Medium": 2
+    "High": 3,
+    "Medium": 2,
+    "Low": 1
   },
   "findings": [
     {
@@ -64,23 +65,6 @@
       }
     },
     {
-      "id": "repository_secret_scanning_enabled",
-      "title": "Repository has secret scanning enabled to detect sensitive data",
-      "status": "FAIL",
-      "severity": "High",
-      "detail": "Repository portfolio does not have secret scanning enabled to detect sensitive data.",
-      "risk": "Without **secret scanning**, exposed credentials can persist unnoticed, enabling:\n- Unauthorized access to cloud and third-party services\n- **Supply-chain compromise** via tampered pipelines\n- Data exfiltration and repo takeover\n\nThis degrades **confidentiality** and **integrity**, and increases blast radius of a single leaked key.",
-      "remediation": "Enable **secret scanning** (and **push protection** where available) across repositories.\n- Store secrets in a dedicated **secrets manager**, never in code\n- Define custom patterns and enable generic detection for org-specific secrets\n- Rotate and revoke exposed credentials quickly\n- Enforce **least privilege** and add **defense-in-depth** monitoring",
-      "service": "repository",
-      "categories": [
-        "secrets"
-      ],
-      "disposition": {
-        "state": "blocked",
-        "note": "GitHub only offers secret scanning for public repositories or paid plans. The GitHub API rejects it here with a 422. Gitleaks runs on every pull request instead, which covers the same ground from CI."
-      }
-    },
-    {
       "id": "repository_default_branch_requires_conversation_resolution",
       "title": "Repository default branch requires conversation resolution before merging",
       "status": "FAIL",
@@ -114,6 +98,20 @@
         "state": "accepted",
         "note": "Requires two approving reviews. This is a one-person repository, so a second approver does not exist. Stated rather than hidden."
       }
+    },
+    {
+      "id": "repository_public_has_securitymd_file",
+      "title": "Public repository has a SECURITY.md file",
+      "status": "FAIL",
+      "severity": "Low",
+      "detail": "Repository portfolio does not have a SECURITY.md file.",
+      "risk": "Without **SECURITY.md**, reporters may use public issues or ad-hoc channels, causing premature disclosure or missed reports. This widens the exploit window and impacts **confidentiality** (leaked details), **integrity** (unauthorized changes), and **availability** (DoS from unpatched flaws).",
+      "remediation": "Publish a clear `SECURITY.md` for each public repo or an org default. Include private reporting channels, optional encryption keys, scope/supported versions, disclosure timelines, and safe-harbor terms. Link to any bounty program and review regularly. Align with **accountability** and **defense in depth** principles.",
+      "service": "repository",
+      "categories": [
+        "software-supply-chain"
+      ],
+      "disposition": null
     },
     {
       "id": "repository_branch_delete_on_merge_enabled",
@@ -227,6 +225,20 @@
       "service": "repository",
       "categories": [
         "software-supply-chain"
+      ],
+      "disposition": null
+    },
+    {
+      "id": "repository_secret_scanning_enabled",
+      "title": "Repository has secret scanning enabled to detect sensitive data",
+      "status": "PASS",
+      "severity": "High",
+      "detail": "Repository portfolio has secret scanning enabled to detect sensitive data.",
+      "risk": "Without **secret scanning**, exposed credentials can persist unnoticed, enabling:\n- Unauthorized access to cloud and third-party services\n- **Supply-chain compromise** via tampered pipelines\n- Data exfiltration and repo takeover\n\nThis degrades **confidentiality** and **integrity**, and increases blast radius of a single leaked key.",
+      "remediation": "Enable **secret scanning** (and **push protection** where available) across repositories.\n- Store secrets in a dedicated **secrets manager**, never in code\n- Define custom patterns and enable generic detection for org-specific secrets\n- Rotate and revoke exposed credentials quickly\n- Enforce **least privilege** and add **defense-in-depth** monitoring",
+      "service": "repository",
+      "categories": [
+        "secrets"
       ],
       "disposition": null
     },
