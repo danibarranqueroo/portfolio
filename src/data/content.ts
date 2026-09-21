@@ -241,32 +241,42 @@ export const content: Record<Lang, SiteContent> = {
     recommendations: {
       eyebrow: 'Recommendations',
       title: 'In other\npeople’s words',
-      lede: 'Two people I worked with day to day at Prowler: the founder, and a senior engineer on the backend team.',
+      lede: 'Four people I worked with day to day at Prowler: the founder, the head of product and engineering, and two senior engineers.',
       quotes: [
-        {
-          text: 'He is a serious and dependable engineer with excellent judgment when solving complex security problems.',
-          name: 'Toni de la Fuente',
-          role: 'Founder and CEO, Prowler',
-        },
-        {
-          text: 'He is someone you can trust to take ownership of a problem, understand what needs to be done, and find a solution without needing constant guidance.',
-          name: 'Adrián Peña',
-          role: 'Senior Software Engineer, Prowler',
-        },
         {
           text: 'He does more than make the code work. He reviews edge cases, considers the information users will see, and ensures that scan results do not expose sensitive data.',
           name: 'Toni de la Fuente',
           role: 'Founder and CEO, Prowler',
         },
         {
-          text: 'He caught issues in check metadata that could easily have gone unnoticed, which says a lot about how thorough he is in his work.',
-          name: 'Adrián Peña',
-          role: 'Senior Software Engineer, Prowler',
+          text: 'He perfectly combines high technical rigor with excellent management skills. During his time on the team, he was undoubtedly our organizational pillar.',
+          name: 'Pedro Miguel Díaz Peña',
+          role: 'Head of Product & Engineering, Prowler',
         },
         {
-          text: 'He doesn’t simply stop once a task is completed. He tends to look at the bigger picture, think about what could be improved, and bring his own ideas to the table.',
+          text: 'He caught issues in check metadata that could easily have gone unnoticed, which says a lot about how thorough he is in his work.',
           name: 'Adrián Peña',
-          role: 'Senior Software Engineer, Prowler',
+          role: 'Senior Software Engineer',
+        },
+        {
+          text: 'Good engineers are not the ones who try to solve everything alone. Dani knew when to dig into a problem himself and when to bring in someone with more context.',
+          name: 'José Manuel Camacho Sosa',
+          role: 'Senior Software Engineer',
+        },
+        {
+          text: 'Daniel possessed the ability to understand how vulnerabilities could be chained together within a real infrastructure.',
+          name: 'Pedro Miguel Díaz Peña',
+          role: 'Head of Product & Engineering, Prowler',
+        },
+        {
+          text: 'Even when discussing UX and UI, which were not his primary responsibilities, he would often have thoughtful observations and suggestions that brought a different perspective and added real value to the product.',
+          name: 'Adrián Peña',
+          role: 'Senior Software Engineer',
+        },
+        {
+          text: 'For someone still relatively early in his career, Dani has already worked across an unusually broad range of responsibilities: cloud security, software engineering, backend development, open-source maintenance, community support, and release operations.',
+          name: 'José Manuel Camacho Sosa',
+          role: 'Senior Software Engineer',
         },
         {
           text: 'He has earned our trust through the quality and consistency of his work. I would gladly work with him again.',
@@ -274,7 +284,7 @@ export const content: Record<Lang, SiteContent> = {
           role: 'Founder and CEO, Prowler',
         },
       ],
-      note: 'These are excerpts. Both letters exist in full, signed and dated. Ask me and I will send you either one.',
+      note: 'These are excerpts. All four letters exist in full, signed and dated. Ask me and I will send you any of them.',
     },
     contact: {
       eyebrow: 'Contact',
@@ -503,32 +513,42 @@ export const content: Record<Lang, SiteContent> = {
     recommendations: {
       eyebrow: 'Recomendaciones',
       title: 'En palabras\nde otros',
-      lede: 'Dos personas con las que he trabajado a diario en Prowler: el fundador y un ingeniero senior del equipo de backend.',
+      lede: 'Cuatro personas con las que he trabajado a diario en Prowler: el fundador, el Head of Product & Engineering y dos senior engineers.',
       quotes: [
-        {
-          text: 'Es un ingeniero serio, responsable y con muy buen criterio para resolver problemas de seguridad complejos.',
-          name: 'Toni de la Fuente',
-          role: 'Fundador y CEO, Prowler',
-        },
-        {
-          text: 'Es de esas personas en las que confías para que coja un problema, entienda qué hay que hacer y encuentre una solución sin necesitar que le vayas guiando.',
-          name: 'Adrián Peña',
-          role: 'Senior Software Engineer, Prowler',
-        },
         {
           text: 'No se limita a hacer que el código funcione. Revisa los casos límite, piensa en la información que verá el usuario y evita que el propio resultado del análisis pueda exponer datos sensibles.',
           name: 'Toni de la Fuente',
           role: 'Fundador y CEO, Prowler',
         },
         {
-          text: 'Detectó problemas en la metadata de los checks que se habrían pasado por alto sin más, y eso dice mucho de lo minucioso que es.',
-          name: 'Adrián Peña',
-          role: 'Senior Software Engineer, Prowler',
+          text: 'Combina a la perfección un alto rigor técnico con excelentes habilidades de gestión. Durante su etapa en el equipo, fue sin duda nuestro pilar organizativo.',
+          name: 'Pedro Miguel Díaz Peña',
+          role: 'Head of Product & Engineering, Prowler',
         },
         {
-          text: 'No se queda en dar la tarea por terminada. Suele mirar el conjunto, pensar qué se podría mejorar y traer sus propias ideas.',
+          text: 'Detectó problemas en la metadata de los checks que se habrían pasado por alto sin más, y eso dice mucho de lo minucioso que es.',
           name: 'Adrián Peña',
-          role: 'Senior Software Engineer, Prowler',
+          role: 'Senior Software Engineer',
+        },
+        {
+          text: 'Los buenos ingenieros no son los que intentan resolverlo todo solos. Dani sabía cuándo meterse a fondo en un problema y cuándo traer a alguien con más contexto.',
+          name: 'José Manuel Camacho Sosa',
+          role: 'Senior Software Engineer',
+        },
+        {
+          text: 'No se limitaba a evaluar configuraciones o vulnerabilidades de forma aislada, sino que poseía la capacidad de entender cómo estas podían encadenarse dentro de una infraestructura real.',
+          name: 'Pedro Miguel Díaz Peña',
+          role: 'Head of Product & Engineering, Prowler',
+        },
+        {
+          text: 'Incluso cuando hablábamos de UX y de UI, que no eran su responsabilidad, solía tener observaciones bien pensadas que aportaban otra perspectiva y valor real al producto.',
+          name: 'Adrián Peña',
+          role: 'Senior Software Engineer',
+        },
+        {
+          text: 'Para alguien todavía al principio de su carrera, Dani ya ha trabajado en un abanico de responsabilidades poco habitual: cloud security, ingeniería de software, backend, mantenimiento de open source, soporte a la comunidad y operaciones de release.',
+          name: 'José Manuel Camacho Sosa',
+          role: 'Senior Software Engineer',
         },
         {
           text: 'Se ha ganado nuestra confianza por la calidad y la constancia de sus entregas. Volvería a contar con él sin dudarlo.',
@@ -536,7 +556,7 @@ export const content: Record<Lang, SiteContent> = {
           role: 'Fundador y CEO, Prowler',
         },
       ],
-      note: 'Son fragmentos. Las dos cartas existen enteras, firmadas y fechadas. Pídemelas y te las mando.',
+      note: 'Son fragmentos. Las cuatro cartas existen enteras, firmadas y fechadas. Pídemelas y te las mando.',
     },
     contact: {
       eyebrow: 'Contacto',
