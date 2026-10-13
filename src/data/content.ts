@@ -168,15 +168,15 @@ export const content: Record<Lang, SiteContent> = {
         },
         {
           company: 'Prowler',
-          meta: 'Intern Cloud Security Engineer · Jun 2024 – Dec 2024 · Remote',
+          meta: 'Junior Cloud Security Engineer · Jun 2024 – Dec 2024 · Remote',
           impacts: [
             {
               metric: '80',
-              text: 'Pull requests merged during the internship, starting with test coverage for Google Cloud checks and moving quickly into new detections.',
+              text: 'Pull requests merged in my first seven months, starting with test coverage for Google Cloud checks and moving quickly into new detections.',
             },
             {
               metric: '7',
-              text: 'Months from first commit to a full-time offer.',
+              text: 'Months from first commit to Cloud Security Engineer.',
             },
           ],
           tags: ['Python', 'Google Cloud', 'AWS', 'pytest'],
@@ -334,11 +334,11 @@ export const content: Record<Lang, SiteContent> = {
         },
         {
           title: 'Prowler',
-          meta: 'Intern Cloud Security Engineer · Remote',
+          meta: 'Junior Cloud Security Engineer · Remote',
           dates: 'Jun 2024 – Dec 2024',
           bullets: [
             '80 pull requests merged, from Google Cloud test coverage into new detections.',
-            'Converted to a full-time offer after seven months.',
+            'Moved up to Cloud Security Engineer after seven months.',
           ],
         },
       ],
@@ -452,15 +452,15 @@ export const content: Record<Lang, SiteContent> = {
         },
         {
           company: 'Prowler',
-          meta: 'Intern Cloud Security Engineer · jun. 2024 – dic. 2024 · En remoto',
+          meta: 'Junior Cloud Security Engineer · jun. 2024 – dic. 2024 · En remoto',
           impacts: [
             {
               metric: '80',
-              text: 'Pull requests mergeadas durante las prácticas, empezando por los tests de los checks de Google Cloud y pasando pronto a detecciones nuevas.',
+              text: 'Pull requests mergeadas en mis primeros siete meses, empezando por los tests de los checks de Google Cloud y pasando pronto a detecciones nuevas.',
             },
             {
               metric: '7',
-              text: 'Meses desde el primer commit hasta la oferta a jornada completa.',
+              text: 'Meses desde el primer commit hasta Cloud Security Engineer.',
             },
           ],
           tags: ['Python', 'Google Cloud', 'AWS', 'pytest'],
@@ -606,11 +606,11 @@ export const content: Record<Lang, SiteContent> = {
         },
         {
           title: 'Prowler',
-          meta: 'Intern Cloud Security Engineer · En remoto',
+          meta: 'Junior Cloud Security Engineer · En remoto',
           dates: 'jun. 2024 – dic. 2024',
           bullets: [
             '80 pull requests mergeadas, de los tests de Google Cloud a detecciones nuevas.',
-            'Contrato a jornada completa a los siete meses.',
+            'Paso a Cloud Security Engineer a los siete meses.',
           ],
         },
       ],
