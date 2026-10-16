@@ -22,6 +22,7 @@ const links = c.links;
 const pdfHref = es ? '/cv/daniel-barranquero-cv-es.pdf' : '/cv/daniel-barranquero-cv.pdf';
 
 const t = {
+  summary: es ? 'Resumen' : 'Summary',
   education: es ? 'Formación' : 'Education',
   experience: es ? 'Experiencia' : 'Experience',
   projects: es ? 'Proyectos' : 'Projects',
@@ -43,6 +44,8 @@ const t = {
       <span class="cv-sep" aria-hidden="true">·</span>
       <a href={links.linkedin} rel="me noopener">linkedin.com/in/danibarranquero</a>
       <span class="cv-sep" aria-hidden="true">·</span>
+      <a href="https://danibarranquero.com">danibarranquero.com</a>
+      <span class="cv-sep" aria-hidden="true">·</span>
       <span>{cv.location}</span>
     </p>
   </header>
@@ -52,6 +55,11 @@ const t = {
     <span class="lnk">{t.hint}</span>
   </div>
 
+
+  <section class="cv-block">
+    <h2 class="cv-sect">{t.summary}</h2>
+    <p class="cv-summary">{cv.summary}</p>
+  </section>
 
   {
     (

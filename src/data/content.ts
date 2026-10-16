@@ -107,7 +107,10 @@ export const content: Record<Lang, SiteContent> = {
       cta: 'Read the CV',
       now: [
         { k: 'Role', v: 'Cloud Security Engineer at Prowler' },
-        { k: 'Focus', v: 'Multi-cloud security checks, and new providers end to end' },
+        {
+          k: 'Focus',
+          v: 'Python backend (Django, Celery) and multi-cloud security checks, new providers end to end',
+        },
         { k: 'Open source', v: 'Prowler, 528 commits' },
         { k: 'Based in', v: 'Granada, Spain' },
       ],
@@ -122,8 +125,8 @@ export const content: Record<Lang, SiteContent> = {
         'Security interested me long before the cloud did. I took a Google Cloud course mostly out of curiosity, and it pulled me in. The offer from Prowler arrived just as I was finishing my degree, and that was when I found out this work genuinely excites me.',
         'I started by going deep on AWS, then opened out. Today I write new checks for AWS, Azure and GCP, and I have added whole providers like MongoDB Atlas, Microsoft 365, Vercel, Linode and OpenStack, so that anyone running on them can scan and secure them. 528 commits into Prowler so far.',
         'The degree gave me the foundations I still use every day: Docker, cloud computing, web development, networking, and enough of the underlying systems to reason about what a service is really doing. The business half gave me something else entirely. It taught me to understand what a client actually needs, to weigh a feature against a SWOT analysis, to read a project as a business decision and not only a technical one, and to synthesise an argument and explain it. It means I am not only the person who writes the code, and I can be useful in rooms where that matters.',
-        'I have also lived and studied in Annecy, in France, and Shrewsbury, in England. Being dropped somewhere you do not speak the language fluently teaches you to work things out and to get on with people quickly, which turns out to be most of what remote work in an international team asks of you.',
-        'What I want next is to go deeper into cloud architecture. It is where I have the most room to grow, more than in the programming or the security, and saying so is more useful than pretending otherwise.',
+        'I have also lived and studied in Annecy, in France, and Shrewsbury, in England. Being dropped somewhere you do not speak the language fluently teaches you to work things out and to get on with people quickly, which turns out to be most of what remote work in an international team asks of you. I work in English every day with an international team.',
+        'What I want next is to go deeper into large-scale backend systems and cloud architecture.',
       ],
       education: [
         {
@@ -145,7 +148,7 @@ export const content: Record<Lang, SiteContent> = {
           impacts: [
             {
               metric: '528',
-              text: 'Commits merged into Prowler, the sixth-highest of 398 contributors on a project with 14.8k stars, and 294,573 lines added.',
+              text: 'Commits merged into Prowler, the sixth-highest of 398 contributors on a project with 14.8k stars.',
             },
             {
               metric: '15',
@@ -160,11 +163,28 @@ export const content: Record<Lang, SiteContent> = {
               text: 'Pull requests touching security checks and fixers: the detection logic organisations run against their own infrastructure.',
             },
             {
+              metric: 'API',
+              text: 'Backend features on the Prowler App: Django REST Framework endpoints, PostgreSQL models and Celery workers that run scans asynchronously.',
+            },
+            {
+              metric: 'Prod',
+              text: 'Production incidents and releases, together with the platform team.',
+            },
+            {
               metric: 'Now',
               text: 'Leading the detection and remediation team, after a year of community issue triage, pull request review and Slack support.',
             },
           ],
-          tags: ['Python', 'AWS', 'Azure', 'Google Cloud', 'OpenStack', 'Okta', 'Microsoft 365'],
+          tags: [
+            'Python',
+            'Django',
+            'Celery',
+            'PostgreSQL',
+            'AWS',
+            'Azure',
+            'Google Cloud',
+            'pytest',
+          ],
         },
         {
           company: 'Prowler',
@@ -307,7 +327,7 @@ export const content: Record<Lang, SiteContent> = {
       role: 'Cloud Security Engineer',
       location: 'Granada, Spain',
       summary:
-        'Cloud security engineer on the detection side of Prowler, the open-source cloud security platform. I write the checks that find misconfigurations and build the providers that let teams run them on any cloud.',
+        'Software engineer at Prowler, the open-source cloud security platform (14.8k GitHub stars). I build security checks and whole cloud providers in Python, from the SDK and backend to the API and web UI, and lead the detection and remediation team.',
       education: [
         {
           title: 'Universidad de Granada',
@@ -330,6 +350,8 @@ export const content: Record<Lang, SiteContent> = {
             'Built the OpenStack and Okta providers end to end: SDK, checks, API, web UI, docs.',
             'Security checks across 15 cloud providers, from AWS and Azure to Okta and OpenStack.',
             'Extended Attack Paths, the graph chaining misconfigurations to critical resources.',
+            'Backend work on the Prowler App with Django REST Framework, PostgreSQL and Celery workers.',
+            'Support production incidents and releases alongside the platform team.',
           ],
         },
         {
@@ -360,6 +382,7 @@ export const content: Record<Lang, SiteContent> = {
       ],
       skills: [
         { k: 'Languages', v: 'Python, TypeScript, Java, C/C++, SQL, Bash' },
+        { k: 'Backend', v: 'Django, Django REST Framework, Celery, PostgreSQL, REST APIs' },
         {
           k: 'Cloud',
           v: 'AWS, Azure, Google Cloud, Microsoft 365, OpenStack, Okta, MongoDB Atlas, Oracle Cloud',
@@ -371,6 +394,7 @@ export const content: Record<Lang, SiteContent> = {
         },
         { k: 'AI', v: 'AI-assisted development, LLM workflows, agents and skills' },
         { k: 'Tools', v: 'Git, GitHub Actions, pytest' },
+        { k: 'Spoken languages', v: 'Spanish (native), English (fluent)' },
       ],
       achievements: [
         'Sixth of 398 contributors to Prowler by commit count, on a project with 14.8k stars.',
@@ -391,7 +415,10 @@ export const content: Record<Lang, SiteContent> = {
       cta: 'Ver el CV',
       now: [
         { k: 'Puesto', v: 'Cloud Security Engineer en Prowler' },
-        { k: 'Enfoque', v: 'Checks de seguridad multicloud y providers nuevos end to end' },
+        {
+          k: 'Enfoque',
+          v: 'Backend en Python (Django, Celery) y checks de seguridad multicloud, providers nuevos end to end',
+        },
         { k: 'Open source', v: 'Prowler, 528 commits' },
         { k: 'Ubicación', v: 'Granada, España' },
       ],
@@ -406,8 +433,8 @@ export const content: Record<Lang, SiteContent> = {
         'La seguridad me interesaba mucho antes que el cloud. Hice un curso de Google Cloud casi por curiosidad y me fue enganchando. Justo al terminar la carrera me llegó la oportunidad de entrar en Prowler, y ahí me di cuenta de que esto me gusta de verdad.',
         'Empecé a fondo con AWS y poco a poco me fui abriendo. Hoy escribo checks nuevos para AWS, Azure y GCP, y he añadido providers enteros como MongoDB Atlas, Microsoft 365, Vercel, Linode y OpenStack, para que cualquiera que trabaje sobre ellos pueda escanearlos y securizarlos. 528 commits en Prowler.',
         'La carrera me dio las bases que sigo usando a diario: Docker, cloud computing, desarrollo web, redes y lo suficiente de sistemas para entender qué hace de verdad un servicio por debajo. La parte de ADE me dio otra cosa distinta: entender qué necesita de verdad un cliente, valorar una feature con un DAFO, leer un proyecto como una decisión de negocio y no solo técnica, y saber resumir un argumento y defenderlo. Hace que no sea solo el que programa.',
-        'También he vivido y estudiado en Annecy (Francia) y en Shrewsbury (Inglaterra). Que te suelten en un sitio donde no dominas el idioma te enseña a buscarte la vida y a entenderte rápido con la gente, que al final es buena parte de lo que pide trabajar en remoto en un equipo internacional.',
-        'Lo siguiente que quiero es meterme a fondo en arquitectura cloud. Es donde más recorrido me queda, más que en programación o en seguridad, y prefiero decirlo a disimularlo.',
+        'También he vivido y estudiado en Annecy (Francia) y en Shrewsbury (Inglaterra). Que te suelten en un sitio donde no dominas el idioma te enseña a buscarte la vida y a entenderte rápido con la gente, que al final es buena parte de lo que pide trabajar en remoto en un equipo internacional. Trabajo en inglés a diario con un equipo internacional.',
+        'Lo siguiente que quiero es meterme a fondo en sistemas backend a gran escala y en arquitectura cloud.',
       ],
       education: [
         {
@@ -429,7 +456,7 @@ export const content: Record<Lang, SiteContent> = {
           impacts: [
             {
               metric: '528',
-              text: 'Commits mergeados en Prowler: el sexto de 398 contribuidores en un proyecto con 14.800 estrellas y 294.573 líneas añadidas.',
+              text: 'Commits mergeados en Prowler: el sexto de 398 contribuidores en un proyecto con 14.800 estrellas.',
             },
             {
               metric: '15',
@@ -444,11 +471,28 @@ export const content: Record<Lang, SiteContent> = {
               text: 'Pull requests sobre checks y fixers: la lógica de detección que las organizaciones lanzan contra su propia infraestructura.',
             },
             {
+              metric: 'API',
+              text: 'Funcionalidades backend en Prowler App: endpoints con Django REST Framework, modelos en PostgreSQL y workers de Celery que lanzan los escaneos en segundo plano.',
+            },
+            {
+              metric: 'Prod',
+              text: 'Incidencias en producción y releases, junto al equipo de plataforma.',
+            },
+            {
               metric: 'Hoy',
               text: 'Lidero el equipo de detección y remediación, después de un año atendiendo issues de la comunidad, revisando pull requests y dando soporte en Slack.',
             },
           ],
-          tags: ['Python', 'AWS', 'Azure', 'Google Cloud', 'OpenStack', 'Okta', 'Microsoft 365'],
+          tags: [
+            'Python',
+            'Django',
+            'Celery',
+            'PostgreSQL',
+            'AWS',
+            'Azure',
+            'Google Cloud',
+            'pytest',
+          ],
         },
         {
           company: 'Prowler',
@@ -579,7 +623,7 @@ export const content: Record<Lang, SiteContent> = {
       role: 'Cloud Security Engineer',
       location: 'Granada, España',
       summary:
-        'Cloud Security Engineer en la parte de detección de Prowler, la plataforma open source de seguridad cloud. Escribo los checks que detectan malas configuraciones y monto los providers que permiten ejecutarlos en cualquier cloud.',
+        'Ingeniero de software en Prowler, la plataforma open source de seguridad cloud (14.800 estrellas en GitHub). Construyo checks de seguridad y providers cloud completos en Python, del SDK y el backend a la API y la web, y lidero el equipo de detección y remediación.',
       education: [
         {
           title: 'Universidad de Granada',
@@ -602,6 +646,8 @@ export const content: Record<Lang, SiteContent> = {
             'Monté los providers de OpenStack y Okta end to end: SDK, checks, API, web y documentación.',
             'Checks de seguridad en 15 providers cloud, de AWS y Azure a Okta y OpenStack.',
             'Amplié Attack Paths, el grafo que encadena malas configuraciones hasta recursos críticos.',
+            'Backend de Prowler App con Django REST Framework, PostgreSQL y workers de Celery.',
+            'Soporte de incidencias en producción y releases junto al equipo de plataforma.',
           ],
         },
         {
@@ -632,6 +678,7 @@ export const content: Record<Lang, SiteContent> = {
       ],
       skills: [
         { k: 'Lenguajes', v: 'Python, TypeScript, Java, C/C++, SQL, Bash' },
+        { k: 'Backend', v: 'Django, Django REST Framework, Celery, PostgreSQL, APIs REST' },
         {
           k: 'Cloud',
           v: 'AWS, Azure, Google Cloud, Microsoft 365, OpenStack, Okta, MongoDB Atlas, Oracle Cloud',
@@ -643,6 +690,7 @@ export const content: Record<Lang, SiteContent> = {
         },
         { k: 'IA', v: 'Desarrollo asistido por IA, workflows con LLM, agentes y skills' },
         { k: 'Herramientas', v: 'Git, GitHub Actions, pytest' },
+        { k: 'Idiomas', v: 'Español (nativo), inglés (fluido)' },
       ],
       achievements: [
         'Sexto de 398 contribuidores de Prowler por número de commits, en un proyecto con 14.800 estrellas.',

@@ -879,6 +879,14 @@ main > .wide {
   color: var(--color-muted);
   margin: 2px 0 0;
 }
+.cv-summary {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 6px 0 0;
+  text-wrap: pretty;
+}
+
 .cv-bullets {
   font-family: var(--font-sans);
   font-size: 14px;
@@ -917,7 +925,7 @@ main > .wide {
 @media print {
   @page {
     size: A4;
-    margin: 13mm 14mm;
+    margin: 10mm 14mm;
   }
   :root {
     color-scheme: light;
@@ -956,14 +964,14 @@ main > .wide {
   }
   /* One line, or it wraps a stray "Granada, Spain" and costs a whole line. */
   .cv-contact {
-    font-size: 7.8pt;
+    font-size: 7.2pt;
     margin-top: 5pt;
   }
   .cv-sep {
-    padding: 0 5px;
+    padding: 0 3px;
   }
   .cv-block {
-    margin-top: 7pt;
+    margin-top: 6pt;
     break-inside: avoid;
   }
   .cv-sect {
@@ -975,24 +983,31 @@ main > .wide {
     max-width: none;
   }
   .cv-entry + .cv-entry {
-    margin-top: 7pt;
+    margin-top: 5pt;
   }
   .cv-entry-title {
-    font-size: 11.5pt;
+    font-size: 11pt;
   }
   .cv-entry-dates,
   .cv-entry-meta {
     font-size: 9pt;
   }
+  .cv-summary,
   .cv-bullets,
   .cv-skills {
     font-size: 9pt;
-    line-height: 1.35;
+    line-height: 1.27;
   }
   .cv .cv-entry,
   .cv .cv-bullets li,
   .cv .cv-skills li {
     break-inside: avoid;
+  }
+  .cv .cv-bullets li {
+    margin-top: 1.5pt;
+  }
+  .cv .cv-skills li {
+    margin-top: 1pt;
   }
   a {
     text-decoration: none;
